@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.5'
 gem "compass", ">= 0.11.beta.7"
-gem 'mysql2'
+gem 'mysql2', "0.2.6"
 gem 'authlogic_pam'
 
 group :development do

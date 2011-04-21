@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'net/ssh'
+#require 'net/ssh'
 
 class OperatorController < ApplicationController
   def login

@@ -22,10 +22,10 @@ class OperatorController < ApplicationController
 # end
 # session.loop
     # end
-    hostname = "www.riec.tohoku.ac.jp"
-    session[:connection] =
-      Net::SSH.start(hostname, params[:username], :password => params[:password])
-#    session[:connection].loop {true}
-    redirect_to operator_login_path(:test => session[:connection].exec!("hostname"))
+#     hostname = "www.riec.tohoku.ac.jp"
+#     session[:connection] =
+#       Net::SSH.start(hostname, params[:username], :password => params[:password])
+# #    session[:connection].loop {true}
+#     redirect_to operator_login_path(:test => session[:connection].exec!("hostname"))
   end
 end

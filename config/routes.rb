@@ -1,5 +1,5 @@
 Forward::Application.routes.draw do
   get "operator/login"
-  get "operator/connect"
+  post "operator/connect"
   root :to => "operator#login"
 end

@@ -35,6 +35,7 @@ en:
     unauthorized_access: "Unauthorized access."
   notice:
     logged_in: "Successfully logged in."
+    logged_out: "Successfully logged out."
     thank_you_for_sending: "Thank you. Your comment has been sent to the editor."
     thank_you_for_signing_up: "Thank you for signing up! You are now logged in."
   message:
@@ -45,7 +46,6 @@ en:
   success:
     created: "Successfully created %{obj}."
     deleted: "Successfully deleted %{obj}."
-    logged_out: "Successfully logged out."
     updated: "Successfully updated %{obj}."  
   formtastic:
     labels:
@@ -56,6 +56,9 @@ en:
       password: "Password"
       password_confirmation: "Password confirmation"
       username: "Username"
+
+      address: "Forwarding address"
+      keep: "Keep a copy" 
 
   anonymous: "Anonymous"
   comment: "Comment"

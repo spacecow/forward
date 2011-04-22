@@ -6,7 +6,7 @@ class OperatorController < ApplicationController
 
   def logout
     session[:username] = nil
-    redirect_to login_path
+    redirect_to login_path, :notice => notify(:logged_out)
   end
   
   def connect
@@ -23,7 +23,12 @@ class OperatorController < ApplicationController
     redirect_to login_path, :alert => alert(:unauthorized_access) if session[:username].nil?
   end
 
-  def authpam(user,pass)
-    pass == "correct" ? true : false
+  def update
+    p params
+    redirect_to edit_path
   end
+  
+  private
+    def authpam(user,pass); pass == "correct" ? true : false end
 end
+

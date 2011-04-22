@@ -20,4 +20,5 @@ group :test do
   gem 'launchy'
   gem 'factory_girl'
   gem 'gherkin'
+  gem 'mocha'
 end

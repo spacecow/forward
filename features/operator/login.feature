@@ -20,3 +20,9 @@ Scenario: Cannot reach edit page without authorization
 When I go to the edit page
 Then I should be on the login page
 And I should see "Unauthorized access." as alert flash message
+
+Scenario: Logout
+Given I am logged in as "test"
+And I follow "Log out"
+Then I should be on the login page
+And I should see "Successfully logged out." as notice flash message

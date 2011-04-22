@@ -1,5 +1,7 @@
 --- 
 ed6b0e: !ruby/object:Dooby::Task 
   todo: login form :done
-43a09e: !ruby/object:Dooby::Task 
-  todo: check ssh login with ruby :doing
+62ca93: !ruby/object:Dooby::Task 
+  todo: check ssh login with ruby :done
+e834ad: !ruby/object:Dooby::Task 
+  todo: login cleanup with cucumber :done

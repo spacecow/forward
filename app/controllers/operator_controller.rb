@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#require 'net/ssh'
 
 class OperatorController < ApplicationController
   def login
@@ -13,13 +12,18 @@ class OperatorController < ApplicationController
   def connect
     if authpam(params[:username],params[:password])
       session[:username] = params[:username]
-      redirect_to edit_path
+      redirect_to edit_path, :notice => notify(:logged_in)
     else
-      redirect_to login_path, :alert => "Username or password incorrect."
+      redirect_to login_path, :alert => alert2(:incorrect,
+        t('message.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
     end
   end
 
   def edit
-    redirect_to login_path, :alert => "Unauthorized access." if session[:username].nil?
+    redirect_to login_path, :alert => alert(:unauthorized_access) if session[:username].nil?
+  end
+
+  def authpam(user,pass)
+    pass == "correct" ? true : false
   end
 end

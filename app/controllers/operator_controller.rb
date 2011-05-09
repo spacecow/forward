@@ -21,8 +21,7 @@ class OperatorController < ApplicationController
 
   def edit
     if session[:username]
-      p "no redirect"
-      p hejsan
+      @input = [{:address => "test1@example.com"}, {:address => "test2@example.com"}]
     else
       redirect_to login_path, :alert => alert(:unauthorized_access)
     end

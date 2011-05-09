@@ -7,3 +7,5 @@ e834ad: !ruby/object:Dooby::Task
   todo: login cleanup with cucumber :done
 05d78b: !ruby/object:Dooby::Task 
   todo: logout check cucumber :done
+63bcc7: !ruby/object:Dooby::Task 
+  todo: changed getpass to regular input :done

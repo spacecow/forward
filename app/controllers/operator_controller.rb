@@ -21,10 +21,10 @@ class OperatorController < ApplicationController
 
   def edit
     redirect_to login_path, :alert => alert(:unauthorized_access) if session[:username].nil?
+    p command "whoami"
   end
 
   def update
-    p params
     redirect_to edit_path
   end
   

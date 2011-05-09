@@ -21,7 +21,7 @@ class OperatorController < ApplicationController
 
   def edit
     if session[:username]
-      @input = [{:address => "test1@example.com"}, {:address => "test2@example.com"}]
+      p File.open("test.txt").readlines
     else
       redirect_to login_path, :alert => alert(:unauthorized_access)
     end
@@ -31,8 +31,6 @@ class OperatorController < ApplicationController
     redirect_to edit_path
   end
 
-  def hejsan; "dasan" end
-  
   private
     def authpam(user,pass); pass == "correct" ? true : false end
 end

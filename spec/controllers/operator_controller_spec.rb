@@ -6,7 +6,6 @@ describe OperatorController do
     it "should" do
       session[:username] = "testuser"
       get("edit")
-      get("hejsan")
     end
   end
 end

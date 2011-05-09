@@ -9,3 +9,5 @@ e834ad: !ruby/object:Dooby::Task
   todo: logout check cucumber :done
 63bcc7: !ruby/object:Dooby::Task 
   todo: changed getpass to regular input :done
+7a47a3: !ruby/object:Dooby::Task 
+  todo: testing initial interaction with edit through rspec :done

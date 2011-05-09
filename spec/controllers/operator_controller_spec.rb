@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe OperatorController do
 
-  describe "GET 'connect'" do
-    it "should be successful" do
-      get 'connect'
-      response.should be_success
+  describe "edit() when logged in" do
+    it "should" do
+      session[:username] = "testuser"
+      get("edit")
+      get("hejsan")
     end
   end
-
 end

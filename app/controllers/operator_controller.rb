@@ -38,7 +38,12 @@ class OperatorController < ApplicationController
   def update
     IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
       pipe.write(session[:password])
-      puts params
+      pipe.write params[:address1]
+      pipe.write params[:address2]
+      pipe.write params[:address3]
+      pipe.write params[:address4]
+      pipe.write params[:address5]
+      pipe.close_write
     end
     redirect_to edit_path
   end

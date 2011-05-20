@@ -36,13 +36,15 @@ class OperatorController < ApplicationController
   end
 
   def update
+    p params
     IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
       pipe.write(session[:password])
-      pipe.write params[:address1]
-      pipe.write params[:address2]
-      pipe.write params[:address3]
-      pipe.write params[:address4]
-      pipe.write params[:address5]
+      pipe.write "\#{session[:username]}" if params[:keep] == "1"
+      pipe.write params[:address1] if params[:address1] && params[:active1] == "on"
+      pipe.write params[:address2] if params[:address2] && params[:active2] == "on"
+      pipe.write params[:address3] if params[:address3] && params[:active3] == "on"
+      pipe.write params[:address4] if params[:address4] && params[:active4] == "on"
+      pipe.write params[:address5] if params[:address5] && params[:active5] == "on"
       pipe.close_write
     end
     redirect_to edit_path

@@ -1,27 +1,47 @@
-<%= link_to "Log out", logout_path %>
+<%= link_to t(:logout), logout_path %>
 <%= form_tag update_path do %>
 <p>
   <%= label_tag :address1, ft(:address) %>
   <%= text_field_tag :address1, @input[0][:address] %>
+  <%= label_tag :active1, "On" %>
+  <%= radio_button_tag :active1, 'on', true %>
+  <%= label_tag :active1, "Off" %>
+  <%= radio_button_tag :active1, 'off', false %>
 </p>
 <p>
   <%= label_tag :address2, ft(:address) %>
   <%= text_field_tag :address2, @input[1][:address] %>
+  <%= label_tag :active2, "On" %>
+  <%= radio_button_tag :active2, 'on', true %>
+  <%= label_tag :active2, "Off" %>
+  <%= radio_button_tag :active2, 'off', false %>
 </p>
 <p>
   <%= label_tag :address3, ft(:address) %>
   <%= text_field_tag :address3, @input[2][:address] %>
+  <%= label_tag :active3, "On" %>
+  <%= radio_button_tag :active3, 'on', true %>
+  <%= label_tag :active3, "Off" %>
+  <%= radio_button_tag :active3, 'off', false %>
 </p>
 <p>
   <%= label_tag :address4, ft(:address) %>
   <%= text_field_tag :address4, @input[3][:address] %>
+  <%= label_tag :active4, "On" %>
+  <%= radio_button_tag :active4, 'on', true %>
+  <%= label_tag :active4, "Off" %>
+  <%= radio_button_tag :active4, 'off', false %>
 </p>
 <p>
   <%= label_tag :address5, ft(:address) %>
   <%= text_field_tag :address5, @input[4][:address] %>
+  <%= label_tag :active5, "On" %>
+  <%= radio_button_tag :active5, 'on', true %>
+  <%= label_tag :active5, "Off" %>
+  <%= radio_button_tag :active5, 'off', false %>
 </p>
 <p>
-  <%= label_tag :keep, ft(:keep) %>
+  <%= label_tag :keep, ft(:keep_a_copy) %>
   <%= check_box_tag :keep %>
 </p>
 <p><%= submit_tag t(:update) %></p>

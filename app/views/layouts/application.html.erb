@@ -15,6 +15,13 @@
 <% flash.each do |name, msg| %>
   <%= content_tag :div, msg, :id => "flash_#{name}" %>
 <% end %>
+<div id="site_nav">
+  <% if english? %>
+    <%= link_to "日本語", :language => 'ja' %>
+  <% else %>
+    <%= link_to "English", :language => 'en' %>
+  <% end %>
+</div>
 <%= yield %>
 
 </body>

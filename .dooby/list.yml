@@ -19,3 +19,5 @@ e834ad: !ruby/object:Dooby::Task
   todo: five fields for email :done
 d8d160: !ruby/object:Dooby::Task 
   todo: test update dot_forward :done
+6faf3c: !ruby/object:Dooby::Task 
+  todo: japanese interface :done

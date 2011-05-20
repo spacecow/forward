@@ -1,0 +1,10 @@
+ja:
+  login: "ログイン"
+  logout: "ログアウト"
+  update: "更新"
+  formtastic:
+    labels:
+      address: "転送先"
+      keep_a_copy: "サーバにメールを残す"
+      password: "パスワード"
+      username: "ユーザー名"

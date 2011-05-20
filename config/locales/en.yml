@@ -5,8 +5,8 @@ en:
   edit: "Edit"
   english: "English"
   japanese: "日本語"
-  log_in: "Log in"
-  log_out: "Log out"
+  login: "Login"
+  logout: "Logout"
   member: "Member"
   mini_admin: "mini-admin"
   or: " or "
@@ -58,7 +58,7 @@ en:
       username: "Username"
 
       address: "Forwarding address"
-      keep: "Keep a copy" 
+      keep_a_copy: "Keep a copy on the server" 
 
   anonymous: "Anonymous"
   comment: "Comment"

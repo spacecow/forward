@@ -1,7 +1,7 @@
 module Forward
   def convert_in(s)
     ret = []
-    adds = s.split("\n")
+    adds = s.split("\n").map{|line| line.split(',').map(&:strip)}.flatten
     keep = nil
     adds.each_with_index do |add,i|
       keep = adds.delete_at(i) if add[0] == "\\"

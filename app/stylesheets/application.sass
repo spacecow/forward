@@ -23,12 +23,6 @@ div#header
 div#contents_container
   width: $contents_container_width
   margin: $header_contents_container_separator_width auto 0 auto
-  div#flash_container
-    height: 20px 
-    div#flash_alert
-      color: #933
-    div#flash_notice
-      color: #396
   div#main_container
     border: 1px solid $main_frame_border_colour
     +border-radius(10px)
@@ -44,12 +38,11 @@ div#contents_container
       a.right
         float: right
         margin-right: $main_margin_width
-    div.main
+    div#main
       width: $main_width
       margin: 0 auto
       border: 1px solid $main_frame_border_colour
       background: white
-      padding-bottom: 20px
       div#title
         font-weight: bold
         margin: 10px 0 10px 20px
@@ -60,7 +53,25 @@ div#contents_container
             float: none
           input
             float: none
+        div#button
+          float: left
+          margin-top: 10px
+          background: $main_frame_colour
+          div#flash_container
+            margin: 10px 0 0 10px
+            float: left
+            width: 290px
+            div#flash_alert
+              color: white
+            div#flash_notice
+              color: white
+          input.submit
+            width: 70px 
+            float: right
+            margin: 10px 10px 5px 0
         p
+          width: $main_width
+          float: left
           label
             width: 100px
             float: left
@@ -69,6 +80,3 @@ div#contents_container
           input
             width: 200px
             float: left
-    input.submit
-      float: right
-      margin: 10px 10px 5px 0

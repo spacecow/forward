@@ -16,11 +16,6 @@
   <%# image_tag 'witch.gif' %>
 </div>
 <div id="contents_container">
-  <div id="flash_container">
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, :id => "flash_#{name}" %>
-    <% end %>
-  </div>
   <div id="main_container">
     <div id="site_nav">
       <% if english? %>

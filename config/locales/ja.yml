@@ -1,5 +1,6 @@
 ja:
   address: "転送先 %{no}"
+  forwarding_address: "転送先"
   login: "ログイン"
   logout: "ログアウト"
   mail_forward_setting: "メール転送設定"

@@ -1,4 +1,4 @@
-<div id="edit" class="main">
+<div id="main">
   <% content_for(:site_nav) do %>
     <%= link_to t(:logout), logout_path, :class => :right %>
   <% end %>
@@ -36,7 +36,14 @@
     <%= check_box_tag :keep, 'yes', @input[5][:keep] %>
     <div class="clear"></div>
   </p>
-</div>
-  <p><%= submit_tag t(:update), :class => :submit %></p>
+  <div id="button">
+    <div id="flash_container">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+    </div>
+    <%= submit_tag t(:update), :class => :submit %>
+  </div>
   <div class="clear"></div>
   <% end %>
+</div>

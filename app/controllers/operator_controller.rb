@@ -9,6 +9,7 @@ class OperatorController < ApplicationController
 
   def logout
     session[:username] = nil
+    session[:password] = nil
     redirect_to login_path, :notice => notify(:logged_out)
   end
   
@@ -51,7 +52,7 @@ class OperatorController < ApplicationController
       pipe.write "#{params[:address5]}\n" if params[:address5].present?
       pipe.close_write
     end
-    flash[:notice] = updated(:dot_forward)
+    flash[:notice] = updated(:forwarding_address)
     redirect_to edit_path
   end
 

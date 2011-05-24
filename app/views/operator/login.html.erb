@@ -1,4 +1,4 @@
-<div id="login" class="main">
+<div id="main">
   <div id="title">
     <%= t(:mail_forward_login) %>
   </div>
@@ -13,7 +13,14 @@
     <%= password_field_tag :password %>
     <div class="clear"></div>
   </p>
-</div>
-  <p><%= submit_tag t(:login), :class => :submit %></p>
+  <div id="button">
+    <div id="flash_container">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+    </div>
+    <%= submit_tag t(:login), :class => :submit %>
+  </div>
   <div class="clear"></div>
   <% end %>
+</div>

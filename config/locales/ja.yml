@@ -3,7 +3,7 @@ ja:
   forwarding_address: "転送先"
   login: "ログイン"
   logout: "ログアウト"
-  mail_forward_setting: "メール転送設定"
+  mail_forward_setting: "%{user}のメール転送設定"
   mail_forward_login: "メール転送ログイン"
   update: "更新"
 

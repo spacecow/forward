@@ -9,7 +9,7 @@ en:
   japanese: "日本語"
   login: "Login"
   logout: "Logout"
-  mail_forward_setting: "Mail Forward Setting"
+  mail_forward_setting: "Mail Forward Setting for %{user}"
   mail_forward_login: "Mail Forward Login"
   member: "Member"
   mini_admin: "mini-admin"

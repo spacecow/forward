@@ -7,7 +7,6 @@ div.clear {
 
 /* line 19, ../../app/stylesheets/application.sass */
 div#header {
-  background: url("/images/header.gif");
   height: 53px;
   text-align: right;
 }

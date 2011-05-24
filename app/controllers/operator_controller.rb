@@ -13,6 +13,11 @@ class OperatorController < ApplicationController
   end
   
   def connect
+    p params
+    if params[:username].blank? || params[:password].blank?
+      flash[:alert] = alert2(:incorrect,t('message.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
+      redirect_to login_path and return
+    end
     if authpam(params[:username],params[:password])
       session[:username] = params[:username]
       session[:password] = params[:password]
@@ -39,11 +44,11 @@ class OperatorController < ApplicationController
     IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
       pipe.write "#{session[:password]}\n"
       pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
-      pipe.write "#{params[:address1]}\n" if params[:address1]
-      pipe.write "#{params[:address2]}\n" if params[:address2]
-      pipe.write "#{params[:address3]}\n" if params[:address3]
-      pipe.write "#{params[:address4]}\n" if params[:address4]
-      pipe.write "#{params[:address5]}\n" if params[:address5]
+      pipe.write "#{params[:address1]}\n" if params[:address1].present?
+      pipe.write "#{params[:address2]}\n" if params[:address2].present?
+      pipe.write "#{params[:address3]}\n" if params[:address3].present?
+      pipe.write "#{params[:address4]}\n" if params[:address4].present?
+      pipe.write "#{params[:address5]}\n" if params[:address5].present?
       pipe.close_write
     end
     flash[:notice] = updated(:dot_forward)

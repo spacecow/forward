@@ -64,46 +64,48 @@ div#contents_container div#main_container div#main form p.longer label {
 /* line 54, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p.longer input {
   float: none;
+  width: 10px;
 }
-/* line 56, ../../app/stylesheets/application.sass */
+/* line 57, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button {
+  width: 380px;
   float: left;
   margin-top: 10px;
   background: #486e92;
 }
-/* line 60, ../../app/stylesheets/application.sass */
+/* line 62, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button div#flash_container {
   margin: 10px 0 0 10px;
   float: left;
   width: 290px;
 }
-/* line 64, ../../app/stylesheets/application.sass */
+/* line 66, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button div#flash_container div#flash_alert {
   color: white;
 }
-/* line 66, ../../app/stylesheets/application.sass */
+/* line 68, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button div#flash_container div#flash_notice {
   color: white;
 }
-/* line 68, ../../app/stylesheets/application.sass */
+/* line 70, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button input.submit {
   width: 70px;
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 72, ../../app/stylesheets/application.sass */
+/* line 74, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p {
   width: 380px;
   float: left;
 }
-/* line 75, ../../app/stylesheets/application.sass */
+/* line 77, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p label {
   width: 100px;
   float: left;
   text-align: right;
   margin-right: 5px;
 }
-/* line 80, ../../app/stylesheets/application.sass */
+/* line 82, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p input {
   width: 200px;
   float: left;

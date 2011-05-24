@@ -57,8 +57,9 @@ en:
       password_confirmation: "Password confirmation"
       username: "Username"
 
-      address: "Forwarding address"
+      address: "Address"
       keep_a_copy: "Keep a copy on the server" 
 
   anonymous: "Anonymous"
   comment: "Comment"
+  dot_forward: "DOT Forward"

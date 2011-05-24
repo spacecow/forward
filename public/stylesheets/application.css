@@ -1,0 +1,98 @@
+/* line 14, ../../app/stylesheets/application.sass */
+div.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+/* line 19, ../../app/stylesheets/application.sass */
+div#header {
+  background: url("/images/header.gif");
+  height: 53px;
+  text-align: right;
+}
+
+/* line 23, ../../app/stylesheets/application.sass */
+div#contents_container {
+  width: 400px;
+  margin: 90px auto 0 auto;
+}
+/* line 26, ../../app/stylesheets/application.sass */
+div#contents_container div#flash_container {
+  height: 20px;
+}
+/* line 28, ../../app/stylesheets/application.sass */
+div#contents_container div#flash_container div#flash_alert {
+  color: #993333;
+}
+/* line 30, ../../app/stylesheets/application.sass */
+div#contents_container div#flash_container div#flash_notice {
+  color: #339966;
+}
+/* line 32, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container {
+  border: 1px solid #2c4153;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  background: #486e92;
+}
+/* line 36, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div#site_nav {
+  margin-left: 10px;
+  padding-top: 5px;
+  height: 24px;
+  font-size: 14px;
+}
+/* line 41, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div#site_nav a {
+  color: white;
+  text-decoration: none;
+}
+/* line 44, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div#site_nav a.right {
+  float: right;
+  margin-right: 10px;
+}
+/* line 47, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div.main {
+  width: 380px;
+  margin: 0 auto;
+  border: 1px solid #2c4153;
+  background: white;
+  padding-bottom: 20px;
+}
+/* line 53, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div.main div#title {
+  font-weight: bold;
+  margin: 10px 0 10px 20px;
+}
+/* line 58, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div.main form p.longer label {
+  margin-left: 10px;
+  float: none;
+}
+/* line 61, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div.main form p.longer input {
+  float: none;
+}
+/* line 64, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div.main form p label {
+  width: 100px;
+  float: left;
+  text-align: right;
+  margin-right: 5px;
+}
+/* line 69, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div.main form p input {
+  width: 200px;
+  float: left;
+}
+/* line 72, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container input.submit {
+  float: right;
+  margin: 10px 10px 5px 0;
+}

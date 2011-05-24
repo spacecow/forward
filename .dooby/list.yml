@@ -31,3 +31,5 @@ b4dabb: !ruby/object:Dooby::Task
   todo: no order :done
 8abcdb: !ruby/object:Dooby::Task 
   todo: truncate addresses if they are more than 5 :done
+2037a2: !ruby/object:Dooby::Task 
+  todo: styling witchmail :done

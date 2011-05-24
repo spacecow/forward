@@ -2,9 +2,18 @@ ja:
   login: "ログイン"
   logout: "ログアウト"
   update: "更新"
+
+  alert:
+    incorrect: "無効パスワードかユーザー名"
   formtastic:
     labels:
       address: "転送先"
       keep_a_copy: "サーバにメールを残す"
       password: "パスワード"
       username: "ユーザー名"
+  notice:
+    logged_in: "正常にログインされました"
+    logged_out: "正常にログアウトされました"
+  success:
+    updated: "正常に%{obj}が更新されました" 
+  dot_forward: "DOT Forward"

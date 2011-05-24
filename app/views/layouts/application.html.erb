@@ -8,21 +8,30 @@
     <%= stylesheet_link_tag 'ie.css', :media => 'screen, projection' %>
     <![endif]-->
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "jquery", "rails", "application" %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-<% flash.each do |name, msg| %>
-  <%= content_tag :div, msg, :id => "flash_#{name}" %>
-<% end %>
-<div id="site_nav">
-  <% if english? %>
-    <%= link_to "日本語", :language => 'ja' %>
-  <% else %>
-    <%= link_to "English", :language => 'en' %>
-  <% end %>
+<div id="header">
+  <%= image_tag 'witch.gif' %>
 </div>
-<%= yield %>
-
+<div id="contents_container">
+  <div id="flash_container">
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+    <% end %>
+  </div>
+  <div id="main_container">
+    <div id="site_nav">
+      <% if english? %>
+        <%= link_to "日本語", :language => 'ja' %>
+      <% else %>
+        <%= link_to "English", :language => 'en' %>
+      <% end %>
+      <%= yield(:site_nav) %>
+    </div>
+    <%= yield %>
+  </div>
+</div>
 </body>
 </html>

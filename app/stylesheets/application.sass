@@ -1,0 +1,74 @@
+@import "compass/css3/border-radius"
+
+$header_height: 53px
+$header_contents_container_separator_width: 90px
+$contents_container_width: 400px
+
+$site_nav_height: 24px
+$main_margin_width: 10px
+$main_width: $contents_container_width - 2*$main_margin_width
+
+$main_frame_colour: #486e92
+$main_frame_border_colour: #2c4153
+
+div.clear
+  clear: both
+  height: 0
+  overflow: hidden
+
+div#header
+  background: url("/images/header.gif")
+  height: $header_height
+  text-align: right
+div#contents_container
+  width: $contents_container_width
+  margin: $header_contents_container_separator_width auto 0 auto
+  div#flash_container
+    height: 20px 
+    div#flash_alert
+      color: #933
+    div#flash_notice
+      color: #396
+  div#main_container
+    border: 1px solid $main_frame_border_colour
+    +border-radius(10px)
+    background: $main_frame_colour
+    div#site_nav
+      margin-left: $main_margin_width
+      padding-top: 5px
+      height: $site_nav_height
+      font-size: 14px
+      a
+        color: white
+        text-decoration: none
+      a.right
+        float: right
+        margin-right: $main_margin_width
+    div.main
+      width: $main_width
+      margin: 0 auto
+      border: 1px solid $main_frame_border_colour
+      background: white
+      padding-bottom: 20px
+      div#title
+        font-weight: bold
+        margin: 10px 0 10px 20px
+      form
+        p.longer
+          label
+            margin-left: 10px
+            float: none
+          input
+            float: none
+        p
+          label
+            width: 100px
+            float: left
+            text-align: right
+            margin-right: 5px
+          input
+            width: 200px
+            float: left
+    input.submit
+      float: right
+      margin: 10px 10px 5px 0

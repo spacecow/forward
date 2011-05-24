@@ -6,7 +6,7 @@ gem 'mysql2', "0.2.6"
 
 group :development do
   gem 'jquery-rails'
-  gem "nifty-generators", :path => "~/ruby/rails/nifty-generators"
+  #gem "nifty-generators", :path => "~/ruby/rails/nifty-generators"
   gem "rspec-rails"
 end
 

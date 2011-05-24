@@ -6,11 +6,6 @@ GIT
       cucumber (>= 0.8)
       rake
 
-PATH
-  remote: ~/ruby/rails/nifty-generators
-  specs:
-    nifty-generators (0.4.5)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -160,7 +155,6 @@ DEPENDENCIES
   launchy
   mocha
   mysql2 (= 0.2.6)
-  nifty-generators!
   pickle (= 0.4.7)!
   rails (= 3.0.5)
   rspec-core (= 2.5.1)

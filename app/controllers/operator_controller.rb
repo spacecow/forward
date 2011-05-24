@@ -36,7 +36,6 @@ class OperatorController < ApplicationController
   end
 
   def update
-    p params
     IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
       pipe.write "#{session[:password]}\n"
       pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
@@ -47,6 +46,7 @@ class OperatorController < ApplicationController
       pipe.write "#{params[:address5]}\n" if params[:address5]
       pipe.close_write
     end
+    flash[:notice] = updated(:dot_forward)
     redirect_to edit_path
   end
 

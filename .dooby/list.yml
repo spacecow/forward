@@ -21,3 +21,11 @@ d8d160: !ruby/object:Dooby::Task
   todo: test update dot_forward :done
 6faf3c: !ruby/object:Dooby::Task 
   todo: japanese interface :done
+4cbe1b: !ruby/object:Dooby::Task 
+  todo: comma-separated list
+a9330c: !ruby/object:Dooby::Task 
+  todo: delete space
+974ac6: !ruby/object:Dooby::Task 
+  todo: no order
+4db625: !ruby/object:Dooby::Task 
+  todo: retesting forward :done

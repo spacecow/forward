@@ -11,6 +11,7 @@ group :development do
 end
 
 group :test do
+  gem 'rspec-core', '2.5.1'
   gem 'spork'
   gem 'cucumber-rails', "0.3.2"
   gem 'cucumber', '0.10.0'

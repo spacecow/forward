@@ -163,5 +163,6 @@ DEPENDENCIES
   nifty-generators!
   pickle (= 0.4.7)!
   rails (= 3.0.5)
+  rspec-core (= 2.5.1)
   rspec-rails
   spork

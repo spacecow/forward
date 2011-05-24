@@ -38,13 +38,13 @@ class OperatorController < ApplicationController
   def update
     p params
     IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
-      pipe.write(session[:password])
-      pipe.write "\#{session[:username]}" if params[:keep] == "1"
-      pipe.write params[:address1] if params[:address1] && params[:active1] == "on"
-      pipe.write params[:address2] if params[:address2] && params[:active2] == "on"
-      pipe.write params[:address3] if params[:address3] && params[:active3] == "on"
-      pipe.write params[:address4] if params[:address4] && params[:active4] == "on"
-      pipe.write params[:address5] if params[:address5] && params[:active5] == "on"
+      pipe.write "#{session[:password]}\n"
+      pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
+      pipe.write "#{params[:address1]}\n" if params[:address1]
+      pipe.write "#{params[:address2]}\n" if params[:address2]
+      pipe.write "#{params[:address3]}\n" if params[:address3]
+      pipe.write "#{params[:address4]}\n" if params[:address4]
+      pipe.write "#{params[:address5]}\n" if params[:address5]
       pipe.close_write
     end
     redirect_to edit_path
@@ -54,13 +54,15 @@ class OperatorController < ApplicationController
     def authpam(user,pass); pass == "correct" ? true : false end
     def convert_in(s)
       ret = []
-      s.split("\n").each do |add|
+      adds = s.split("\n")
+      keep = adds.shift if adds[0][0] == "\\"
+      adds.each do |add|
         ret << {:address => add.chomp}
       end
       (5-ret.size).times do |add|
         ret << {:address => nil}
       end
-      ret
+      ret << {:keep => !keep.nil?}
     end
 end
 

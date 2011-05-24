@@ -8,7 +8,7 @@ ja:
   update: "更新"
 
   alert:
-    incorrect: "無効パスワードかユーザー名"
+    incorrect: "ユーザー名かパスワードが違います"
   formtastic:
     labels:
       address: "転送先"
@@ -16,8 +16,8 @@ ja:
       password: "パスワード"
       username: "ユーザー名"
   notice:
-    logged_in: "正常にログインされました"
-    logged_out: "正常にログアウトされました"
+    logged_in: "ログインしました"
+    logged_out: "ログアウトしました"
   success:
-    updated: "正常に%{obj}が更新されました" 
+    updated: "%{obj}が更新されました" 
   dot_forward: "DOT Forward"

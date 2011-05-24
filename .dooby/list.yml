@@ -21,11 +21,13 @@ d8d160: !ruby/object:Dooby::Task
   todo: test update dot_forward :done
 6faf3c: !ruby/object:Dooby::Task 
   todo: japanese interface :done
-a9330c: !ruby/object:Dooby::Task 
-  todo: delete space
-974ac6: !ruby/object:Dooby::Task 
-  todo: no order
 4db625: !ruby/object:Dooby::Task 
   todo: retesting forward :done
 b4dabb: !ruby/object:Dooby::Task 
   todo: comma-separated list :done
+5630a9: !ruby/object:Dooby::Task 
+  todo: delete space :done
+7f4dae: !ruby/object:Dooby::Task 
+  todo: no order :done
+8abcdb: !ruby/object:Dooby::Task 
+  todo: truncate addresses if they are more than 5 :done

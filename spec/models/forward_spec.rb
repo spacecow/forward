@@ -42,6 +42,14 @@ describe Forward do
   it "should handle a comma-separated line with extra spaces" do
    @bajs.convert_in("   test1@example.com  ,  test2@example.com").should eq return_arr %w(test1@example.com test2@example.com)
   end
+
+  it "should not except more than 5 addresses" do
+    @bajs.convert_in("test1, test2, test3, test4, test5, test6").should eq return_arr %w(test1 test2 test3 test4 test5)
+  end
+
+  it "should handle a mix of everyhing" do
+    @bajs.convert_in("test1, test2, \\user\ntest3, test4, test5, test6").should eq return_arr(%w(test1 test2 test3 test4 test5),true)
+  end
 end
 
 def return_arr(a,b=false)

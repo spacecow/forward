@@ -6,7 +6,7 @@ module Forward
     adds.each_with_index do |add,i|
       keep = adds.delete_at(i) if add[0] == "\\"
     end
-    adds.each do |add|
+    adds[0..4].each do |add|
       ret << {:address => add.chomp}
     end
     (5-ret.size).times do |add|

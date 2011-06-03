@@ -13,6 +13,11 @@ Then /^I should see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,order,i
     page.should have_content(txt)
   end
 end
+Then /^I should not see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,order,id,cat|
+  with_scope(cat_id(cat,id,order)) do
+    page.should have_no_content(txt)
+  end
+end
 
 Then /^I should see "([^"]*)" within the "([^"]*)" section$/ do |txt,div|
   Then %(I should see "#{txt}" within "div##{underscore div}")
@@ -23,9 +28,32 @@ end
 
 # AND ----------------------------
 
-Then /^I should see "([^"]*)" and "([^"]*)" within the (\w+) (.+) (\w+)$/ do |txt1,txt2,order,id,cat|
-  Then %(I should see "#{txt1}" within the #{order} #{id} #{cat})
-  And %(I should see "#{txt2}" within the #{order} #{id} #{cat})
+Then /^I should see "([^"]*)" and "([^"]*)" within the "([^"]*)" (\w+)$/ do |txt1,txt2,id,cat|
+  Then %(I should see "#{txt1}" within the "#{id}" #{cat})
+  And %(I should see "#{txt2}" within the "#{id}" #{cat})
+end
+
+Then /^I should see "([^"]*)" and "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt1,txt2,order,id,cat|
+  Then %(I should see "#{txt1}" within the #{order} "#{id}" #{cat})
+  And %(I should see "#{txt2}" within the #{order} "#{id}" #{cat})
+end
+Then /^I should see "([^"]*)" but not "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt1,txt2,order,id,cat|
+  Then %(I should see "#{txt1}" within the #{order} "#{id}" #{cat})
+  And %(I should not see "#{txt2}" within the #{order} "#{id}" #{cat})
+end
+
+Then /^I should see no "([^"]*)" nor "([^"]*)" link within the (\w+) "([^"]*)" (\w+)/ do |txt1,txt2,order,id,cat|
+  Then %(I should see no "#{txt1}" link within the #{order} "#{id}" #{cat})
+  And %(I should see no "#{txt2}" link within the #{order} "#{id}" #{cat})
+end
+
+# ACTIVE ----------------------
+
+Then /^the (?:menu|submenu) "([^"]*)" should be active$/ do |menu|
+  page.should have_css(".active", :text => menu)
+end
+Then /^the (?:menu|submenu) "([^"]*)" should be inactive$/ do |menu|
+  page.should have_no_css(".active", :text => menu)
 end
 
 # EXISTENCE -------------------
@@ -33,17 +61,29 @@ end
 Then /^I should see a (\w+) "([^"]*)" (\w+)$/ do |order,id,cat|
   page.should have_css(cat_id(cat,id,order))
 end
+Then /^I should see a (\w+) through (\w+) "([^"]*)" (\w+)$/ do |ordr1,ordr2,id,cat|
+  (zdigit(ordr1)..zdigit(ordr2)).each do |ordr|
+    page.should have_css(cat_id(cat,id,zword(ordr)))
+  end  
+end
 
 Then /^I should see no (\w+) "([^"]*)" (\w+)$/ do |order,id,cat|
   page.should have_no_css(cat_id(cat,id,order))
 end
 
-Then /^I should see (?:a|an) "([^"]*)" section$/ do |id|
-  page.should have_css("div##{id}")
+Then /^I should see (?:a|an) "([^"]*)" (section|form)$/ do |id,cat|
+  if cat=="section"
+    page.should have_css("div##{id}")
+  elsif cat=="form"
+    page.should have_css("form##{id}")
+  end 
 end
-
-Then /^I should see no "([^"]*)" section$/ do |id|
-  page.should have_no_css("div##{id}")
+Then /^I should see no "([^"]*)" (section|form)$/ do |id,cat|
+  if cat=="section"
+    page.should have_no_css("div##{id}")
+  elsif cat=="form"
+    page.should have_no_css("form##{id}")
+  end 
 end
 
 Then /^I should see no (\w+) flash message$/ do |cat|
@@ -54,14 +94,50 @@ Then /^I should see no links at the bottom of the page$/ do
   page.should have_no_css("div#bottom_links a")
 end
 
-Then /^I should see a button "([^"]*)"$/ do |lbl|
-  page.should have_button(lbl)
+# Image ----------------------------
+
+Then /^I should see (?:a|an) "([^"]*)" image$/ do |alt|
+  page.should have_xpath("//img[@alt='#{alt}']")
+end
+Then /^I should see no "([^"]*)" image$/ do |alt|
+  page.should have_no_xpath("//img[@alt='#{alt}']")
+end
+
+Then /^I should see an image within the "([^"]*)" form$/ do |id|
+  page.should have_css("form##{id} img")
+end
+Then /^I should see no image within the "([^"]*)" form$/ do |id|
+  page.should have_no_css("form##{id} img")
+end
+
+Then /^I should see (?:a|an) "([^"]*)" image within the (\w+) "([^"]*)" (\w+)$/ do |img,ordr,id,cat|
+  Then %(I should see a "#{img}" image within "#{cat_id(cat,id,ordr)}")
+end
+Then /^I should see a "([^"]*)" image within "([^"]*)"$/ do |img,id|
+  with_scope(id) do
+    page.should have_xpath("//img[@alt='#{img}']")
+  end
+end
+
+Then /^I should see a "([^"]*)" tooltip$/ do |ttl|
+  page.should have_xpath("//img[@title='#{ttl}']")
 end
 
 # LINKS -----------------------
 
 Then /^I should see a "([^"]*)" link$/ do |lnk|
   page.should have_css("a", :text => lnk)
+end
+
+Then /^I should see (?:a|an) "([^"]*)" link within the "([^"]*)" section$/ do |lnk,id|
+  with_scope("div##{id}") do
+    page.should have_css("a", :text => lnk)
+  end
+end
+Then /^I should see no "([^"]*)" link within the "([^"]*)" section$/ do |lnk,id|
+  with_scope("div##{id}") do
+    page.should have_no_css("a", :text => lnk)
+  end
 end
 
 Then /^I should see a "([^"]*)" image link$/ do |lnk|
@@ -107,8 +183,22 @@ def section_no(div=nil,order)
     "div.#{div}:nth-child(#{digit order})"
   end
 end
+def field_no(lbl,ordr)
+  id = find(:css, "label", :text => lbl)[:for]
+  field = find_field(id)
+  if field.tag_name == 'textarea'
+    "textarea##{id.gsub(/\d/,zdigit(ordr).to_s)}"
+  else
+    "input##{id.gsub(/\d/,zdigit(ordr).to_s)}"
+  end
+end
 
 def cat_id(cat,id,order)
-  list_no(id,order) if cat=="listing"
-  section_no(id,order) if cat=="section"
+  if cat=="listing"
+    list_no(id,order) 
+  elsif cat=="section"
+    section_no(id,order) 
+  elsif cat=="field"
+    field_no(id,order)
+  end
 end

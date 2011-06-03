@@ -1,5 +1,7 @@
 Given /^dotforward contains "([^"]*)"$/ do |lines|
   file = File.open("/usr/local/sbin/.forward", "w")
-  file.write("#{lines}\n")
+  lines.split('\\n').each do |line|
+    file.write("#{line}\n")
+  end
   file.close
 end

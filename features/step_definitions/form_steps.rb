@@ -92,8 +92,8 @@ When /^I create (?:a|an) (\w+) with ("[^"]*")((?:, "[^"]*")*)$/ do |mdl, arg1, a
   And %(I press "Create #{mdl.capitalize}")
 end
 
-Then /^I should see no "([^"]*)" field$/ do |txt|
-  page.should have_no_css("label", :text => txt)
+Then /^I should see no "([^"]*)" field$/ do |lbl|
+  page.should have_no_css("label", :text => lbl)
 end
 
 # Functions ----------------------------

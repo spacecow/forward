@@ -1,0 +1,3 @@
+<%= label_tag "address#{no}".to_sym, t(:address,:no=>no+1) %>
+<%= text_field_tag "address#{no}".to_sym, @input[no][:address] %>
+<div class="clear"></div>

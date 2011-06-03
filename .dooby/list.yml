@@ -35,5 +35,5 @@ b4dabb: !ruby/object:Dooby::Task
   todo: styling witchmail :done
 908fe8: !ruby/object:Dooby::Task 
   todo: retesting old tests :done
-96582e: !ruby/object:Dooby::Task 
-  todo: can read and display more than 5 addresses :doing
+9668c4: !ruby/object:Dooby::Task 
+  todo: can read and display more than 5 addresses :done

@@ -58,14 +58,13 @@ class OperatorController < ApplicationController
   private
     def authpam(user,pass); pass == "correct" ? true : false end
     def convert_in(s)
-      p s
       ret = []
       adds = s.split("\n").map{|line| line.split(',').map(&:strip)}.flatten
       keep = nil
       adds.each_with_index do |add,i|
         keep = adds.delete_at(i) if add[0] == "\\"
       end
-      adds[0..4].each do |add|
+      adds.each do |add|
         ret << {:address => add.chomp}
       end
       (5-ret.size).times do |add|

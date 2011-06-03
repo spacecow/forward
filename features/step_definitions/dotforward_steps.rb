@@ -1,7 +1,13 @@
 Given /^dotforward contains "([^"]*)"$/ do |lines|
-  file = File.open("/usr/local/sbin/.forward", "w")
-  lines.split('\\n').each do |line|
-    file.write("#{line}\n")
+  File.open("/usr/local/sbin/.forward", "w") do |file|
+    lines.split('\\n').each do |line|
+      file.write("#{line}\n")
+    end
   end
-  file.close
+end
+
+Then /^dotforward should contain "([^"]*)"$/ do |lines|
+  File.open("/usr/local/sbin/.forward", "r") do |file|
+    file.readlines.join.should eq lines.gsub('\\n',"\n")
+  end
 end

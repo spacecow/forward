@@ -44,11 +44,7 @@ class OperatorController < ApplicationController
     IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
       pipe.write "#{session[:password]}\n"
       pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
-      pipe.write "#{params[:address1]}\n" if params[:address1].present?
-      pipe.write "#{params[:address2]}\n" if params[:address2].present?
-      pipe.write "#{params[:address3]}\n" if params[:address3].present?
-      pipe.write "#{params[:address4]}\n" if params[:address4].present?
-      pipe.write "#{params[:address5]}\n" if params[:address5].present?
+      pipe.write "#{params[:address].values.join("\n")}\n"
       pipe.close_write
     end
     flash[:notice] = updated(:forwarding_address)

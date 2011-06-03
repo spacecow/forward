@@ -17,9 +17,10 @@ When I follow "日本語"
 Then I should see "ログアウト"
 And I should see "転送先"
 And I should see "サーバにメールを残す"
-And I should see a button "更新"
+And I should see a "更新" button
 
 Scenario: Edit view in English
+Given dotforward contains "test1"
 Given I am logged in as "test"
 Then I should see "Logout"
 And I should see "Address 1"
@@ -29,7 +30,7 @@ And I should see "Address 4"
 And I should see "Address 5"
 And I should not see "Address 6"
 And I should see "Keep a copy on the server"
-And I should see a button "Update"
+And I should see a "Update" button 
 
 @read
 Scenario: View of one address

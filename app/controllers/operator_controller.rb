@@ -58,6 +58,7 @@ class OperatorController < ApplicationController
   private
     def authpam(user,pass); pass == "correct" ? true : false end
     def convert_in(s)
+      p s
       ret = []
       adds = s.split("\n").map{|line| line.split(',').map(&:strip)}.flatten
       keep = nil

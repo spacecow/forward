@@ -25,3 +25,9 @@ Then I should see "Logout"
 And I should see "Address"
 And I should see "Keep a copy on the server"
 And I should see a button "Update"
+
+@read
+Scenario: View of one address
+Given dotforward contains "test@example.com"
+And I am logged in as "test"
+Then the first "Address" field should contain "test@example.com"

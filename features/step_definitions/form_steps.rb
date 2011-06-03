@@ -105,6 +105,6 @@ def error_no(prnt,chld,attr,ordr)
   "#{attr_no(prnt,chld,attr,ordr)} p.inline-errors"
 end
 def field_id(lbl,ordr)
-  id = find(:css, "label", :text => lbl)[:for]
-  id.gsub(/\d/,zdigit(ordr).to_s)
+  all(:css, "label", :text => lbl)[zdigit(ordr)][:for]
+  #id.gsub(/\d/,zdigit(ordr).to_s)
 end

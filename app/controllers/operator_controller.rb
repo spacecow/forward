@@ -14,7 +14,6 @@ class OperatorController < ApplicationController
   end
   
   def connect
-    p params
     if params[:username].blank? || params[:password].blank?
       flash[:alert] = alert2(:incorrect,t('message.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
       redirect_to login_path and return

@@ -1,17 +1,18 @@
 module Forward
   def convert_in(s)
-    ret = []
+    ret = {} 
     adds = s.split("\n").map{|line| line.split(',').map(&:strip)}.flatten
     keep = nil
     adds.each_with_index do |add,i|
       keep = adds.delete_at(i) if add[0] == "\\"
     end
-    adds.each do |add|
-      ret << {:address => add.chomp}
+    adds.each_with_index do |add,i|
+      ret[i.to_s] = add.chomp
     end
-    (5-ret.size).times do |add|
-      ret << {:address => nil}
+    (5-adds.length).times do |i|
+      ret[(i+adds.length).to_s] = ""
     end
-    ret << {:keep => !keep.nil?}
+    ret[:keep] = !keep.nil?
+    ret
   end
 end

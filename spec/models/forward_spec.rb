@@ -53,8 +53,9 @@ describe Forward do
 end
 
 def return_arr(a,b=false)
-  ret = []
-  a.each{|s| ret << {:address => s}}
-  (5-a.length).times{ret << {:address => nil}}
-  ret << {:keep => b}
+  ret = {} 
+  a.each_with_index{|s,i| ret[i.to_s] = s}
+  (5-a.length).times{|i| ret[(i+a.length).to_s] = ""}
+  ret[:keep] = b
+  ret
 end

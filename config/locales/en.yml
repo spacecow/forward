@@ -48,6 +48,7 @@ en:
     sure?: "Are you sure?"
     welcome: "Welcome %{user}."
   success:
+    added: "Successfully added %{obj}."
     created: "Successfully created %{obj}."
     deleted: "Successfully deleted %{obj}."
     updated: "Successfully updated %{obj}."  
@@ -62,6 +63,7 @@ en:
       username: "Username"
       keep_a_copy: "Keep a copy on the server" 
 
+  address_field: "Address Field"
   anonymous: "Anonymous"
   comment: "Comment"
   dot_forward: "DOT Forward"

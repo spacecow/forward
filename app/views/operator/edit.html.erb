@@ -6,14 +6,14 @@
     <%= t(:mail_forward_setting,:user=>session[:username]) %>
   </div>
   <%= form_tag update_path do %>
-    <% @input.each_with_index do |input,i| %>
-      <% if input[:keep].nil? %>
-        <p><%= render "address_field", :no => i %></p>
+    <% @input.each do |key, value| %>
+      <% if key != :keep %>
+        <p><%= render "address_field", :no => key, :value => value %></p>
       <% end %>
     <% end %>
     <p class="longer">
       <%= label_tag :keep, ft(:keep_a_copy) %>
-      <%= check_box_tag :keep, 'yes', @input[5][:keep] %>
+      <%= check_box_tag :keep, 'yes', @input[:keep] %>
       <div class="clear"></div>
     </p>
     <div id="button">
@@ -23,6 +23,8 @@
         <% end %>
       </div>
       <%= submit_tag t(:update), :class => :submit %>
+      <div class="clear"></div>
+      <%= submit_tag "Add address field", :class => :submit %>
     </div>
     <div class="clear"></div>
   <% end %>

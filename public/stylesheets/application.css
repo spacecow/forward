@@ -89,23 +89,22 @@ div#contents_container div#main_container div#main form div#button div#flash_con
 }
 /* line 70, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button input.submit {
-  width: 70px;
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 74, ../../app/stylesheets/application.sass */
+/* line 73, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p {
   width: 380px;
   float: left;
 }
-/* line 77, ../../app/stylesheets/application.sass */
+/* line 76, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p label {
   width: 100px;
   float: left;
   text-align: right;
   margin-right: 5px;
 }
-/* line 82, ../../app/stylesheets/application.sass */
+/* line 81, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p input {
   width: 200px;
   float: left;

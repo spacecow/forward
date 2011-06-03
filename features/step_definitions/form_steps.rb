@@ -96,6 +96,10 @@ Then /^I should see no "([^"]*)" field$/ do |lbl|
   page.should have_no_css("label", :text => lbl)
 end
 
+Then /^I should see (\d+) "([^"]*)" fields$/ do |no,lbl|
+  all(:css, "label", :text => lbl).length.should eq no.to_i
+end
+
 # Functions ----------------------------
 
 def attr_no(prnt,chld,attr,ordr)

@@ -30,10 +30,14 @@ class OperatorController < ApplicationController
 
   def edit
     if session[:username]
-      IO.popen("/usr/local/sbin/chfwd -g #{session[:username]}", 'r+') do |pipe|
-        pipe.write(session[:password])
-        pipe.close_write
-        @input = convert_in(pipe.read) 
+      if params[:commit] == "Add address field"
+        @input = params[:address].merge({ params[:address].length.to_s => ""})
+      else
+        IO.popen("/usr/local/sbin/chfwd -g #{session[:username]}", 'r+') do |pipe|
+          pipe.write(session[:password])
+          pipe.close_write
+          @input = convert_in(pipe.read) 
+        end
       end
     else
       redirect_to login_path, :alert => alert(:unauthorized_access)
@@ -41,32 +45,39 @@ class OperatorController < ApplicationController
   end
 
   def update
-    IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
-      pipe.write "#{session[:password]}\n"
-      pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
-      pipe.write "#{params[:address].values.join("\n")}\n"
-      pipe.close_write
+    if params[:commit] == "Add address field"
+      flash[:notice] = added(:address_field)
+      redirect_to edit_path(:commit => "Add address field", :no => address_field_no, :address => params[:address])
+    else
+      IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
+        pipe.write "#{session[:password]}\n"
+        pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
+        pipe.write "#{params[:address].values.reject(&:blank?).join("\n")}\n"
+        pipe.close_write
+      end
+      flash[:notice] = updated(:forwarding_address)
+      redirect_to edit_path
     end
-    flash[:notice] = updated(:forwarding_address)
-    redirect_to edit_path
   end
 
   private
+    def address_field_no; params[:address].length end
     def authpam(user,pass); pass == "correct" ? true : false end
-    def convert_in(s)
-      ret = []
+    def convert_in(s,d=5)
+      ret = {} 
       adds = s.split("\n").map{|line| line.split(',').map(&:strip)}.flatten
       keep = nil
       adds.each_with_index do |add,i|
         keep = adds.delete_at(i) if add[0] == "\\"
       end
-      adds.each do |add|
-        ret << {:address => add.chomp}
+      adds.each_with_index do |add,i|
+        ret[i.to_s] = add.chomp
       end
-      (5-ret.size).times do |add|
-        ret << {:address => nil}
+      (d-adds.length).times do |i|
+        ret[(i+adds.length).to_s] = ""
       end
-      ret << {:keep => !keep.nil?}
+      ret[:keep] = !keep.nil?
+      ret
     end
+    def inc_address_field_no; params[:no].to_i+1 end
 end
-

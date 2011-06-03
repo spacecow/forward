@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_language
   helper_method :current_user, :english?, :ft
 
+  def added(s); success(:added,s) end
   def alert(act); t("alert.#{act}") end
   def alert2(act,obj); t("alert.#{act}",:obj=>obj) end
   def created(s); success(:created,s) end

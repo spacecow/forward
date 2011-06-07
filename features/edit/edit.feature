@@ -100,3 +100,21 @@ And I am logged in as "test"
 When I follow "Add Address Field"
 When I follow "Add Address Field"
 Then I should see fields from "Address 1" to "Address 7"
+
+@javascript
+Scenario: Add content with javascript
+Given dotforward contains "test1\n"
+And I am logged in as "test"
+When I follow "Add Address Field"
+When I follow "Add Address Field"
+Then I fill in "Address 7" with "test7"
+And I fill in the sixth "Address" with "test6"
+And I check "Keep a copy on the server"
+And I press "Update"
+Then dotforward should contain "\test\ntest1\ntest6\ntest7\n"
+And the first "Address" field should contain "test1"
+And the second "Address" field should contain "test6"
+And the third "Address" field should contain "test7"
+And the fourth through fifth "Address" field should be empty
+And the "Keep a copy on the server" checkbox should be checked
+

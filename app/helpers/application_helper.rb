@@ -12,7 +12,7 @@ module ApplicationHelper
   def verify(s); t2(:verify,s) end
   def view(s); tp2(:view,s) end
   def link_to_add_fields(name)
-    fields = "<p>#{render('address_field', :no => @input.length-1, :value => '')}</p>"
-    link_to_function(name, "add_fields(this, '#{escape_javascript(fields)}')")
+    fields = "<p>#{render('address_field', :no => 99, :value => '')}</p>"
+    link_to_function(name, "add_fields(this, '#{escape_javascript(fields)}')", :class => "hidden active", :id => :add_address_field)
   end
 end

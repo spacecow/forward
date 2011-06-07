@@ -46,7 +46,7 @@ Then the first "Address" field should contain "test@example.com"
 And the second through fifth "Address" field should be empty
 
 Scenario: View of six addresses
-Given dotforward contains "test1\ntest2\ntest3\ntest4\ntest5\ntest6"
+Given dotforward contains "test1\ntest2, test3\ntest4\ntest5\ntest6"
 And I am logged in as "test"
 Then the first "Address" field should contain "test1"
 And the second "Address" field should contain "test2"

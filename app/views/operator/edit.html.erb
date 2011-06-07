@@ -11,7 +11,7 @@
         <p><%= render "address_field", :no => key, :value => value %></p>
       <% end %>
     <% end %>
-    <%# link_to_add_fields add(:address_field) %>
+    <%= link_to_add_fields add(:address_field) %>
     <p class="longer">
       <%= label_tag "address[keep]", ft(:keep_a_copy) %>
       <%= check_box_tag "address[keep]", 'yes', @input["keep"] %>

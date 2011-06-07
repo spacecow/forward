@@ -84,7 +84,7 @@ Then /^I should see no "([^"]*)" (section|form|link)$/ do |id,cat|
   elsif cat=="form"
     page.should have_no_css("form##{id}")
   elsif cat=="link"
-    page.should have_no_css("a", :text => id)
+    find(:css, "a", :text => id)["class"].split.include?("hidden").should be_true
   end 
 end
 

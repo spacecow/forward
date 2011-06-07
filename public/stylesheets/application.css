@@ -6,17 +6,29 @@ div.clear {
 }
 
 /* line 19, ../../app/stylesheets/application.sass */
+.hidden {
+  visibility: hidden;
+}
+
+/* line 22, ../../app/stylesheets/application.sass */
+a.active {
+  text-decoration: none;
+  color: #486e92;
+  font-size: 14px;
+}
+
+/* line 27, ../../app/stylesheets/application.sass */
 div#header {
   height: 53px;
   text-align: right;
 }
 
-/* line 23, ../../app/stylesheets/application.sass */
+/* line 31, ../../app/stylesheets/application.sass */
 div#contents_container {
   width: 400px;
   margin: 90px auto 0 auto;
 }
-/* line 26, ../../app/stylesheets/application.sass */
+/* line 34, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container {
   border: 1px solid #2c4153;
   -moz-border-radius: 10px;
@@ -27,85 +39,89 @@ div#contents_container div#main_container {
   border-radius: 10px;
   background: #486e92;
 }
-/* line 30, ../../app/stylesheets/application.sass */
+/* line 38, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav {
   margin-left: 10px;
   padding-top: 5px;
   height: 24px;
   font-size: 14px;
 }
-/* line 35, ../../app/stylesheets/application.sass */
+/* line 43, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav a {
   color: white;
   text-decoration: none;
 }
-/* line 38, ../../app/stylesheets/application.sass */
+/* line 46, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav a.right {
   float: right;
   margin-right: 10px;
 }
-/* line 41, ../../app/stylesheets/application.sass */
+/* line 49, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main {
   width: 380px;
   margin: 0 auto;
   border: 1px solid #2c4153;
   background: white;
 }
-/* line 46, ../../app/stylesheets/application.sass */
+/* line 54, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main div#title {
   font-weight: bold;
   margin: 10px 0 10px 20px;
 }
-/* line 51, ../../app/stylesheets/application.sass */
+/* line 59, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p.longer label {
   margin-left: 10px;
   float: none;
 }
-/* line 54, ../../app/stylesheets/application.sass */
+/* line 62, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p.longer input {
   float: none;
   width: 10px;
 }
-/* line 57, ../../app/stylesheets/application.sass */
+/* line 65, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button {
   width: 380px;
   float: left;
   margin-top: 10px;
   background: #486e92;
 }
-/* line 62, ../../app/stylesheets/application.sass */
+/* line 70, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button div#flash_container {
   margin: 10px 0 0 10px;
   float: left;
   width: 290px;
 }
-/* line 66, ../../app/stylesheets/application.sass */
+/* line 74, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button div#flash_container div#flash_alert {
   color: white;
 }
-/* line 68, ../../app/stylesheets/application.sass */
+/* line 76, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button div#flash_container div#flash_notice {
   color: white;
 }
-/* line 70, ../../app/stylesheets/application.sass */
+/* line 78, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form div#button input.submit {
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 73, ../../app/stylesheets/application.sass */
+/* line 81, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p {
   width: 380px;
   float: left;
 }
-/* line 76, ../../app/stylesheets/application.sass */
+/* line 84, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p label {
   width: 100px;
   float: left;
   text-align: right;
   margin-right: 5px;
 }
-/* line 81, ../../app/stylesheets/application.sass */
+/* line 89, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main form p input {
   width: 200px;
   float: left;
+}
+/* line 92, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div#main form a {
+  margin-left: 105px;
 }

@@ -19,9 +19,9 @@
   <div id="main_container">
     <div id="site_nav">
       <% if english? %>
-        <%= link_to "日本語", :language => 'ja' %>
+        <%= link_to "日本語", :language => 'ja', :address => @input %>
       <% else %>
-        <%= link_to "English", :language => 'en' %>
+        <%= link_to "English", :language => 'en', :address => @input %>
       <% end %>
       <%= yield(:site_nav) %>
     </div>

@@ -7,13 +7,14 @@
   </div>
   <%= form_tag update_path do %>
     <% @input.each do |key, value| %>
-      <% if key != :keep %>
+      <% if key != "keep" %>
         <p><%= render "address_field", :no => key, :value => value %></p>
       <% end %>
     <% end %>
+    <%# link_to_add_fields add(:address_field) %>
     <p class="longer">
-      <%= label_tag :keep, ft(:keep_a_copy) %>
-      <%= check_box_tag :keep, 'yes', @input[:keep] %>
+      <%= label_tag "address[keep]", ft(:keep_a_copy) %>
+      <%= check_box_tag "address[keep]", 'yes', @input["keep"] %>
       <div class="clear"></div>
     </p>
     <div id="button">
@@ -22,9 +23,9 @@
           <%= content_tag :div, msg, :id => "flash_#{name}" %>
         <% end %>
       </div>
-      <%= submit_tag t(:update), :class => :submit %>
+      <%= submit_tag t(:update), :class => :submit, :id => :update %>
       <div class="clear"></div>
-      <%= submit_tag "Add address field", :class => :submit %>
+      <%= submit_tag add(:address_field), :class => :submit, :id => :add %>
     </div>
     <div class="clear"></div>
   <% end %>

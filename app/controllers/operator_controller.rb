@@ -30,8 +30,12 @@ class OperatorController < ApplicationController
 
   def edit
     if session[:username]
-      if params[:commit] == "Add address field"
-        @input = params[:address].merge({ params[:address].length.to_s => ""})
+      if params[:address]
+        if params[:commit] == add(:address_field)
+          @input = params[:address].merge({ params[:address].keys.reject{|e| e=="keep"}.length.to_s => ""})
+        else
+          @input = params[:address]
+        end
       else
         IO.popen("/usr/local/sbin/chfwd -g #{session[:username]}", 'r+') do |pipe|
           pipe.write(session[:password])
@@ -45,14 +49,14 @@ class OperatorController < ApplicationController
   end
 
   def update
-    if params[:commit] == "Add address field"
+    if params[:commit] == add(:address_field)
       flash[:notice] = added(:address_field)
-      redirect_to edit_path(:commit => "Add address field", :no => address_field_no, :address => params[:address])
+      redirect_to edit_path(:commit => add(:address_field), :no => address_field_no, :address => params[:address])
     else
       IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
         pipe.write "#{session[:password]}\n"
-        pipe.write "\\#{session[:username]}\n" if params[:keep] == "yes"
-        pipe.write "#{params[:address].values.reject(&:blank?).join("\n")}\n"
+        pipe.write "\\#{session[:username]}\n" if params["address"]["keep"] == "yes"
+        pipe.write "#{params[:address].values.reject{|e| e.blank? || e=="yes"}.join("\n")}\n"
         pipe.close_write
       end
       flash[:notice] = updated(:forwarding_address)
@@ -76,7 +80,7 @@ class OperatorController < ApplicationController
       (d-adds.length).times do |i|
         ret[(i+adds.length).to_s] = ""
       end
-      ret[:keep] = !keep.nil?
+      ret["keep"] = keep.nil? ? nil : "yes"
       ret
     end
     def inc_address_field_no; params[:no].to_i+1 end

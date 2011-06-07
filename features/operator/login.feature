@@ -45,5 +45,4 @@ And I should see "日本語" within the "site nav" section
 @blank
 Scenario: Blank login field is not acceptable
 When I go to the login page
-Then show me the page
 And I press "Login"

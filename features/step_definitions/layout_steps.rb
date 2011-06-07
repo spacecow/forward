@@ -78,11 +78,13 @@ Then /^I should see (?:a|an) "([^"]*)" (section|form)$/ do |id,cat|
     page.should have_css("form##{id}")
   end 
 end
-Then /^I should see no "([^"]*)" (section|form)$/ do |id,cat|
+Then /^I should see no "([^"]*)" (section|form|link)$/ do |id,cat|
   if cat=="section"
     page.should have_no_css("div##{id}")
   elsif cat=="form"
     page.should have_no_css("form##{id}")
+  elsif cat=="link"
+    page.should have_no_css("a", :text => id)
   end 
 end
 

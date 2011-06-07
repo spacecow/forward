@@ -9,7 +9,12 @@ class ApplicationController < ActionController::Base
   # end
   protect_from_forgery
   before_filter :set_language
-  helper_method :current_user, :english?, :ft
+  helper_method :add, :t2, :lbl, :chain, :current_user, :english?, :ft
+
+  def add(s); t2(:add,s) end
+  def chain(s1,s2); "#{s1.to_s}.#{s2.to_s}" end
+  def lbl(s); chain(:label,s) end
+  def t2(s1,s2); t(lbl(s1), :obj => t(s2)) end
 
   def added(s); success(:added,s) end
   def alert(act); t("alert.#{act}") end

@@ -19,7 +19,6 @@ And I should see "転送先"
 And I should see "サーバにメールを残す"
 And I should see a "更新" button
 
-@keep
 Scenario: Edit view in English
 Given dotforward contains "test1"
 And I am logged in as "test"
@@ -29,7 +28,6 @@ And I should not see "Address 6"
 And the "Keep a copy on the server" checkbox should not be checked
 And I should see an "Update" button 
 And I should see an "Add Address Field" button
-But I should see no "Add Address Field" link
 
 Scenario: Keep a copy on the server is activated
 Given dotforward contains "\test\ntest1"
@@ -60,5 +58,4 @@ But I should see no seventh "Address" field
 Scenario: Edit view with javascript
 Given dotforward contains "test1"
 And I am logged in as "test"
-Then I should see no "Add Address Field" button
-But I should see a "Add Address Field" link
+Then I should see a "Add Address Field" button

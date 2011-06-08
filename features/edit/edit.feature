@@ -90,23 +90,23 @@ And the first "転送先" field should contain "test1"
 Scenario: Add a field on the fly
 Given dotforward contains "test1\n"
 And I am logged in as "test"
-When I follow "Add Address Field"
+When I press "Add Address Field"
 Then I should see fields from "Address 1" to "Address 6"
 
 @javascript
 Scenario: Add two fields on the fly
 Given dotforward contains "test1\n"
 And I am logged in as "test"
-When I follow "Add Address Field"
-When I follow "Add Address Field"
+When I press "Add Address Field"
+When I press "Add Address Field"
 Then I should see fields from "Address 1" to "Address 7"
 
 @javascript
 Scenario: Add content with javascript
 Given dotforward contains "test1\n"
 And I am logged in as "test"
-When I follow "Add Address Field"
-When I follow "Add Address Field"
+When I press "Add Address Field"
+When I press "Add Address Field"
 Then I fill in "Address 7" with "test7"
 And I fill in the sixth "Address" with "test6"
 And I check "Keep a copy on the server"

@@ -1,8 +1,10 @@
 $(function(){
   $("input[type='text']:first", document.forms[0]).focus();
 
-  $("input#add").remove()
-  $("a#add_address_field").css("visibility", "visible")
+//  $("form#address_edit").submit(function(){
+//    $.get(this.action, $(this).serialize(), null, "script");
+//    return false;
+//  });
 });
 
 function add_fields(link,content){

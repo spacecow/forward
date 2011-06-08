@@ -5,13 +5,13 @@
   <div id="title">
     <%= t(:mail_forward_setting,:user=>session[:username]) %>
   </div>
-  <%= form_tag update_path do %>
+  <%= form_tag update_path, :id => "address_edit" do %>
     <% @input.each do |key, value| %>
       <% if key != "keep" %>
         <p><%= render "address_field", :no => key, :value => value %></p>
       <% end %>
     <% end %>
-    <%= link_to_add_fields add(:address_field) %>
+    <%# link_to_add_fields add(:address_field) %>
     <p class="longer">
       <%= label_tag "address[keep]", ft(:keep_a_copy) %>
       <%= check_box_tag "address[keep]", 'yes', @input["keep"] %>

@@ -43,3 +43,5 @@ d5d889: !ruby/object:Dooby::Task
   todo: add extra field without javascript :done
 e7ef3c: !ruby/object:Dooby::Task 
   todo: add javascript failed :done
+e086fc: !ruby/object:Dooby::Task 
+  todo: switch from ajax link to ajax button :done

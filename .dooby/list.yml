@@ -47,3 +47,5 @@ e086fc: !ruby/object:Dooby::Task
   todo: switch from ajax link to ajax button :done
 f12106: !ruby/object:Dooby::Task 
   todo: key-value store backend for i18n :done
+cc2127: !ruby/object:Dooby::Task 
+  todo: testing translations :done

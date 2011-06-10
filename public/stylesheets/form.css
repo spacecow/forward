@@ -1,0 +1,72 @@
+/* line 9, ../../app/stylesheets/form.sass */
+form.normal p label {
+  float: left;
+  width: 100px;
+  text-align: right;
+  margin-right: 5px;
+}
+/* line 14, ../../app/stylesheets/form.sass */
+form.normal p label.longer {
+  width: auto;
+  margin-left: 10px;
+}
+/* line 17, ../../app/stylesheets/form.sass */
+form.normal p label.smaller {
+  font-size: 90%;
+}
+/* line 21, ../../app/stylesheets/form.sass */
+form.normal p input {
+  width: 200px;
+}
+/* line 23, ../../app/stylesheets/form.sass */
+form.normal p input.submit {
+  width: auto;
+}
+/* line 30, ../../app/stylesheets/form.sass */
+form.normal p.spacier {
+  margin-top: 5px;
+}
+
+/* line 34, ../../app/stylesheets/form.sass */
+form.formtastic li {
+  list-style-type: none;
+}
+/* line 9, ../../app/stylesheets/form.sass */
+form.formtastic li label {
+  float: left;
+  width: 100px;
+  text-align: right;
+  margin-right: 5px;
+}
+/* line 14, ../../app/stylesheets/form.sass */
+form.formtastic li label.longer {
+  width: auto;
+  margin-left: 10px;
+}
+/* line 17, ../../app/stylesheets/form.sass */
+form.formtastic li label.smaller {
+  font-size: 90%;
+}
+/* line 21, ../../app/stylesheets/form.sass */
+form.formtastic li input {
+  width: 200px;
+}
+/* line 23, ../../app/stylesheets/form.sass */
+form.formtastic li input.submit {
+  width: auto;
+}
+/* line 39, ../../app/stylesheets/form.sass */
+form.formtastic li label abbr {
+  color: red;
+}
+/* line 41, ../../app/stylesheets/form.sass */
+form.formtastic input.submit {
+  margin: 5px 0 0 105px;
+}
+/* line 44, ../../app/stylesheets/form.sass */
+form.formtastic li.error p.inline-errors {
+  margin-left: 105px;
+  font-style: italic;
+  color: red;
+  font-size: 90%;
+}

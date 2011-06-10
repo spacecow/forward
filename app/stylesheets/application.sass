@@ -51,7 +51,7 @@ div#contents_container.application
     div#main
       width: $main_width
       form
-        div#button
+        div.flash_plus_button
           width: $main_width
 
 div#contents_container.admin
@@ -61,9 +61,30 @@ div#contents_container.admin
     div#main
       width: $main_width_admin
       form
-        div#button
+        div.flash_plus_button
           width: $main_width_admin
+      div.footer
+        margin-top: 10px
+        display: block
+        background: $main_frame_colour
+        height: 10px
 
+div.flash_plus_button
+  margin-top: 10px
+  float: left
+  background: $main_frame_colour
+  div#flash_container
+    margin: 10px 0 0 10px
+    float: left
+    width: 290px
+    div#flash_alert
+      color: white
+    div#flash_notice
+      color: white
+  input.submit
+    float: right
+    margin: 10px 10px 5px 0
+  
 div#contents_container
   div#main_container
     border: 1px solid $main_frame_border_colour
@@ -84,45 +105,3 @@ div#contents_container
       margin: 0 auto
       border: 1px solid $main_frame_border_colour
       background: white
-      form
-        p.longer
-          margin-top: 5px
-          label
-            font-size: 14px
-            margin-left: 10px
-            float: none
-          input.checkbox
-            float: none
-            width: 10px
-          input.submit
-            width: 130px
-            float: right
-            margin-right: 10px
-        div#button
-          float: left
-          margin-top: 10px
-          background: $main_frame_colour
-          div#flash_container
-            margin: 10px 0 0 10px
-            float: left
-            width: 290px
-            div#flash_alert
-              color: white
-            div#flash_notice
-              color: white
-          input.submit
-            float: right
-            margin: 10px 10px 5px 0
-        p
-          width: $main_width
-          float: left
-          label
-            width: 100px
-            float: left
-            text-align: right
-            margin-right: 5px
-          input
-            width: 200px
-            float: left
-        a
-          margin-left: 105px

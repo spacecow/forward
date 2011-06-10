@@ -42,6 +42,10 @@ Then /^nothing should be selected in the "([^"]*)" field$/ do |lbl|
   find_field(lbl).native.xpath("//option[@selected]").inner_html.should be_blank
 end
 
+Then /^the "([^"]*)" field should have options "([^"]*)"$/ do |lbl,optns|
+  find_field(lbl).all(:css, "option").map{|e| e.text.blank? ? "BLANK" : e.text}.join(', ').should eq optns
+end
+
 # Buttons ------------------------------
 
 When /^I press the button$/ do

@@ -5,20 +5,20 @@
 
   <h1><%= t(:mail_forward_setting,:user=>session[:username]) %></h1>
 
-  <%= form_tag update_path, :id => "address_edit" do %>
+  <%= form_tag update_path, :id => "address_edit", :class => :normal do %>
     <% @input.each do |key, value| %>
       <% if key != "keep" %>
         <p><%= render "address_field", :no => key, :value => value %></p>
       <% end %>
     <% end %>
     <%# link_to_add_fields add(:address_field) %>
-    <p class="longer">
-      <%= label_tag "address[keep]", ft(:keep_a_copy) %>
+    <p class="spacier">
+      <%= label_tag "address[keep]", ft(:keep_a_copy), :class => %w(longer smaller) %>
       <%= check_box_tag "address[keep]", 'yes', @input["keep"], :class => :checkbox %>
       <%= submit_tag add(:address_field), :class => :submit, :id => :add %>
       <div class="clear"></div>
     </p>
-    <div id="button">
+    <div class="flash_plus_button">
       <div id="flash_container">
         <% flash.each do |name, msg| %>
           <%= content_tag :div, msg, :id => "flash_#{name}" %>

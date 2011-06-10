@@ -14,7 +14,8 @@
     <%# link_to_add_fields add(:address_field) %>
     <p class="longer">
       <%= label_tag "address[keep]", ft(:keep_a_copy) %>
-      <%= check_box_tag "address[keep]", 'yes', @input["keep"] %>
+      <%= check_box_tag "address[keep]", 'yes', @input["keep"], :class => :checkbox %>
+      <%= submit_tag add(:address_field), :class => :submit, :id => :add %>
       <div class="clear"></div>
     </p>
     <div id="button">
@@ -25,7 +26,6 @@
       </div>
       <%= submit_tag t(:update), :class => :submit, :id => :update %>
       <div class="clear"></div>
-      <%= submit_tag add(:address_field), :class => :submit, :id => :add %>
     </div>
     <div class="clear"></div>
   <% end %>

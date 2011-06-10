@@ -3,7 +3,10 @@
 
   <ul>
     <% @translations.keys.each do |key| %>
-      <li><%= key %>: <%= @translations[key] %></li>
+      <li>
+        <%= key %>: <%= @translations[key] %>
+        <%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %>
+      </li>
     <% end %>
   </ul>
 

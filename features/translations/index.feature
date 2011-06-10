@@ -1,5 +1,10 @@
 Feature:
 
+Scenario: Translations listing view
+Given a pair exists with locale: "en", key: "welcome", value: "Welcome!"
+When I go to the translations page
+Then I should see /en\.welcome: "Welcome!"/
+
 Scenario: New translation form view
 When I go to the translations page
 Then nothing should be selected in the "Locale" field

@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(:version => 20110610060750) do
   end
 
   create_table "translations", :force => true do |t|
+    t.integer  "locale_id"
+    t.string   "key"
+    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

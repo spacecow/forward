@@ -1,5 +1,7 @@
 class Translation < ActiveRecord::Base
-  attr_accessor :locale, :key, :value
+  belongs_to :locale
 
-  validates :key, :presence => true
+  attr_accessible :locale_id, :key, :value
+
+  validates_presence_of :key, :value, :locale_id
 end

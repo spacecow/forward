@@ -1,5 +1,9 @@
 Forward::Application.routes.draw do
-  resources :translations
+  resources :translations, :only => [:index,:create] do
+    collection do
+      delete 'delete'
+    end
+  end
 
   match 'edit' => 'operator#edit'
   match 'login' => 'operator#login'

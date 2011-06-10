@@ -7,14 +7,17 @@ class TranslationsController < ApplicationController
 
   def create
     @translation = Translation.new(params[:translation])
-    if @translation.save
-      locale = Locale.find(params[:translation][:locale])
-      I18n.backend.store_translations(locale.title, {params[:translation][:key] => params[:translation][:value]}, :escape => false)
+    if @translation.valid?
+      locale = @translation.locale
+      I18n.backend.store_translations(@translation.locale.title, {@translation.key => @translation.value}, :escape => false)
       redirect_to translations_url, :notice => added(:translation)
     else
       @translations = $redis
       @locales = Locale.all
       render :index
     end
+  end
+
+  def delete
   end
 end

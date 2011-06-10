@@ -3,10 +3,12 @@
 $header_height: 53px
 $header_contents_container_separator_width: 90px
 $contents_container_width: 400px
+$contents_container_width_admin: 600px
 
 $site_nav_height: 24px
 $main_margin_width: 10px
 $main_width: $contents_container_width - 2*$main_margin_width
+$main_width_admin: $contents_container_width_admin - 2*$main_margin_width
 
 $main_frame_colour: #486e92
 $main_frame_border_colour: #2c4153
@@ -24,13 +26,45 @@ a.active
   color: $main_frame_colour
   font-size: 14px
 
+span.translation_missing
+  color: red
+  background: black
+
+div#contents_container
+  h1
+    font-weight: bold
+    margin: 10px 0 10px 20px
+  ul
+    margin: 0 10px
+    li
+      list-style-type: none
+
 div#header
   //background: url("/images/header.gif")
   height: $header_height
   text-align: right
-div#contents_container
+
+div#contents_container.application
   width: $contents_container_width
   margin: $header_contents_container_separator_width auto 0 auto
+  div#main_container
+    div#main
+      width: $main_width
+      form
+        div#button
+          width: $main_width
+
+div#contents_container.admin
+  width: $contents_container_width_admin
+  margin: $header_contents_container_separator_width auto 0 auto
+  div#main_container
+    div#main
+      width: $main_width_admin
+      form
+        div#button
+          width: $main_width_admin
+
+div#contents_container
   div#main_container
     border: 1px solid $main_frame_border_colour
     +border-radius(10px)
@@ -47,13 +81,9 @@ div#contents_container
         float: right
         margin-right: $main_margin_width
     div#main
-      width: $main_width
       margin: 0 auto
       border: 1px solid $main_frame_border_colour
       background: white
-      div#title
-        font-weight: bold
-        margin: 10px 0 10px 20px
       form
         p.longer
           margin-top: 5px
@@ -69,7 +99,6 @@ div#contents_container
             float: right
             margin-right: 10px
         div#button
-          width: $main_width
           float: left
           margin-top: 10px
           background: $main_frame_colour

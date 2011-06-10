@@ -1,4 +1,6 @@
 Forward::Application.routes.draw do
+  resources :translations
+
   match 'edit' => 'operator#edit'
   match 'login' => 'operator#login'
   match 'logout' => 'operator#logout'

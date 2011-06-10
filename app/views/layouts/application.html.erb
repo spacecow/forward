@@ -2,11 +2,11 @@
 <html>
 <head>
   <title>Forward</title>
-    <%= stylesheet_link_tag 'screen.css', :media => 'screen, projection' %>
-    <%= stylesheet_link_tag 'print.css', :media => 'print' %>
-    <!--[if lt IE 8]>
-    <%= stylesheet_link_tag 'ie.css', :media => 'screen, projection' %>
-    <![endif]-->
+  <%= stylesheet_link_tag 'screen.css', :media => 'screen, projection' %>
+  <%= stylesheet_link_tag 'print.css', :media => 'print' %>
+  <!--[if lt IE 8]>
+  <%= stylesheet_link_tag 'ie.css', :media => 'screen, projection' %>
+  <![endif]-->
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag "jquery", "rails", "application" %>
   <%= csrf_meta_tag %>
@@ -15,7 +15,7 @@
 <div id="header">
   <%# image_tag 'witch.gif' %>
 </div>
-<div id="contents_container">
+<div id="contents_container" class="<%= request.path =~ /translations/ ? 'admin' : 'application' %>">
   <div id="main_container">
     <div id="site_nav">
       <% if english? %>

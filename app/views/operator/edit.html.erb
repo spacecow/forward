@@ -2,9 +2,9 @@
   <% content_for(:site_nav) do %>
     <%= link_to t(:logout), logout_path, :class => :right %>
   <% end %>
-  <div id="title">
-    <%= t(:mail_forward_setting,:user=>session[:username]) %>
-  </div>
+
+  <h1><%= t(:mail_forward_setting,:user=>session[:username]) %></h1>
+
   <%= form_tag update_path, :id => "address_edit" do %>
     <% @input.each do |key, value| %>
       <% if key != "keep" %>

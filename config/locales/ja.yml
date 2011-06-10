@@ -17,7 +17,7 @@ ja:
       password: "パスワード"
       username: "ユーザー名"
   label:
-    add: "%{obj}を増やす"
+    add: "%{obj}を追加"
   notice:
     logged_in: "ログインしました"
     logged_out: "ログアウトしました"

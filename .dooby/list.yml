@@ -45,3 +45,5 @@ e7ef3c: !ruby/object:Dooby::Task
   todo: add javascript failed :done
 e086fc: !ruby/object:Dooby::Task 
   todo: switch from ajax link to ajax button :done
+f12106: !ruby/object:Dooby::Task 
+  todo: key-value store backend for i18n :done

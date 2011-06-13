@@ -53,3 +53,5 @@ c21a41: !ruby/object:Dooby::Task
   todo: testing form errors and creation with rdis :done
 f7516b: !ruby/object:Dooby::Task 
   todo: locale list on index page :done
+062e23: !ruby/object:Dooby::Task 
+  todo: add locales :done

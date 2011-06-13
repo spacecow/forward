@@ -37,7 +37,9 @@ GEM
       activesupport (= 3.0.5)
     activesupport (3.0.5)
     arel (2.0.9)
+    bcrypt-ruby (2.1.4)
     builder (2.1.2)
+    cancan (1.6.5)
     capybara (0.4.1.2)
       celerity (>= 0.7.9)
       culerity (>= 0.2.4)
@@ -94,6 +96,7 @@ GEM
     mime-types (1.16)
     mocha (0.9.12)
     mysql2 (0.2.6)
+    nifty-generators (0.4.5)
     nokogiri (1.4.4)
     polyglot (0.3.1)
     rack (1.2.2)
@@ -149,6 +152,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby
+  cancan
   capybara
   compass (>= 0.11.beta.7)
   cucumber (= 0.10.0)
@@ -161,6 +166,7 @@ DEPENDENCIES
   launchy
   mocha
   mysql2 (= 0.2.6)
+  nifty-generators
   pickle (= 0.4.7)!
   rails (= 3.0.5)
   redis

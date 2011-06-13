@@ -1,15 +1,17 @@
 <div id="main">
   <h1><%= pl(:translation) %></h1>
 
-  <ul>
+  <table>
     <% @translations.keys.sort_by{|e| e.split('.')[0..-2].join('.')}.each do |key| %>
-      <li>
-        <%= key %>: <%= t key[3..-1] %>
-        <%= link_to t(:edit), translations_path(:key => key) %>
-        <%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %>
-      </li>
+      <tr>
+        <td><%= key %></td>
+        <td><%= t key[3..-1] %></td>
+        <td><%= link_to t(:edit), translations_path(:key => key) %></td>
+        <td><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></td>
+        <td><%= link_to edit(:locale), translations_path(:locale => key) %></td>
+      </tr>
     <% end %>
-  </ul>
+  </table>
 
   <h1><%= add(:translation) %></h1>
 
@@ -17,8 +19,24 @@
     <%= f.input :locale, :as => :select, :collection => @locales %>
     <%= f.input :key %>
     <%= f.input :value %>
-    <%= f.submit create(:translation), :class => :submit %>
+    <%= f.submit (@translation.key.blank? ? create(:translation) : update(:translation)), :class => :submit %>
   <% end %>
   <div class="clear"></div>
-  <div class="footer"></div>
+
+  <h1><%= add(:locale) %></h1>
+
+  <%= semantic_form_for @locale do |f| %>
+    <%= f.input :title %>
+    <%= f.submit create(:locale), :class => :submit %>
+  <% end %>
+  <div class="clear"></div>
+
+  <div class="flash_plus_button">
+    <div id="flash_container" class="admin_width_with_margin">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="clear"></div>
 </div>

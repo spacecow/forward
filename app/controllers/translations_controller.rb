@@ -3,6 +3,7 @@ class TranslationsController < ApplicationController
     @translation = params[:key].blank? ? Translation.new : Translation.new.initialize_from_redis(params[:key])
     @translations = $redis 
     @locales = Locale.all
+    @locale = params[:locale].blank? ? Locale.new : Locale.find_by_title(params[:locale].split('.')[0..-2].join('.'))
   end
 
   def create
@@ -14,6 +15,7 @@ class TranslationsController < ApplicationController
     else
       @translations = $redis
       @locales = Locale.all
+      @locale = Locale.new
       render :index
     end
   end

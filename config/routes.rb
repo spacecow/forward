@@ -1,4 +1,14 @@
 Forward::Application.routes.draw do
+  match 'user/edit' => 'users#edit', :as => :edit_current_user
+  match 'signup' => 'users#new', :as => :signup
+  match 'admin_logout' => 'sessions#destroy', :as => :admin_logout
+  match 'admin_login' => 'sessions#new', :as => :admin_login
+
+  resources :sessions
+
+  resources :users
+
+  resources :locales, :only => [:create,:update]
   resources :translations, :only => [:index,:create] do
     collection do
       delete 'delete'

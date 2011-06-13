@@ -67,16 +67,18 @@ div#contents_container.admin
         margin-top: 10px
         display: block
         background: $main_frame_colour
-        height: 10px
 
 div.flash_plus_button
   margin-top: 10px
   float: left
   background: $main_frame_colour
   div#flash_container
-    margin: 10px 0 0 10px
+    margin: 10px 0 5px 10px
     float: left
     width: 290px
+  div#flash_container.admin_width_with_margin
+    width: $main_width_admin - 20px
+    margin: 10px
     div#flash_alert
       color: white
     div#flash_notice
@@ -105,3 +107,10 @@ div#contents_container
       margin: 0 auto
       border: 1px solid $main_frame_border_colour
       background: white
+      a
+        font-size: 90%
+      table
+        margin-left: 10px
+        tr
+          td
+            padding-right: 5px

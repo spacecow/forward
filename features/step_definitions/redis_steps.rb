@@ -3,7 +3,7 @@ Given /^a pair exists with locale: "([^"]*)", key: "([^"]*)", value: "([^"]*)"$/
 end
 
 When /^I follow "([^"]*)" for key "([^"]*)"$/ do |txt,key|
-  find(:css, "li", :text => key).click_link(txt)
+  find(:css, "tr", :text => key).click_link(txt)
 end
 
 Then /^a pair should exists with key: "([^"]*)", value: "([^"]*)"$/ do |key,val|

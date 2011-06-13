@@ -5,6 +5,8 @@ gem "compass", ">= 0.11.beta.7"
 gem 'mysql2', "0.2.6"
 gem 'redis'
 gem 'formtastic'
+gem 'cancan'
+gem 'nifty-generators'
 
 group :development do
   gem 'jquery-rails'
@@ -25,3 +27,4 @@ group :test do
   gem 'gherkin'
   gem 'mocha'
 end
+gem "bcrypt-ruby", :require => "bcrypt"

@@ -1,6 +1,7 @@
 ja:
   address: "転送先 %{no}"
   address_field: "転送先"
+  del: "削除"
   forwarding_address: "転送先"
   login: "ログイン"
   logout: "ログアウト"
@@ -18,6 +19,8 @@ ja:
       username: "ユーザー名"
   label:
     add: "%{obj}を追加"
+  messages:
+    sure?: "本当に削除してよろしいですか"
   notice:
     logged_in: "ログインしました"
     logged_out: "ログアウトしました"

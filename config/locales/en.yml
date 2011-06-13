@@ -42,7 +42,7 @@ en:
     logged_out: "Successfully logged out."
     thank_you_for_sending: "Thank you. Your comment has been sent to the editor."
     thank_you_for_signing_up: "Thank you for signing up! You are now logged in."
-  message:
+  messages:
     not_you?: "Not you?"
     or: "%{obj1} or %{obj2}"
     sure?: "Are you sure?"
@@ -67,3 +67,4 @@ en:
   anonymous: "Anonymous"
   comment: "Comment"
   dot_forward: "DOT Forward"
+  translation: "Translation"

@@ -1,22 +1,22 @@
 <div id="main">
-  <h1>Translations</h1>
+  <h1><%= pl(:translation) %></h1>
 
   <ul>
-    <% @translations.keys.each do |key| %>
+    <% @translations.keys.sort_by{|e| e.split('.')[0..-2].join('.')}.each do |key| %>
       <li>
-        <%= key %>: <%= @translations[key] %>
+        <%= key %>: <%= t key[3..-1] %>
         <%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %>
       </li>
     <% end %>
   </ul>
 
-  <h1>Add Translation</h1>
+  <h1><%= add(:translation) %></h1>
 
   <%= semantic_form_for @translation do |f| %>
     <%= f.input :locale, :as => :select, :collection => @locales %>
     <%= f.input :key %>
     <%= f.input :value %>
-    <%= f.submit t(:create), :class => :submit %>
+    <%= f.submit create(:translation), :class => :submit %>
   <% end %>
   <div class="clear"></div>
   <div class="footer"></div>

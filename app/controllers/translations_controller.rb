@@ -19,5 +19,7 @@ class TranslationsController < ApplicationController
   end
 
   def delete
+    $redis.del(params[:key])
+    redirect_to translations_path
   end
 end

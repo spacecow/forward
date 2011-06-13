@@ -1,6 +1,6 @@
 class TranslationsController < ApplicationController
   def index
-    @translation = Translation.new
+    @translation = params[:key].blank? ? Translation.new : Translation.new.initialize_from_redis(params[:key])
     @translations = $redis 
     @locales = Locale.all
   end

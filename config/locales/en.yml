@@ -57,10 +57,13 @@ en:
       affiliation: "Affiliation"
       content: "Content"
       email: "Email"
+      key: "Key"
+      locale: "Locale"
       name: "Name"
       password: "Password"
       password_confirmation: "Password confirmation"
       username: "Username"
+      value: "Value"
       keep_a_copy: "Keep a copy on the server" 
 
   address_field: "Address Field"

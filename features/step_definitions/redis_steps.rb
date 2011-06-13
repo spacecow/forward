@@ -2,8 +2,8 @@ Given /^a pair exists with locale: "([^"]*)", key: "([^"]*)", value: "([^"]*)"$/
   I18n.backend.store_translations(locale, {key => val}, :escape => false)
 end
 
-When /^I delete key "([^"]*)"$/ do |txt|
-  find(:css, "li", :text => txt).click_link("Del")
+When /^I follow "([^"]*)" for key "([^"]*)"$/ do |txt,key|
+  find(:css, "li", :text => key).click_link(txt)
 end
 
 Then /^a pair should exists with key: "([^"]*)", value: "([^"]*)"$/ do |key,val|

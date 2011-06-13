@@ -5,6 +5,7 @@
     <% @translations.keys.sort_by{|e| e.split('.')[0..-2].join('.')}.each do |key| %>
       <li>
         <%= key %>: <%= t key[3..-1] %>
+        <%= link_to t(:edit), translations_path(:key => key) %>
         <%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %>
       </li>
     <% end %>

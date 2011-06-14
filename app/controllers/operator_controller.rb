@@ -24,7 +24,7 @@ class OperatorController < ApplicationController
       redirect_to edit_path, :notice => notify(:logged_in)
     else
       redirect_to login_path, :alert => alert2(:incorrect,
-        t('message.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
+        t('messages.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
     end
   end
 

@@ -26,7 +26,11 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
 
 module WithinHelpers
   def with_scope(locator)
-    locator ? within(*selector_for(locator)) { yield } : yield
+    if locator =~ /^the "([^"]*)" section$/
+      within("div##{underscore $1}"){ yield }
+    else
+      locator ? within(*selector_for(locator)) { yield } : yield
+    end
   end
 end
 World(WithinHelpers)

@@ -4,13 +4,18 @@ cp app/models/locale.rb ../nifty-generators/lib/generators/nifty/translations/te
 cp app/models/translation.rb ../nifty-generators/lib/generators/nifty/translations/templates/translation.rb
 cp app/views/translations/index.html.erb ../nifty-generators/lib/generators/nifty/translations/templates/index.html.erb
 cp config/initializers/i18n_backend.rb ../nifty-generators/lib/generators/nifty/translations/templates/i18n_backend.rb
+
 cp features/translations/delete.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/delete.feature
 cp features/translations/edit.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/edit.feature
 cp features/translations/error.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/error.feature
 cp features/translations/index.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/index.feature
 cp features/translations/new.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/new.feature
+
 cp features/locales/new.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/new.feature
 cp features/locales/edit.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/edit.feature
 cp features/locales/view.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/view.feature
-cp features/step_definitions/redis_steps.rb ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/redis_steps.rb
+cp features/locales/error.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/
 
+cp features/step_definitions/redis_steps.rb ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/redis_steps.rb
+cp spec/controllers/locales_controller_spec.rb ../nifty-generators/lib/generators/nifty/translations/templates/rspec/
+cp spec/controllers/translations_controller_spec.rb ../nifty-generators/lib/generators/nifty/translations/templates/rspec/

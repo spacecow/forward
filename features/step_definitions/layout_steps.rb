@@ -19,9 +19,9 @@ Then /^I should not see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,ord
   end
 end
 
-Then /^I should see "([^"]*)" within the "([^"]*)" section$/ do |txt,div|
-  Then %(I should see "#{txt}" within "div##{underscore div}")
-end
+#Then /^I should see "([^"]*)" within the "([^"]*)" section$/ do |txt,div|
+#  Then %(I should see "#{txt}" within "div##{underscore div}")
+#end
 Then /^I should not see "([^"]*)" within the "([^"]*)" section$/ do |txt,div|
   Then %(I should not see "#{txt}" within "div##{underscore div}")
 end

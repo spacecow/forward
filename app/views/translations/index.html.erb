@@ -33,7 +33,7 @@
 
   <%= semantic_form_for @locale do |f| %>
     <%= f.input :title %>
-    <%= f.submit create(:locale), :class => :submit %>
+    <%= f.submit (@locale.new_record? ? create(:locale) : update(:locale)), :class => :submit %>
   <% end %>
   <div class="clear"></div>
 

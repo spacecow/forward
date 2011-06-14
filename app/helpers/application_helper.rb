@@ -4,6 +4,7 @@ module ApplicationHelper
   def current_language; english? ? t(:japanese) : t(:english) end
   def edit(s); t2(:edit,s) end
   def edit_p(s); tp2(:edit,s) end
+  def locale(key); key.split('.')[0..-2].join('.') end
   def new(s); t2(:new,s) end
   def pl(s); t(s).match(/\w/) ? t(s).pluralize : t(s) end
   def title(title)

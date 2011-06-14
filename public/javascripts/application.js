@@ -5,6 +5,12 @@ $(function(){
 //    $.get(this.action, $(this).serialize(), null, "script");
 //    return false;
 //  });
+  if($('div#flash_alert').text() != ''){
+    $('div#flash_alert').css("opacity",1,0).animate({opacity: 0.5}, 2000).animate({opacity: 1.0}, 2000);
+  } else if($('div#flash_notice').text() != ''){
+    $('div#flash_notice').css("opacity",1,0).animate({opacity: 0.5}, 2000).animate({opacity: 1.0}, 2000);
+  }
+//$('div#contents').before('<div id="flash_alert"><%= escape_javascript(flash.delete(:alert)) %></div><div class="clear"></div>');
 });
 
 function add_fields(link,content){

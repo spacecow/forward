@@ -29,7 +29,7 @@ Scenario: Add a field in japanese
 Given dotforward contains "test1\n"
 And I am logged in as "test"
 And I follow "日本語"
-And I press "転送先を増やす"
+And I press "転送先を追加"
 Then I should see a "転送先 6" field
 But I should see "転送先が追加されました" as notice flash message
 
@@ -86,35 +86,35 @@ And I follow "日本語"
 Then I should see 5 "転送先" fields
 And the first "転送先" field should contain "test1"
 
-@javascript
-Scenario: Add a field on the fly
-Given dotforward contains "test1\n"
-And I am logged in as "test"
-When I press "Add Address Field"
-Then I should see fields from "Address 1" to "Address 6"
-
-@javascript
-Scenario: Add two fields on the fly
-Given dotforward contains "test1\n"
-And I am logged in as "test"
-When I press "Add Address Field"
-When I press "Add Address Field"
-Then I should see fields from "Address 1" to "Address 7"
-
-@javascript
-Scenario: Add content with javascript
-Given dotforward contains "test1\n"
-And I am logged in as "test"
-When I press "Add Address Field"
-When I press "Add Address Field"
-Then I fill in "Address 7" with "test7"
-And I fill in the sixth "Address" with "test6"
-And I check "Keep a copy on the server"
-And I press "Update"
-Then dotforward should contain "\test\ntest1\ntest6\ntest7\n"
-And the first "Address" field should contain "test1"
-And the second "Address" field should contain "test6"
-And the third "Address" field should contain "test7"
-And the fourth through fifth "Address" field should be empty
-And the "Keep a copy on the server" checkbox should be checked
+#@javascript
+#Scenario: Add a field on the fly
+#Given dotforward contains "test1\n"
+#And I am logged in as "test"
+#When I press "Add Address Field"
+#Then I should see fields from "Address 1" to "Address 6"
+#
+#@javascript
+#Scenario: Add two fields on the fly
+#Given dotforward contains "test1\n"
+#And I am logged in as "test"
+#When I press "Add Address Field"
+#When I press "Add Address Field"
+#Then I should see fields from "Address 1" to "Address 7"
+#
+#@javascript
+#Scenario: Add content with javascript
+#Given dotforward contains "test1\n"
+#And I am logged in as "test"
+#When I press "Add Address Field"
+#When I press "Add Address Field"
+#Then I fill in "Address 7" with "test7"
+#And I fill in the sixth "Address" with "test6"
+#And I check "Keep a copy on the server"
+#And I press "Update"
+#Then dotforward should contain "\test\ntest1\ntest6\ntest7\n"
+#And the first "Address" field should contain "test1"
+#And the second "Address" field should contain "test6"
+#And the third "Address" field should contain "test7"
+#And the fourth through fifth "Address" field should be empty
+#And the "Keep a copy on the server" checkbox should be checked
 

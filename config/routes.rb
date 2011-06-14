@@ -6,7 +6,7 @@ Forward::Application.routes.draw do
 
   resources :sessions
 
-  resources :users
+  resources :users, :only =>[:edit,:update]
 
   resources :locales, :only => [:create,:update]
   resources :translations, :only => [:index,:create] do
@@ -20,6 +20,7 @@ Forward::Application.routes.draw do
   match 'logout' => 'operator#logout'
   match 'connect' => 'operator#connect'
   match 'update' => 'operator#update'
+  match 'welcome' => 'operator#login'
   
   get "operator/logout"
   get "operator/edit"

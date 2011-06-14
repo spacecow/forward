@@ -57,3 +57,5 @@ f7516b: !ruby/object:Dooby::Task
   todo: add locales :done
 1eff22: !ruby/object:Dooby::Task 
   todo: added ajax effect on flash message :done
+7a7ac2: !ruby/object:Dooby::Task 
+  todo: making translations a generator :done

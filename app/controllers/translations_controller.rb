@@ -1,4 +1,6 @@
 class TranslationsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @translation = params[:key].blank? ? Translation.new : Translation.new.initialize_from_redis(params[:key])
     @translations = $redis 

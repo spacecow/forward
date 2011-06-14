@@ -1,4 +1,6 @@
 Feature:
+Background:
+Given I am logged in as admin
 
 Scenario Outline: Key/Value must be filled in
 When I go to the translations page

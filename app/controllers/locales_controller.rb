@@ -11,4 +11,7 @@ class LocalesController < ApplicationController
       render '/translations/index'
     end
   end
+
+  def update
+  end
 end

@@ -1,4 +1,6 @@
 Feature:
+Background:
+Given I am logged in as admin
 
 Scenario: Add a locale
 When I go to the translations page

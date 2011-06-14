@@ -2,6 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :create, Locale
+    if user
+      can :create, Locale
+      can [:index,:create,:delete], Translation
+    end
   end
 end

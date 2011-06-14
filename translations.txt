@@ -1,0 +1,16 @@
+cp app/controller/translations_controller.rb ../nifty-generators/lib/generators/nifty/translations/templates/translations_controller.rb
+cp app/controller/locales_controller.rb ../nifty-generators/lib/generators/nifty/translations/templates/locales_controller.rb
+cp app/models/locale.rb ../nifty-generators/lib/generators/nifty/translations/templates/locale.rb
+cp app/models/translation.rb ../nifty-generators/lib/generators/nifty/translations/templates/translation.rb
+cp app/views/translations/index.html.erb ../nifty-generators/lib/generators/nifty/translations/templates/index.html.erb
+cp config/initializers/i18n_backend.rb ../nifty-generators/lib/generators/nifty/translations/templates/i18n_backend.rb
+cp features/translations/delete.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/delete.feature
+cp features/translations/edit.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/edit.feature
+cp features/translations/error.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/error.feature
+cp features/translations/index.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/index.feature
+cp features/translations/new.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/translations/new.feature
+cp features/locales/new.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/new.feature
+cp features/locales/edit.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/edit.feature
+cp features/locales/view.feature ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/locales/view.feature
+cp features/step_definitions/redis_steps.rb ../nifty-generators/lib/generators/nifty/translations/templates/cucumber/redis_steps.rb
+

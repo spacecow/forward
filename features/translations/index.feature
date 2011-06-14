@@ -1,4 +1,6 @@
 Feature:
+Background:
+Given I am logged in as admin
 
 Scenario: Translations listing view
 Given a pair exists with locale: "en", key: "welcome", value: "Welcome!"

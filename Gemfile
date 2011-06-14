@@ -7,6 +7,7 @@ gem 'redis'
 gem 'formtastic'
 gem 'cancan'
 gem 'nifty-generators'
+gem "escape_utils"
 
 group :development do
   gem 'jquery-rails'
@@ -15,10 +16,10 @@ group :development do
 end
 
 group :test do
-  gem 'rspec-core', '2.5.1'
+  gem 'rspec-core'
   gem 'spork'
-  gem 'cucumber-rails', "0.3.2"
-  gem 'cucumber', '0.10.0'
+  gem 'cucumber-rails'
+  gem 'cucumber'
   gem 'capybara' #, :git => 'https://github.com/jnicklas/capybara.git'
   gem 'database_cleaner'
   gem 'pickle', "0.4.7", :git => 'https://github.com/spacecow/pickle.git'

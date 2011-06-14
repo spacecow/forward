@@ -1,4 +1,6 @@
 Feature:
+Background:
+Given I am logged in as admin
 
 Scenario: Create a translation
 Given a locale exists with title: "en"

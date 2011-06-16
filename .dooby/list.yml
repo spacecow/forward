@@ -61,3 +61,5 @@ f7516b: !ruby/object:Dooby::Task
   todo: making translations a generator :done
 d780a0: !ruby/object:Dooby::Task 
   todo: locale edit :done
+e8d6c8: !ruby/object:Dooby::Task 
+  todo: route testing :done

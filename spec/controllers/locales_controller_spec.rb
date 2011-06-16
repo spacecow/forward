@@ -37,7 +37,7 @@ describe LocalesController do
     end
     
     controller_actions.each do |action,req|
-      if %w(create).include?(action)
+      if %w(create update).include?(action)
         it "should reach the #{action} page" do
           send("#{req}", "#{action}", :id => @locale.id)
           response.redirect_url.should_not eq(welcome_url)

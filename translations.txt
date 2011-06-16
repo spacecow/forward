@@ -1,5 +1,5 @@
-cp app/controller/translations_controller.rb ../nifty-generators/lib/generators/nifty/translations/templates/translations_controller.rb
-cp app/controller/locales_controller.rb ../nifty-generators/lib/generators/nifty/translations/templates/locales_controller.rb
+cp app/controllers/translations_controller.rb ../nifty-generators/lib/generators/nifty/translations/templates/translations_controller.rb
+cp app/controllers/locales_controller.rb ../nifty-generators/lib/generators/nifty/translations/templates/locales_controller.rb
 cp app/models/locale.rb ../nifty-generators/lib/generators/nifty/translations/templates/locale.rb
 cp app/models/translation.rb ../nifty-generators/lib/generators/nifty/translations/templates/translation.rb
 cp app/views/translations/index.html.erb ../nifty-generators/lib/generators/nifty/translations/templates/index.html.erb

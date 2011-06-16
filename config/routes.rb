@@ -1,10 +1,9 @@
 Forward::Application.routes.draw do
   match 'user/edit' => 'users#edit', :as => :edit_current_user
-  match 'signup' => 'users#new', :as => :signup
   match 'admin_logout' => 'sessions#destroy', :as => :admin_logout
   match 'admin_login' => 'sessions#new', :as => :admin_login
 
-  resources :sessions
+  resources :sessions, :only => [:new,:create,:destroy]
 
   resources :users, :only =>[:edit,:update]
 

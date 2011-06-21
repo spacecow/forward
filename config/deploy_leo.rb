@@ -6,18 +6,18 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :application, "forward"
-set :deploy_to, "/export/home/deploy/apps/#{application}"
-set :user, "deploy"
-set :admin_runner, "deploy"
+set :deploy_to, "/home/www/apps/#{application}"
+set :user, "jsveholm"
+set :admin_runner, "jsveholm"
   
-role :app, "habu.firsec.riec.tohoku.ac.jp"
-role :web, "habu.firsec.riec.tohoku.ac.jp"
-role :db,  "habu.firsec.riec.tohoku.ac.jp", :primary => true
+role :app, "www.riec.tohoku.ac.jp"
+role :web, "www.riec.tohoku.ac.jp"
+role :db,  "www.riec.tohoku.ac.jp", :primary => true
 
 #set :git, "/opt/csw/bin/git"
 #set :rake, "~/.rvm/rubies/ruby-1.9.2-head/bin/rake"
 set :default_environment, { 
-  'PATH' => "/opt/csw/bin:/usr/bin:/usr/local/bin"
+  'PATH' => "/opt/local/csw/bin:/opt/local/bin:/opt/csw/bin:/usr/bin:/usr/local/bin"
 #  'RUBY_VERSION' => 'ruby 1.9.2',
 #  'GEM_HOME' => '/home/aurora/.rvm/gems/ruby-1.9.2-head',
 #  'GEM_PATH' => '/home/aurora/.rvm/gems/ruby-1.9.2-head' 

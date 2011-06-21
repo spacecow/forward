@@ -10,15 +10,6 @@ class LocalesController < ApplicationController
     end
   end
 
-  def update
-    if @locale.update_attributes(params[:locale])
-      redirect_to translations_path, :notice => updated(:locale)
-    else
-      initialize_page
-      render '/translations/index'
-    end
-  end
-
   private
 
     def initialize_page

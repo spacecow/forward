@@ -54,8 +54,8 @@ And the fifth "Address" field should contain "test5"
 And the sixth "Address" field should contain "test6"
 But I should see no seventh "Address" field
 
-@javascript
-Scenario: Edit view with javascript
-Given dotforward contains "test1"
-And I am logged in as "test"
-Then I should see a "Add Address Field" button
+#@javascript
+#Scenario: Edit view with javascript
+#Given dotforward contains "test1"
+#And I am logged in as "test"
+#Then I should see a "Add Address Field" button

@@ -2,19 +2,12 @@
   <h1><%= pl(:translation) %></h1>
 
   <table>
-    <% last = "" %>
-    <% @translations.keys.sort_by{|e| locale(e)}.each do |key| %>
+    <% @translations.keys.reject{|e| e =~ /content_key/}.sort_by{|e| locale(e)}.each do |key| %>
       <tr>
-        <td><%= key %></td>
+        <td class="bold"><%= key %></td>
         <td><%= t key[3..-1] %></td>
         <td><%= link_to t(:edit), translations_path(:key => key) %></td>
         <td><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></td>
-        <td>
-          <% if last != locale(key) %>
-            <% last = locale(key) %>
-            <%= link_to edit(:locale), translations_path(:locale => key) %>
-          <% end %>
-        </td>
       </tr>
     <% end %>
   </table>

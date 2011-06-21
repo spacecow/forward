@@ -18,3 +18,7 @@ Scenario: Locales can be chosen with a drop down menu
 Given a locale exists with title: "en"
 When I go to the translations page
 Then the "Locale" field should have options "BLANK, en"
+
+Scenario: Don't list content keys
+When I go to the translations page
+Then I should not see /content_key/

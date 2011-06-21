@@ -7,7 +7,7 @@ Forward::Application.routes.draw do
 
   resources :users, :only =>[:edit,:update]
 
-  resources :locales, :only => [:create,:update]
+  resources :locales, :only => [:create]
   resources :translations, :only => [:index,:create] do
     collection do
       delete 'delete'

@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     if user
-      can [:create,:update], Locale
+      can [:create], Locale
       can [:index,:create,:delete], Translation
     end
   end

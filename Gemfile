@@ -8,6 +8,7 @@ gem 'formtastic'
 gem 'cancan'
 gem 'nifty-generators'
 gem "escape_utils"
+gem 'rake', '0.8.7'
 
 group :development do
   gem 'jquery-rails'

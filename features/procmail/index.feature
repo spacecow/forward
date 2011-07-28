@@ -17,3 +17,4 @@ DEFAULT=$MAILDIR
 .admin-ml/
 """
 When I go to the procmail filters page
+Then I should see "^From:*root@riec.*"

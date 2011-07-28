@@ -1,4 +1,6 @@
 class Procmail::FiltersController < ApplicationController
+  include Procmail
+
   def new
     @filter = Filter.new
     @filter.rules.build
@@ -9,7 +11,7 @@ class Procmail::FiltersController < ApplicationController
     IO.popen("/usr/local/sbin/chprocmailrc -g #{session[:username]}", 'r+') do |pipe|
       pipe.write(session[:password])
       pipe.close_write
-      @input = load_procmailrc(pipe.read) 
+      @filters = load_filters(pipe.read).map(&:rules) 
     end
   end
 

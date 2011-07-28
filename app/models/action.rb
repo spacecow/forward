@@ -1,5 +1,9 @@
 class Action < ActiveRecord::Base
   belongs_to :filter
+
+  def contents
+    [operation, destination]
+  end
 end
 
 # == Schema Information

@@ -7,10 +7,43 @@ end
 describe Procmail do
   before(:each){ @bajs = Bajs.new }
 
+  context "#load_filters" do
+    it "returns an empty array if file is empty" do
+      arr = @bajs.load_filters("")
+      arr.should be_empty
+    end
+      
+    it "returns 1 filter in an array" do
+      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
+      arr.size.should == 1
+      arr.last.contents.should == [["To", "admin-ml*^@.*riec", "contains"],
+                                   ["Move Message to", ".admin-ml/"]]
+    end
+
+    it "returns 2 filters in an array" do
+      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/\n\n:0 :\n*^CC:.*fir@.*riec.*\n.fir-cc/")
+      arr.size.should == 2
+      arr.first.contents.should == [["To", "admin-ml*^@.*riec", "contains"],
+                                    ["Move Message to", ".admin-ml/"]]
+      arr.last.contents.should == [["CC", "fir@.*riec", "contains"],
+                                    ["Move Message to", ".fir-cc/"]]
+    end
+  end
+
+  context "#load_filter" do
+    it "splits up in rule and action" do
+      filter = @bajs.load_filter("*^To:.*admin-ml*^@.*riec.*", ".admin-ml")
+      filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
+      filter.actions.last.contents.should == ["Move Message to", ".admin-ml"]
+    end 
+  end
+    
   context "#load_action" do
     before(:each){ @filter = Filter.new }
 
-    it "splits up in operation and " do
+    it "splits up in operation and destination" do
+      @bajs.load_action(".admin-ml", @filter)  
+      @filter.actions.last.contents.should == ["Move Message to", ".admin-ml"]
     end
   end
 
@@ -19,9 +52,7 @@ describe Procmail do
 
     it "splits up in section, substance and part" do
       @bajs.load_rule("*^To:.*admin-ml*^@.*riec.*", @filter)
-      @filter.rules.last.section.should == "To"
-      @filter.rules.last.substance.should == "admin-ml*^@.*riec"
-      @filter.rules.last.part.should == "contains"
+      @filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
     end
 
     context "split up a rule where the splitter is" do

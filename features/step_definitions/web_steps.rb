@@ -26,8 +26,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
 
 module WithinHelpers
   def with_scope(locator)
-    if locator =~ /^the "([^"]*)" section$/
-      within("div##{underscore $1}"){ yield }
+    if data = locator =~ /^the "([^"]*)" (section|form)$/
+      within("div##{underscore data[1]}"){ yield } if data[2] == "section"
+      within("form##{underscore data[1]}"){ yield } if data[2] == "form"
     else
       locator ? within(*selector_for(locator)) { yield } : yield
     end

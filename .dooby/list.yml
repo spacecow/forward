@@ -63,3 +63,5 @@ d780a0: !ruby/object:Dooby::Task
   todo: locale edit :done
 e8d6c8: !ruby/object:Dooby::Task 
   todo: route testing :done
+0b8131: !ruby/object:Dooby::Task 
+  todo: english/japanese :doing

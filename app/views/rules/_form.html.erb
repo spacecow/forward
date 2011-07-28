@@ -1,0 +1,5 @@
+<%= f.input :section, :as => :select, :collection => ["Subject", "From", "Body", "Date", "To", "Cc", "To or Cc", "X-Spam-level"] %>
+<%= f.input :part, :as => :select, :collection => ["contains", "doesn't contain", "is", "isn't", "begins with", "ends with"] %>
+<%= f.input :substance %>
+<%= f.submit "+" %>
+<%= f.submit "-" %>

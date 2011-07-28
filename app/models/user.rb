@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  # new columns need to be added here to be writable through mass assignment
   attr_accessible :email, :password, :password_confirmation
 
   attr_accessor :password
@@ -29,3 +28,16 @@ class User < ActiveRecord::Base
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: users
+#
+#  id            :integer(4)      not null, primary key
+#  email         :string(255)
+#  password_hash :string(255)
+#  password_salt :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+

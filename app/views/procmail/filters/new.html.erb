@@ -1,0 +1,11 @@
+<%= semantic_form_for @filter, :url => procmail_path, :html => {:id => "new_rule"} do |f| %>
+  <%= f.semantic_fields_for :rules do |ref| %>
+    <%= render 'rules/form', :f => ref %>
+  <% end %>
+<% end %>
+
+<%= semantic_form_for @filter, :url => procmail_path, :html => {:id => "new_action"} do |f| %>
+  <%= f.semantic_fields_for :actions do |ref| %>
+    <%= render 'actions/form', :f => ref %>
+  <% end %>
+<% end %>

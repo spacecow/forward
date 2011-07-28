@@ -14,12 +14,17 @@ Forward::Application.routes.draw do
     end
   end
 
-  match 'edit' => 'operator#edit'
-  match 'login' => 'operator#login'
-  match 'logout' => 'operator#logout'
-  match 'connect' => 'operator#connect'
-  match 'update' => 'operator#update'
-  match 'welcome' => 'operator#login'
+  namespace "procmail" do
+    resources :filters
+  end
+
+  match 'edit'     => 'operator#edit'
+  match 'login'    => 'operator#login'
+  match 'logout'   => 'operator#logout'
+  match 'connect'  => 'operator#connect'
+  match 'update'   => 'operator#update'
+  match 'welcome'  => 'operator#login'
+  match 'procmail' => 'operator#procmail'
   
   get "operator/logout"
   get "operator/edit"

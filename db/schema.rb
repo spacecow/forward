@@ -10,10 +10,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110613072017) do
+ActiveRecord::Schema.define(:version => 20110727072240) do
+
+  create_table "actions", :force => true do |t|
+    t.string   "operation"
+    t.string   "destination"
+    t.integer  "filter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "filters", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "locales", :force => true do |t|
     t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rules", :force => true do |t|
+    t.string   "section"
+    t.string   "part"
+    t.string   "substance"
+    t.integer  "filter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

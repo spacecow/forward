@@ -64,6 +64,12 @@ class OperatorController < ApplicationController
     end
   end
 
+  def procmail
+    @filter = Filter.new
+    @filter.rules.build
+    @filter.actions.build
+  end
+
   private
     def address_field_no; params[:address].length end
     def authpam(user,pass); pass == "correct" ? true : false end

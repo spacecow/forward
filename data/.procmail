@@ -1,0 +1,169 @@
+SHELL=/bin/sh
+PATH=/usr/local/bin:/usr/bin:/usr/ucb:/usr/sbin
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+LOGFILE=$HOME/logs/procmail.log
+
+:0 :
+*^(X-Spam-Flag|X-Barracuda-Spam-Flag):.*YES
+.Junk/
+
+:0 :
+*^From:(.*DELLNEWS.*|newsmail@sios.*|mailnews@sourcenext.*|.*@justsystems.*|Information@symantec.*|vbclub@trendmicro.*|hb2@.*|marcom@cybozu.*|adobedemail.*|.*news.*recruit.co.jp.*)
+.AD/
+
+:0 :
+*^From:.*is-kyom@bureau*
+.&YMVYMXnRW2Z4FHp2edE-/
+
+:0 :
+*^From:.*root@riec.*
+.root/
+
+:0 :
+*^From:.*logwatch@ml\.riec.*
+.log-ml/
+
+:0 :
+*^From:.*gw-admin@bureau.*
+.&MLAw6zD8MNcwpjCnMKI-/
+
+:0 :
+*^To:.*kazuto@.*riec.*
+./
+
+:0 :
+*^(To|CC):.*dps148gn81eip53@ipsjdps.*
+.DPS148GN81EIP53/
+
+:0 :
+*^(To|CC):.*dps148@ipsjdps.*
+.DPS148/
+
+:0 :
+*^To:.*committee@ipsjdps.*
+.DPS-Committee/
+
+:0 :
+*^(To|CC):.*dpsws2011-pc.*
+.DPSW-pc/
+
+:0 :
+*^(To|CC):.*ipsjdps\.org.*
+.DPS/
+
+:0 :
+*^To:.*agent-semi@.*riec.*
+.agent-semi/
+
+:0 :
+*^(To|CC):.*(kazuto|johokiki-fri2)@.*miyakyo-u.*
+.miyakyo-u/
+
+:0 :
+*^(To|CC):.*t2204@.*miyakyo-u.*
+.t2204/
+
+:0 :
+*^(To|CC):.*fir-net@.*riec.*
+.fir-net/
+
+:0 :
+*^(To|CC):.*db-support@.*riec.*
+.db-support/
+
+:0 :
+*^(To|CC):.*lab-all@.*riec.*
+.kitagata-lab/
+
+:0 :
+*^(To|CC):.*kino-staff@.*riec.*
+.kino-staff/
+
+:0 :
+*^To:.*wlan-admin@.*riec.*
+.wlan-admin/
+
+:0 :
+*^From:.*(news2@mcafee.com|mailservice@trendmicro.co.jp).*
+.security/
+
+:0 :
+*^From:.*MAILER-DAEMON.*
+.MAILER-DAEMON/
+
+:0 :
+*^From:.*ieice\.org.*
+.ieice/
+
+:0 :
+*^To:.*kino-lab@.*riec.*
+.kino-lab/
+
+:0
+*^From:.*dev-null@rhn\.redhat\.com.*
+.security/redhat/
+
+:0 :
+*^Subject:.*JPCERT/CC.*Alert:.*
+.JPCERT_Alert/
+
+:0 :
+*^From:.*jpcert\.or\.jp.*
+.JPCERT/
+
+:0 :
+*^From:.*bounces@ml.*
+.ML_BOUNCE/
+
+:0 :
+*^From:.*owner-.*@.*riec.*
+.BOUNCE/
+
+:0 :
+*^To:.*fir-committee@.*riec
+.fir-committee/
+
+:0 :
+*^To:.*tsuken-kyokan@.*riec.*
+.tsuken-kyokan/
+
+:0 :
+*^To:.*shinboku@.*riec.*
+.shinboku/
+
+:0 :
+*^To:.*tsukenall@.*riec.*
+.tsukenall/
+
+:0 :
+*^(To|CC|Delivered-To|X-Original-To):.*jokyo.*@.*riec.*
+.jokyo/
+
+:0 :
+*^(To|CC):.*riec-w3adm@.*riec.*
+.w3adm/
+
+:0 :
+*^(To|CC):.*hp_request@.*riec.*
+HP-request/
+
+:0 :
+*^From:.*dev-null@.*riec.*
+.security/redhat/
+
+:0 :
+*^To:.*admin-ml*^@.*riec.*
+.admin-ml/
+
+:0 :
+*^CC:.*fir@.*riec.*
+.fir-cc/
+
+:0 :
+*^To:.*fir@.*riec.*
+.FIR/
+
+:0 :
+*^(To|CC):.*fir-staff@ml\.riec..*
+.fir-staff/

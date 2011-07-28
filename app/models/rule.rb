@@ -2,6 +2,7 @@ class Rule < ActiveRecord::Base
   belongs_to :filter
 end
 
+
 # == Schema Information
 #
 # Table name: rules

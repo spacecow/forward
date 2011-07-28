@@ -1,5 +1,7 @@
 class Rule < ActiveRecord::Base
   belongs_to :filter
+
+  PARTS = ["contains", "doesn't contain", "is", "isn't", "begins with", "ends with"]
 end
 
 

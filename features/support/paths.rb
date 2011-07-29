@@ -8,6 +8,24 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
+
+
+
+    #namespacing pickle paths
+    when /^the procmail #{capture_model}(?:'s)? page$/
+      path_to_pickle 'procmail', $1
+
+    when /^the procmail #{capture_model}(?:'s)? #{capture_model}(?:'s)? page$/
+      path_to_pickle 'procmail', $1, $2
+
+    when /^the procmail #{capture_model}(?:'s)? #{capture_model}'s (.+?) page$/
+      path_to_pickle 'procmail', $1, $2, :extra => $3
+
+    when /^the procmail #{capture_model}(?:'s)? (.+?) page$/
+      path_to_pickle 'procmail', $1, :extra => $2
+
+
+
     when /the home\s?page/
       '/'
 

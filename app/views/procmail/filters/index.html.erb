@@ -1,3 +1,8 @@
+<table id="filters">
 <% @filters.each do |filter| %>
-  <%= filter.rule_to_s %>
+  <tr>
+    <td><%= filter.rule_to_s %></td>
+    <td><%= filter.action_to_s %></td>
+  </tr>
 <% end %>
+</table>

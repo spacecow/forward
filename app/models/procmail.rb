@@ -38,24 +38,29 @@ module Procmail
     if s =~ /^\.\*(.*)/
       if s =~ /(.*)\.\*$/
         "contains"
-      else
+      elsif s =~ /(.*)\$$/
         "ends with"
+      else
+        "contains"
       end
     elsif s =~ /(.*)\.\*$/
       "begins with"
-    else
+    elsif s =~ /(.*)\$$/
       "is"
+    else
+      "begins with"
     end
   end
 
   def strip_substance(s)
     s = s[2..-1] if s =~ /^\.\*(.*)/
     s = s[0..-3] if s =~ /(.*)\.\*$/
+    s = s[0..-2] if s =~ /(.*)\$$/
     s
   end
 
   def load_rule(line,filter)
-    line           =~ /\^(To|CC|From):?(.*)/
+    line           =~ /\^?(To|CC|From):?\s?(.*)/
     rule           = Rule.new
     rule.section   = $1
     rule.substance = strip_substance($2)

@@ -26,11 +26,18 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
 
 module WithinHelpers
   def with_scope(locator)
-    if data = locator =~ /^the "([^"]*)" (section|form)$/
-      within("div##{underscore data[1]}"){ yield } if data[2] == "section"
-      within("form##{underscore data[1]}"){ yield } if data[2] == "form"
+    if locator
+      if data = locator =~ /^the "([^"]*)" (section|form)$/
+        within("div##{underscore data[1]}"){ yield } if data[2] == "section"
+        within("form##{underscore data[1]}"){ yield } if data[2] == "form"
+      elsif data = locator.match(/^the (\w+) "([^"]*)" (listing|table row)$/)
+        within(cat_id("listing",data[2],data[1])){ yield } if data[3] == "listing"
+        within(cat_id("table row",data[2],data[1])){ yield } if data[3] == "table row"
+      else
+        locator ? within(*selector_for(locator)) { yield } : yield
+      end
     else
-      locator ? within(*selector_for(locator)) { yield } : yield
+      yield
     end
   end
 end

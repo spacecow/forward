@@ -35,11 +35,22 @@ end
 
 # Selection ----------------------------
 
+Then /^"([^"]*)" should be selected in the (\w+) "([^"]*)" field for "([^"]*)"$/ do |sel,ordr,lbl,prnt|
+  chld, attr = lbl.split[0..1]
+  id = "#{prnt}_#{chld}_attributes_#{zdigit ordr}_#{attr}"
+  Then %("#{sel}" should be selected in the "#{id}" field)
+end
+Then /^nothing should be selected in the (\w+) "([^"]*)" field for "([^"]*)"$/ do |ordr,lbl,prnt|
+  chld, attr = lbl.split[0..1]
+  id = "#{prnt}_#{chld}_attributes_#{zdigit ordr}_#{attr}"
+  Then %(nothing should be selected in the "#{id}" field)
+end
+
 Then /^"([^"]*)" should be selected in the "([^"]*)" field$/ do |txt, lbl|
-  find_field(lbl).native.xpath("//option[@selected]").inner_html.should eq txt
+  find_field(lbl).first(:xpath, "option[@selected]").text.should eq txt
 end
 Then /^nothing should be selected in the "([^"]*)" field$/ do |lbl|
-  find_field(lbl).native.xpath("//option[@selected]").inner_html.should be_blank
+  find_field(lbl).first(:xpath, "option[@selected]").should be_nil 
 end
 
 Then /^the "([^"]*)" field should have options "([^"]*)"$/ do |lbl,optns|
@@ -48,6 +59,9 @@ end
 
 # Buttons ------------------------------
 
+When /^I press "([^"]*)" in the (\w+) "([^"]*)" listing for "([^"]*)"$/ do |lbl,ordr,chld,prnt|
+  find(:xpath, "//input[@id='#{prnt}[#{chld}_attributes][#{zdigit ordr}]_submit'][@value='#{lbl}']").click
+end
 When /^I press the button$/ do
   find(:xpath, "//input[@type='submit']").click
 end

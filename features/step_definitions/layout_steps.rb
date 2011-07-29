@@ -8,16 +8,16 @@ Then /^I should see "([^"]*)" as title$/ do |txt|
   Then %(I should see "#{txt}" within "h1")
 end
 
-Then /^I should see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,order,id,cat|
-  with_scope(cat_id(cat,id,order)) do
-    page.should have_content(txt)
-  end
-end
-Then /^I should not see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,order,id,cat|
-  with_scope(cat_id(cat,id,order)) do
-    page.should have_no_content(txt)
-  end
-end
+#Then /^I should see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,order,id,cat|
+#  with_scope(cat_id(cat,id,order)) do
+#    page.should have_content(txt)
+#  end
+#end
+#Then /^I should not see "([^"]*)" within the (\w+) "([^"]*)" (\w+)$/ do |txt,order,id,cat|
+#  with_scope(cat_id(cat,id,order)) do
+#    page.should have_no_content(txt)
+#  end
+#end
 
 #Then /^I should see "([^"]*)" within the "([^"]*)" section$/ do |txt,div|
 #  Then %(I should see "#{txt}" within "div##{underscore div}")
@@ -185,6 +185,13 @@ def section_no(div=nil,order)
     "div.#{div}:nth-child(#{digit order})"
   end
 end
+def table_row(tbl=nil,order)
+  if tbl.nil?
+    "table tr:nth-child(#{digit order})"
+  else
+    "table##{tbl} tr:nth-child(#{digit order})"
+  end
+end
 def field_no(lbl,ordr)
   id = find(:css, "label", :text => lbl)[:for]
   field = find_field(id)
@@ -202,5 +209,7 @@ def cat_id(cat,id,order)
     section_no(id,order) 
   elsif cat=="field"
     field_no(id,order)
+  elsif cat=="table row"
+    table_row(id,order)
   end
 end

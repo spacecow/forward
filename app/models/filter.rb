@@ -9,13 +9,19 @@ class Filter < ActiveRecord::Base
     [rules.first.contents, actions.first.contents]
   end
 
+  def action_to_s
+    actions.first.destination
+  end
+
   def rule_to_s
-    ret = ""
-    ret += rules.first.section
+    rule = rules.first
+    ret = "^"
+    ret += rule.section
     ret += ":"
-    ret += ".*"
-    ret += substance
-    ret += ".*"
+    ret += ".*" if rule.part == "contains" or rule.part == "ends with"
+    ret += " " if rule.part == "is" or rule.part == "begins with"
+    ret += rule.substance
+    ret += "$" if rule.part == "is" or rule.part == "ends with"
     ret
   end
 end

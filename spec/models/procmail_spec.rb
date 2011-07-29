@@ -7,6 +7,38 @@ end
 describe Procmail do
   before(:each){ @bajs = Bajs.new }
 
+  context "#rule_to_s for part" do
+    it "contains ending with star" do 
+      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
+      arr.first.rule_to_s.should == "^To:.*admin-ml*^@.*riec"
+    end
+
+    it "contains" do 
+      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec\n.admin-ml/")
+      arr.first.rule_to_s.should == "^To:.*admin-ml*^@.*riec"
+    end
+
+    it "is" do 
+      arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec$\n.admin-ml/")
+      arr.first.rule_to_s.should == "^To: admin-ml*^@.*riec$"
+    end
+
+    it "begins with ending with star" do 
+      arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec.*\n.admin-ml/")
+      arr.first.rule_to_s.should == "^To: admin-ml*^@.*riec"
+    end
+ 
+    it "begins with" do 
+      arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec\n.admin-ml/")
+      arr.first.rule_to_s.should == "^To: admin-ml*^@.*riec"
+    end
+
+    it "ends with" do 
+      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec$\n.admin-ml/")
+      arr.first.rule_to_s.should == "^To:.*admin-ml*^@.*riec$"
+    end
+  end
+  
   context "#load_filters" do
     it "returns an empty array if file is empty" do
       arr = @bajs.load_filters("")
@@ -58,6 +90,7 @@ describe Procmail do
     context "split up a rule where the splitter is" do
       it ":.*" do @bajs.load_rule("*^To:.*admin-ml*^@.*riec.*", @filter) end
       it ".*" do @bajs.load_rule("*^To.*admin-ml*^@.*riec.*", @filter) end
+      it ": " do @bajs.load_rule("*^To: admin-ml*^@.*riec.*", @filter) end
 
       after(:each) do
         @filter.rules.last.section.should == "To"
@@ -66,38 +99,50 @@ describe Procmail do
     end
 
     context "#load_part to" do
-      it "contains" do
+      it "contains with star" do
         @bajs.load_part(".*admin-ml*^@.*riec.*").should == "contains"
+      end
+      it "contains" do
+        @bajs.load_part(".*admin-ml*^@.*riec").should == "contains"
       end
 
       it "is" do
-        @bajs.load_part("admin-ml*^@.*riec").should == "is"
+        @bajs.load_part("admin-ml*^@.*riec$").should == "is"
       end
 
-      it "begins with" do
+      it "begins with, with star" do
         @bajs.load_part("admin-ml*^@.*riec.*").should == "begins with"
+      end
+      it "begins with" do
+        @bajs.load_part("admin-ml*^@.*riec").should == "begins with"
       end
         
       it "ends with" do
-        @bajs.load_part(".*admin-ml*^@.*riec").should == "ends with"
+        @bajs.load_part(".*admin-ml*^@.*riec$").should == "ends with"
       end
     end
 
     context "#strip_substance for part:" do
-      it "contains" do
+      it "contains with star" do
         @substance = @bajs.strip_substance(".*admin-ml*^@.*riec.*")
+      end
+      it "contains" do
+        @substance = @bajs.strip_substance(".*admin-ml*^@.*riec")
       end
 
       it "is" do
-        @substance = @bajs.strip_substance("admin-ml*^@.*riec")
+        @substance = @bajs.strip_substance("admin-ml*^@.*riec$")
       end
 
-      it "begins with" do
+      it "begins with, with star" do
         @substance = @bajs.strip_substance("admin-ml*^@.*riec.*")
+      end
+      it "begins with" do
+        @substance = @bajs.strip_substance("admin-ml*^@.*riec")
       end
         
       it "ends with" do
-        @substance = @bajs.strip_substance(".*admin-ml*^@.*riec")
+        @substance = @bajs.strip_substance(".*admin-ml*^@.*riec$")
       end
 
       after(:each) do

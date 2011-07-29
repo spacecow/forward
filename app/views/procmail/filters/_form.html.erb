@@ -1,0 +1,10 @@
+<%= semantic_form_for [:procmail, @filter] do |f| %>
+  <%= f.semantic_errors %>
+  <%= f.semantic_fields_for :rules do |ref| %>
+    <%= render 'rules/form', :f => ref %>
+  <% end %>
+  <%= f.semantic_fields_for :actions do |ref| %>
+    <%= render 'actions/form', :f => ref %>
+  <% end %>
+  <%= f.submit "Update" %>
+<% end %>

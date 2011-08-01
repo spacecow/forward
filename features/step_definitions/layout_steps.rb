@@ -207,6 +207,8 @@ def cat_id(cat,id,order)
     list_no(id,order) 
   elsif cat=="section"
     section_no(id,order) 
+  elsif cat=="section"
+    section_no(id,order) 
   elsif cat=="field"
     field_no(id,order)
   elsif cat=="table row"

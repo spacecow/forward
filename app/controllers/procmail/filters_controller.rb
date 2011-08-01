@@ -17,13 +17,14 @@ class Procmail::FiltersController < ApplicationController
 
   def edit
     @filter = Filter.find(params[:id])
+    build_non_saved_rules
+    build_added_rule
   end
 
   def update
     @filter = Filter.find(params[:id])
     if params[:commit] == "+"
-      @filter.rules.create
-      redirect_to edit_procmail_filter_path(@filter) and return
+      redirect_to edit_procmail_filter_path(@filter, :rules => params[:filter][:rules_attributes], :add_rule => true) and return
     end
     if @filter.update_attributes(params[:filter])
       redirect_to procmail_filters_path
@@ -32,6 +33,15 @@ class Procmail::FiltersController < ApplicationController
   end
 
   private
+
+    def build_added_rule; @filter.rules.build if params[:add_rule] end
+    def build_non_saved_rules
+      if params[:rules] 
+        params[:rules].each do |key,value|
+          @filter.rules.build if value[:id].nil?
+        end
+      end
+    end
 
     def load_procmailrc(s)
       s.split("\n").each do |line|

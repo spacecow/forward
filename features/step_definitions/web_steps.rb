@@ -27,7 +27,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
 module WithinHelpers
   def with_scope(locator)
     if locator
-      if data = locator =~ /^the "([^"]*)" (section|form)$/
+      if data = locator.match(/^the "([^"]*)" (section|form)$/)
         within("div##{underscore data[1]}"){ yield } if data[2] == "section"
         within("form##{underscore data[1]}"){ yield } if data[2] == "form"
       elsif data = locator.match(/^the (\w+) "([^"]*)" (listing|table row)$/)

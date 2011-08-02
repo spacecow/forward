@@ -1,6 +1,8 @@
 en:
   address: "Address %{no}"
   admin: "Admin"
+  cancel: "Cancel"
+  create: "Create"
   del: "Del"
   delete: "Delete"
   edit: "Edit"
@@ -72,5 +74,6 @@ en:
   anonymous: "Anonymous"
   comment: "Comment"
   dot_forward: "DOT Forward"
+  filter: "Filter"
   translation: "Translation"
 

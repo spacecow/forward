@@ -38,7 +38,13 @@ class ApplicationController < ActionController::Base
   private
 
     def current_user
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+      if session[:username]
+        @current_user ||= User.find_by_username(session[:username])
+        if !@current_user
+          @current_user = User.create(:username => session[:username], :password => session[:password]) 
+        end  
+        @current_user
+      end
     end
     
     def current_user_name; current_user && current_user.name end

@@ -7,6 +7,12 @@ end
 describe Procmail do
   before(:each){ @bajs = Bajs.new }
 
+  context "#save_filters", :wip => true do
+    it "" do
+      @bajs.save_filters [Filter.new]
+    end
+  end
+
   context "#rule_to_s for part" do
     it "contains ending with star" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")

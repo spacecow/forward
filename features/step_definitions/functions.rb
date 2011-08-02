@@ -1,4 +1,1 @@
-def digit(s); %w(first second third fourth fifth sixth seventh eighth ninth tenth eleventh).index(s)+1 end
-def underscore(s); s.gsub(/\s/,'_') end
-def zdigit(ordr); digit(ordr)-1 end
-def zword(i); %w(first second third fourth fifth sixth seventh eighth ninth tenth eleventh)[i] end
+/home/johan/ruby/rails/nifty-generators/lib/generators/nifty/authentication/templates/tests/rspec/functions.rb

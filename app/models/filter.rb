@@ -1,9 +1,11 @@
 class Filter < ActiveRecord::Base
-  has_many :rules
-  accepts_nested_attributes_for :rules, :reject_if => lambda {|a| a[:substance].blank?}, :allow_destroy => true
+  belongs_to :user
 
-  has_many :actions
-  accepts_nested_attributes_for :actions, :reject_if => lambda {|a| a[:operation].blank?}, :allow_destroy => true
+  has_many :rules, :dependent => :destroy
+  accepts_nested_attributes_for :rules, :reject_if => lambda {|a| a[:section].blank? || a[:part].blank? || a[:substance].blank?}, :allow_destroy => true
+
+  has_many :actions, :dependent => :destroy
+  accepts_nested_attributes_for :actions, :reject_if => lambda {|a| a[:operation].blank? || a[:destination].blank?}, :allow_destroy => true
 
   def contents
     [rules.first.contents, actions.first.contents]
@@ -27,6 +29,7 @@ class Filter < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: filters
@@ -34,5 +37,6 @@ end
 #  id         :integer(4)      not null, primary key
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer(4)
 #
 

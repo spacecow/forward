@@ -19,8 +19,10 @@ Forward::Application.routes.draw do
   end
 
   match 'edit'     => 'operator#edit'
-  match 'login'    => 'operator#login'
-  match 'logout'   => 'operator#logout'
+  match 'logout' => 'sessions#destroy', :as => :logout
+  match 'login' => 'sessions#new', :as => :login
+  #match 'login'    => 'operator#login'
+  #match 'logout'   => 'operator#logout'
   match 'connect'  => 'operator#connect'
   match 'update'   => 'operator#update'
   match 'welcome'  => 'operator#login'

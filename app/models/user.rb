@@ -1,23 +1,32 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation
+  has_many :filters
+
+  attr_accessible :username, :password, :password_confirmation
 
   attr_accessor :password
+  before_create :set_role
   before_save :prepare_password
 
-  validates_uniqueness_of :email
-  validates_format_of :email, :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
+  validates_presence_of :username
+  validates_uniqueness_of :username
   validates_presence_of :password, :on => :create
   validates_confirmation_of :password
   validates_length_of :password, :minimum => 4, :allow_blank => true
 
+  ROLES = %w(god admin member)
+
   def self.authenticate(login, pass)
-    user = find_by_email(login)
+    user = find_by_username(login)
     return user if user && user.password_hash == user.encrypt_password(pass)
   end
 
   def encrypt_password(pass)
     BCrypt::Engine.hash_secret(pass, password_salt)
   end
+
+  def role?( role ); roles.include? role.to_s end
+  def roles; ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? } end
+  def roles=(r); self.roles_mask = (r & ROLES).map{|e| 2**ROLES.index(e)}.sum end
 
   private
 
@@ -27,17 +36,22 @@ class User < ActiveRecord::Base
       self.password_hash = encrypt_password(password)
     end
   end
+
+  def set_role; self.roles = ["member"] if self.roles.empty? end
 end
+
+
 
 # == Schema Information
 #
 # Table name: users
 #
 #  id            :integer(4)      not null, primary key
-#  email         :string(255)
 #  password_hash :string(255)
 #  password_salt :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  username      :string(255)
+#  roles_mask    :integer(4)
 #
 

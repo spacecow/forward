@@ -23,10 +23,24 @@ describe LocalesController do
     end
   end
 
+  describe "a member is logged in" do
+    before(:each) do
+      @user = Factory(:user, :roles_mask => 4)
+      session[:username] = @user.username
+    end
+    
+    controller_actions.each do |action,req|
+      it "should not reach the #{action} page" do
+        send("#{req}", "#{action}", :id => @locale.id)
+        response.redirect_url.should eq(welcome_url)
+      end
+    end    
+  end
+
   describe "an admin is logged in" do
     before(:each) do
-      @user = Factory(:user)
-      session[:user_id] = @user.id
+      @user = Factory(:user, :roles_mask => 2)
+      session[:username] = @user.username
     end
     
     controller_actions.each do |action,req|

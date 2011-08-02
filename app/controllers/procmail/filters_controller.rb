@@ -1,10 +1,9 @@
 class Procmail::FiltersController < ApplicationController
   include Procmail
 
-  def new
-    @filter = Filter.new
-    @filter.rules.build
-    @filter.actions.build
+  load_and_authorize_resource
+
+  def show
   end
 
   def index
@@ -12,40 +11,55 @@ class Procmail::FiltersController < ApplicationController
       pipe.write(session[:password])
       pipe.close_write
       @filters = load_filters(pipe.read)
+
+      current_user.filters.delete_all
+      current_user.filters = @filters
     end
+  end
+
+  def new
+    @filter.rules.build
+    @filter.actions.build
+  end
+
+  def create
+    redirect_to procmail_filters_path
   end
 
   def edit
-    @filter = Filter.find(params[:id])
     build_non_saved_rules
     build_added_rule
+    build_non_saved_actions
+    build_added_action
   end
 
   def update
-    @filter = Filter.find(params[:id])
-    if params[:commit] == "+"
-      redirect_to edit_procmail_filter_path(@filter, :rules => params[:filter][:rules_attributes], :add_rule => true) and return
+    if params[:rule_plus]
+      redirect_to edit_procmail_filter_path(@filter, :rules => params[:filter][:rules_attributes], :actions => params[:filter][:actions_attributes], :add_rule => true) and return
+    elsif params[:action_plus]
+      redirect_to edit_procmail_filter_path(@filter, :rules => params[:filter][:rules_attributes], :actions => params[:filter][:actions_attributes], :add_action => true) and return
     end
     if @filter.update_attributes(params[:filter])
+      #save_filters
       redirect_to procmail_filters_path
-    else
     end
+  end
+
+  def destroy
+    redirect_to procmail_filters_path
   end
 
   private
 
+    def build_added_action; @filter.actions.build if params[:add_action] end
     def build_added_rule; @filter.rules.build if params[:add_rule] end
-    def build_non_saved_rules
-      if params[:rules] 
-        params[:rules].each do |key,value|
-          @filter.rules.build if value[:id].nil?
+    def build_non_saved_associations(assoc)
+      if params[assoc] 
+        params[assoc].each do |key,value|
+          @filter.send(assoc).build(value) if value[:id].nil?
         end
       end
     end
-
-    def load_procmailrc(s)
-      s.split("\n").each do |line|
-        p line if line =~ /^:0/
-      end
-    end
+    def build_non_saved_actions; build_non_saved_associations(:actions) end
+    def build_non_saved_rules; build_non_saved_associations(:rules) end
 end

@@ -1,3 +1,6 @@
+Factory.define :filter do |f|
+end
+
 Factory.define :locale do |f|
   f.title "en"
 end
@@ -9,6 +12,6 @@ Factory.define :translation do |f|
 end
 
 Factory.define :user do |f|
-  f.sequence(:email){|n| "default#{n}@email.com"}
+  f.sequence(:username){|n| "username#{n}"}
   f.password "abc123"
 end

@@ -8,5 +8,6 @@
   <%= f.semantic_fields_for :actions do |ref| %>
     <%= render 'actions/form', :f => ref %>
   <% end %>
-  <%= f.submit "Update" %>
+  <%= f.submit t(:cancel) %>
+  <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)) %>
 <% end %>

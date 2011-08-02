@@ -3,6 +3,11 @@
   <tr>
     <td><%= filter.rule_to_s %></td>
     <td><%= filter.action_to_s %></td>
+    <td><%= link_to t(:edit), edit_procmail_filter_path(filter) %></td>
   </tr>
 <% end %>
 </table>
+
+<div id="bottom_links">
+  <%= link_to new(:filter), new_procmail_filter_path %>
+</div>

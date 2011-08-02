@@ -1,4 +1,10 @@
 module Procmail
+  def save_filters(arr)
+    arr.each do |filter|
+      p filter.rule_to_s
+    end
+  end
+
   def load_filters(lines)
     filters = []
     filter = nil

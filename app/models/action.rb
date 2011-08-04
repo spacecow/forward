@@ -4,6 +4,9 @@ class Action < ActiveRecord::Base
   def contents
     [operation, destination]
   end
+
+  def to_file; to_s end
+  def to_s; destination end
 end
 
 # == Schema Information

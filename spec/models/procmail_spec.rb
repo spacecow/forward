@@ -8,40 +8,68 @@ describe Procmail do
   before(:each){ @bajs = Bajs.new }
 
   context "#save_filters", :wip => true do
-    it "" do
-      @bajs.save_filters [Filter.new]
+    before(:each) do
+      rule = Rule.create(:section => "Subject", :part => "contains", :substance => "yeah")
+      action = Action.create(:operation => "Move Message to", :destination => "temp")
+      @filter = Filter.create
+      @filter.rules << rule
+      @filter.actions << action
+    end
+
+    it "saves a users filter to file" do
+      @bajs.save_filters("test", "correct", [@filter])
+      @bajs.read_filters("test", "correct").first.contents.should == 
+        [["Subject", "yeah", "contains"], ["Move Message to", "temp"]]
+    end
+
+    context "#rules_to_file" do
+      it "has 1 lines for 1 rule" do
+        @filter.rules_to_file.should eq "*^Subject:.*yeah"
+      end
+    end
+
+    context "#actions_to_file" do
+      it "has 1 lines for 1 action" do
+        @filter.actions_to_file.should eq "temp"
+      end
+    end
+
+    context "#to_file" do
+      it "has 3 lines for 1 rule & 1 action" do
+        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\ntemp"
+      end
     end
   end
 
-  context "#rule_to_s for part" do
+  context "#rules_to_s for part" do
     it "contains ending with star" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
-      arr.first.rule_to_s.should == "^To:.*admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == "^To:.*admin-ml*^@.*riec"
     end
 
     it "contains" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec\n.admin-ml/")
-      arr.first.rule_to_s.should == "^To:.*admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == "^To:.*admin-ml*^@.*riec"
     end
 
     it "is" do 
       arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec$\n.admin-ml/")
-      arr.first.rule_to_s.should == "^To: admin-ml*^@.*riec$"
+      arr.first.rules_to_s.should == "^To: admin-ml*^@.*riec$"
     end
 
     it "begins with ending with star" do 
       arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec.*\n.admin-ml/")
-      arr.first.rule_to_s.should == "^To: admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == "^To: admin-ml*^@.*riec"
     end
  
     it "begins with" do 
       arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec\n.admin-ml/")
-      arr.first.rule_to_s.should == "^To: admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == "^To: admin-ml*^@.*riec"
     end
 
     it "ends with" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec$\n.admin-ml/")
-      arr.first.rule_to_s.should == "^To:.*admin-ml*^@.*riec$"
+      arr.first.rules_to_s.should == "^To:.*admin-ml*^@.*riec$"
     end
   end
   
@@ -79,9 +107,15 @@ describe Procmail do
   context "#load_action" do
     before(:each){ @filter = Filter.new }
 
-    it "splits up in operation and destination" do
-      @bajs.load_action(".admin-ml", @filter)  
-      @filter.actions.last.contents.should == ["Move Message to", ".admin-ml"]
+    context "creates a destination folrder with dot and slash for", :load_action => true do
+      it "dot, non-slash" do @bajs.load_action(".admin-ml", @filter) end
+      it "non-dot, slash" do @bajs.load_action("admin-ml/", @filter) end
+      it "non-dot, non-slash" do @bajs.load_action("admin-ml", @filter) end
+      it "dot, slash" do @bajs.load_action(".admin-ml/", @filter) end
+      
+      after(:each) do
+        @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
+      end
     end
   end
 

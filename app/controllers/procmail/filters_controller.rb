@@ -1,20 +1,14 @@
 class Procmail::FiltersController < ApplicationController
   include Procmail
 
+  before_filter :build_user_filter_with_params, :only => :create
   load_and_authorize_resource
 
   def show
   end
 
   def index
-    IO.popen("/usr/local/sbin/chprocmailrc -g #{session[:username]}", 'r+') do |pipe|
-      pipe.write(session[:password])
-      pipe.close_write
-      @filters = load_filters(pipe.read)
-
-      current_user.filters.delete_all
-      current_user.filters = @filters
-    end
+    prepare_filters(session[:username], session[:password])
   end
 
   def new
@@ -23,7 +17,12 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def create
-    redirect_to procmail_filters_path
+    if @filter.save
+      save_filters(session[:username], session[:password], current_user.filters)
+      redirect_to procmail_filters_path
+    else
+      render :new
+    end
   end
 
   def edit
@@ -40,7 +39,7 @@ class Procmail::FiltersController < ApplicationController
       redirect_to edit_procmail_filter_path(@filter, :rules => params[:filter][:rules_attributes], :actions => params[:filter][:actions_attributes], :add_action => true) and return
     end
     if @filter.update_attributes(params[:filter])
-      #save_filters
+      save_filters(session[:username], session[:password], current_user.filters)
       redirect_to procmail_filters_path
     end
   end
@@ -62,4 +61,5 @@ class Procmail::FiltersController < ApplicationController
     end
     def build_non_saved_actions; build_non_saved_associations(:actions) end
     def build_non_saved_rules; build_non_saved_associations(:rules) end
+    def build_user_filter_with_params; @filter = current_user.filters.build(params[:filter]) end
 end

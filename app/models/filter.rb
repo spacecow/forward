@@ -7,25 +7,33 @@ class Filter < ActiveRecord::Base
   has_many :actions, :dependent => :destroy
   accepts_nested_attributes_for :actions, :reject_if => lambda {|a| a[:operation].blank? || a[:destination].blank?}, :allow_destroy => true
 
+  validate :at_least_one_action_must_exist
+  validate :at_least_one_rule_must_exist
+
   def contents
     [rules.first.contents, actions.first.contents]
   end
 
-  def action_to_s
-    actions.first.destination
-  end
+  def actions_to_file; actions.first.to_file end
+  def actions_to_s; actions.first.to_s end
 
-  def rule_to_s
-    rule = rules.first
-    ret = "^"
-    ret += rule.section
-    ret += ":"
-    ret += ".*" if rule.part == "contains" or rule.part == "ends with"
-    ret += " " if rule.part == "is" or rule.part == "begins with"
-    ret += rule.substance
-    ret += "$" if rule.part == "is" or rule.part == "ends with"
+  def rules_to_file; rules.first.to_file end
+  def rules_to_s; rules.first.to_s end
+
+  def to_file
+    ret = ":0 :\n"
+    ret += "#{rules_to_file}\n"
+    ret += actions_to_file
     ret
   end
+  private
+
+    def at_least_one_action_must_exist
+      errors.add(:base, "At least one action must exist.") if actions.empty?
+    end
+    def at_least_one_rule_must_exist
+      errors.add(:base, "At least one rule must exist.") if rules.empty?
+    end
 end
 
 

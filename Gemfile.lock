@@ -1,6 +1,5 @@
-GIT
-  remote: https://github.com/spacecow/pickle.git
-  revision: f00eb8707b9e679b7e9730815871def3e13b5b14
+PATH
+  remote: /home/johan/ruby/rails/pickle
   specs:
     pickle (0.4.7)
       cucumber (>= 0.8)
@@ -76,7 +75,10 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     escape_utils (0.2.3)
-    factory_girl (2.0.1)
+    factory_girl (1.3.3)
+    factory_girl_rails (1.0)
+      factory_girl (~> 1.3)
+      rails (>= 3.0.0.beta4)
     ffi (1.0.9)
     formtastic (1.2.4)
       actionpack (>= 2.3.7)
@@ -165,7 +167,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   escape_utils
-  factory_girl
+  factory_girl_rails
   formtastic
   gherkin
   jquery-rails
@@ -173,7 +175,7 @@ DEPENDENCIES
   mocha
   mysql2 (= 0.2.6)
   nifty-generators!
-  pickle (= 0.4.7)!
+  pickle!
   rails (= 3.0.5)
   rake
   redis

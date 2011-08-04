@@ -28,8 +28,41 @@ When I press "Cancel"
 Then I should be on the procmail filters page
 And 0 filters should exist
 
-@wip
 Scenario: A filter is not created if action is not completed
 When I select "Subject" from the first "rules section" field for "filter"
 And I select "contains" from the first "rules part" field for "filter"
-And I fill in the first "rules substance" with "yeah"
+And I fill in the first "rules substance" field with "yeah" for "filter"
+And I press "Create"
+Then I should see "At least one action must exist."
+And 0 filters should exist
+And 0 actions should exist
+And 0 rules should exist
+
+Scenario: A filter is not created if rule is not completed
+When I select "Move Message to" from the first "actions operation" field for "filter"
+And I fill in the first "actions destination" field with "temp" for "filter"
+And I press "Create"
+Then I should see "At least one rule must exist."
+And 0 filters should exist
+And 0 actions should exist
+And 0 rules should exist
+
+Scenario: Create a filter
+When I select "Subject" from the first "rules section" field for "filter"
+And I select "contains" from the first "rules part" field for "filter"
+And I fill in the first "rules substance" field with "yeah" for "filter"
+And I select "Move Message to" from the first "actions operation" field for "filter"
+And I fill in the first "actions destination" field with "temp" for "filter"
+And I press "Create"
+Then 1 filters should exist
+And a rule should exist with filter: that filter, section: "Subject", part: "contains", substance: "yeah"
+And an action exist with filter: that filter, operation: "Move Message to", destination: "temp"
+And a file ".procmail" should exist with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+:0 :
+*^Subject:.*yeah
+temp
+"""

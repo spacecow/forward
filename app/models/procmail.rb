@@ -1,7 +1,29 @@
 module Procmail
-  def save_filters(arr)
-    arr.each do |filter|
-      p filter.rule_to_s
+  def prepare_filters(username, password)
+    IO.popen("/usr/local/sbin/chprocmailrc -g #{username}", 'r+') do |pipe|
+      pipe.write(password)
+      pipe.close_write
+      @filters = load_filters(pipe.read)
+    end
+    current_user.filters.destroy_all
+    current_user.filters = @filters
+  end
+
+  def read_filters(username, password)
+    IO.popen("/usr/local/sbin/chprocmailrc -g #{username}", 'r+') do |pipe|
+      pipe.write(password)
+      pipe.close_write
+      load_filters(pipe.read)
+    end
+  end
+
+  def save_filters(username, password, arr)
+    IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'r+') do |pipe|
+      pipe.write "#{password}\n"
+      pipe.write "MAILDIR=$HOME/Maildir/\n"
+      pipe.write "DEFAULT=$MAILDIR\n\n"
+      pipe.write arr.map(&:to_file).join("\n\n")
+      pipe.close_write
     end
   end
 
@@ -33,13 +55,6 @@ module Procmail
     filter
   end
 
-  def load_action(s,filter)
-    action             = Action.new
-    action.operation   = "Move Message to"
-    action.destination = s
-    filter.actions << action
-  end
-
   def load_part(s)
     if s =~ /^\.\*(.*)/
       if s =~ /(.*)\.\*$/
@@ -66,11 +81,28 @@ module Procmail
   end
 
   def load_rule(line,filter)
-    line           =~ /\^?(To|CC|From):?\s?(.*)/
+    line           =~ /\^?(Subject|To|CC|From):?\s?(.*)/
     rule           = Rule.new
     rule.section   = $1
     rule.substance = strip_substance($2)
     rule.part      = load_part($2)
     filter.rules << rule
+  end
+
+  def load_action(line,filter)
+    action             = Action.new
+    action.operation   = "Move Message to"
+    if line =~ /^\./
+      if line =~ /\/$/
+        action.destination = line 
+      else
+        action.destination = "#{line}/"
+      end
+    elsif line =~ /\/$/
+      action.destination = ".#{line}"
+    else
+      action.destination = ".#{line}/"
+    end
+    filter.actions << action
   end
 end

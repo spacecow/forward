@@ -63,5 +63,25 @@ d780a0: !ruby/object:Dooby::Task
   todo: locale edit :done
 e8d6c8: !ruby/object:Dooby::Task 
   todo: route testing :done
-0b8131: !ruby/object:Dooby::Task 
-  todo: english/japanese :doing
+793b19: !ruby/object:Dooby::Task 
+  todo: english/japanese :done
+b6a088: !ruby/object:Dooby::Task 
+  todo: be able to add extra rule
+4ce26f: !ruby/object:Dooby::Task 
+  todo: be able to add extra action
+76f0d5: !ruby/object:Dooby::Task 
+  todo: copy message to symbol
+249a57: !ruby/object:Dooby::Task 
+  todo: forward to symbol
+d12cb3: !ruby/object:Dooby::Task 
+  todo: read in more variables
+b538a4: !ruby/object:Dooby::Task 
+  todo: minus in action/rules
+45de80: !ruby/object:Dooby::Task 
+  todo: add blank line to the end of the file
+"777537": !ruby/object:Dooby::Task 
+  todo: escape dots
+8ba580: !ruby/object:Dooby::Task 
+  todo: investigate TO/FROM
+2c3101: !ruby/object:Dooby::Task 
+  todo: add dot and slash to directory :done

@@ -2,9 +2,9 @@ Feature:
 Background:
 Given a user exists with username: "test", password: "correct"
 And I am logged in as that user
-And a filter exists with user: that user
-And an action exists with filter: that filter, operation: "Move Message to", destination: "temp"
-And a rule exists with filter: that filter, section: "Subject", part: "contains", substance: "yeah"
+And an action exists with operation: "Move Message to", destination: "temp"
+And a rule exists with section: "Subject", part: "contains", substance: "yeah"
+And a filter exists with user: that user, rules: that rule, actions: that action
 When I go to the procmail filter's edit page
 
 Scenario: Edit action view
@@ -12,9 +12,19 @@ Then "Move Message to" should be selected in the first "actions operation" field
 And the "filter_actions_attributes_0_destination" field should contain "temp"
 
 Scenario: Edit an action
-When I select "Copy Message to" from "filter_actions_attributes_0_operation"
+When I fill in the first "actions destination" field with "temporary" for "filter"
 And I press "Update"
-Then an action should exist with filter: that filter, operation: "Copy Message to", destination: "temp"
+Then 1 filters should exist
+And an action should exist with filter: that filter, operation: "Move Message to", destination: "temporary"
+And a file ".procmail" should exist with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+:0 :
+*^Subject:.*yeah
+temporary
+"""
 
 Scenario: Empty actions are not saved
 When I press "+" in the first "actions" listing for "filter"

@@ -6,6 +6,19 @@ class Rule < ActiveRecord::Base
   def contents
     [section, substance, part]
   end
+
+  def to_file; ret = "*#{to_s}" end
+
+  def to_s
+    ret = "^"
+    ret += section
+    ret += ":"
+    ret += ".*" if part == "contains" or part == "ends with"
+    ret += " " if part == "is" or part == "begins with"
+    ret += substance
+    ret += "$" if part == "is" or part == "ends with"
+    ret
+  end
 end
 
 

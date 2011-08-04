@@ -19,7 +19,7 @@ describe Procmail do
     it "saves a users filter to file" do
       @bajs.save_filters("test", "correct", [@filter])
       @bajs.read_filters("test", "correct").first.contents.should == 
-        [["Subject", "yeah", "contains"], ["Move Message to", "temp"]]
+        [["Subject", "yeah", "contains"], ["Move Message to", ".temp/"]]
     end
 
     context "#rules_to_file" do
@@ -98,23 +98,42 @@ describe Procmail do
 
   context "#load_filter" do
     it "splits up in rule and action" do
-      filter = @bajs.load_filter("*^To:.*admin-ml*^@.*riec.*", ".admin-ml")
+      filter = @bajs.load_filter(":0:","*^To:.*admin-ml*^@.*riec.*", ".admin-ml")
       filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
-      filter.actions.last.contents.should == ["Move Message to", ".admin-ml"]
+      filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
     end 
   end
     
-  context "#load_action" do
+  context "#load_action", :load_action => true do
     before(:each){ @filter = Filter.new }
 
-    context "creates a destination folrder with dot and slash for", :load_action => true do
-      it "dot, non-slash" do @bajs.load_action(".admin-ml", @filter) end
-      it "non-dot, slash" do @bajs.load_action("admin-ml/", @filter) end
-      it "non-dot, non-slash" do @bajs.load_action("admin-ml", @filter) end
-      it "dot, slash" do @bajs.load_action(".admin-ml/", @filter) end
+    context "creates a destination folrder with dot and slash for" do
+      it "dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end
+      it "non-dot, slash" do @bajs.load_action(":0:","admin-ml/", @filter) end
+      it "non-dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end
+      it "dot, slash" do @bajs.load_action(":0:",".admin-ml/", @filter) end
       
       after(:each) do
         @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
+      end
+    end
+
+    context "Move Message to, for:" do
+      it ":0" do @bajs.load_action(":0", ".admin-ml/", @filter) end
+      it ":0:" do @bajs.load_action(":0", ".admin-ml/", @filter) end
+      it ":0 :" do @bajs.load_action(":0", ".admin-ml/", @filter) end
+
+      after(:each) do
+        @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
+      end
+    end
+
+    context "Copy Message to, for:" do
+      it ":0c" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
+      it ":0c:" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
+
+      after(:each) do
+        @filter.actions.last.contents.should == ["Copy Message to", ".admin-ml/"]
       end
     end
   end

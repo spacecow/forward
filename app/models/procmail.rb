@@ -1,10 +1,11 @@
 module Procmail
   def prepare_filters(username, password)
-    IO.popen("/usr/local/sbin/chprocmailrc -g #{username}", 'r+') do |pipe|
-      pipe.write(password)
-      pipe.close_write
-      @filters = load_filters(pipe.read)
-    end
+   # IO.popen("/usr/local/sbin/chprocmailrc -g #{username}", 'r+') do |pipe|
+   #   pipe.write(password)
+   #   pipe.close_write
+   #   @filters = load_filters(pipe.read)
+   # end
+    read_filters(username,password)
     current_user.filters.destroy_all
     current_user.filters = @filters
   end
@@ -30,28 +31,28 @@ module Procmail
   def load_filters(lines)
     filters = []
     filter = nil
-    start = false
+    recipe,rule,action = "", "", ""
     lines.split("\n").each do |line|
       if line.blank?
-        start = false
+        recipe = ""
       elsif line =~ /^:0/
-        start = true
-        filters << filter if filter 
+        recipe = line
+        filters << load_filter(recipe,rule,action) if filter 
         filter = Filter.new
-      elsif line =~ /^\*/ and start
-        load_rule(line,filter)
-      elsif start
-        load_action(line,filter)
+      elsif line =~ /^\*/ and recipe.present?
+        rule = line
+      elsif recipe.present?
+        action = line
       end
     end
-    filters << filter if filter
+    filters << load_filter(recipe,rule,action) if filter
     filters
   end
 
-  def load_filter(rule,action)
+  def load_filter(recipe,rule,action)
     filter = Filter.new
     load_rule(rule,filter)
-    load_action(action,filter)
+    load_action(recipe,action,filter)
     filter
   end
 
@@ -89,9 +90,9 @@ module Procmail
     filter.rules << rule
   end
 
-  def load_action(line,filter)
+  def load_action(recipe,line,filter)
     action             = Action.new
-    action.operation   = "Move Message to"
+    action.operation = (recipe.include?("c") ? "Copy" : "Move") + " Message to"
     if line =~ /^\./
       if line =~ /\/$/
         action.destination = line 

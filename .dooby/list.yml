@@ -69,8 +69,6 @@ b6a088: !ruby/object:Dooby::Task
   todo: be able to add extra rule
 4ce26f: !ruby/object:Dooby::Task 
   todo: be able to add extra action
-76f0d5: !ruby/object:Dooby::Task 
-  todo: copy message to symbol
 249a57: !ruby/object:Dooby::Task 
   todo: forward to symbol
 d12cb3: !ruby/object:Dooby::Task 
@@ -85,3 +83,5 @@ b538a4: !ruby/object:Dooby::Task
   todo: investigate TO/FROM
 2c3101: !ruby/object:Dooby::Task 
   todo: add dot and slash to directory :done
+4a4816: !ruby/object:Dooby::Task 
+  todo: copy message to symbol :done

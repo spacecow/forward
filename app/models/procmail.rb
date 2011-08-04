@@ -92,18 +92,23 @@ module Procmail
 
   def load_action(recipe,line,filter)
     action             = Action.new
-    action.operation = (recipe.include?("c") ? "Copy" : "Move") + " Message to"
-    if line =~ /^\./
-      if line =~ /\/$/
-        action.destination = line 
-      else
-        action.destination = "#{line}/"
-      end
-    elsif line =~ /\/$/
-      action.destination = ".#{line}"
+    if line =~ /^!/
+      action.operation = "Forward Message to"
     else
-      action.destination = ".#{line}/"
+      action.operation = (recipe.include?("c") ? "Copy" : "Move") + " Message to"
     end
+    action.destination = prepare_destination(line)
     filter.actions << action
+  end
+
+  def prepare_destination(s)
+    if      data = s.match(/^!\s?(.*)/); data[1]    #mail, strip !
+    elsif   s =~ /^\./
+      if    s =~ /\/$/;                  s 
+      else;                              s+"/"
+      end
+    elsif   s =~ /\/$/;                  "."+s
+    else;                                "."+s+"/"
+    end
   end
 end

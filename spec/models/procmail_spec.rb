@@ -136,6 +136,15 @@ describe Procmail do
         @filter.actions.last.contents.should == ["Copy Message to", ".admin-ml/"]
       end
     end
+
+    context "Forward Message to, for:" do
+      it "! x" do @bajs.load_action(":0", "! test@example.com", @filter) end
+      it "!x" do @bajs.load_action(":0", "!test@example.com", @filter) end
+
+      after(:each) do
+        @filter.actions.last.contents.should == ["Forward Message to", "test@example.com"]
+      end
+    end    
   end
 
   context "#load_rule" do

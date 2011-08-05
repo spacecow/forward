@@ -30,29 +30,23 @@ module Procmail
 
   def load_filters(lines)
     filters = []
-    filter = nil
-    recipe,rule,action = "", "", ""
-    lines.split("\n").each do |line|
-      if line.blank?
-        recipe = ""
-      elsif line =~ /^:0/
-        recipe = line
-        filters << load_filter(recipe,rule,action) if filter 
-        filter = Filter.new
-      elsif line =~ /^\*/ and recipe.present?
-        rule = line
-      elsif recipe.present?
-        action = line
-      end
+    arr = lines.split("\n")
+    while line = arr.shift
+      filters << load_filter(line,arr) if line =~ /^:0/
     end
-    filters << load_filter(recipe,rule,action) if filter
     filters
   end
 
-  def load_filter(recipe,rule,action)
+  def load_filter(recipe,arr)
     filter = Filter.new
-    load_rule(rule,filter)
-    load_action(recipe,action,filter)
+    while line = arr.shift
+      return filter if line.blank?
+      if line =~ /^\*/
+        load_rule(line,filter)
+      else
+        load_action(recipe,line,filter)
+      end
+    end
     filter
   end
 
@@ -93,7 +87,7 @@ module Procmail
   def load_action(recipe,line,filter)
     action             = Action.new
     if line =~ /^!/
-      action.operation = "Forward Message to"
+      action.operation = "Forward " + (recipe.include?("c") ? "Copy" : "Message") + " to"
     else
       action.operation = (recipe.include?("c") ? "Copy" : "Move") + " Message to"
     end

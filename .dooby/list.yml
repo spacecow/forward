@@ -65,8 +65,6 @@ e8d6c8: !ruby/object:Dooby::Task
   todo: route testing :done
 793b19: !ruby/object:Dooby::Task 
   todo: english/japanese :done
-b6a088: !ruby/object:Dooby::Task 
-  todo: be able to add extra rule
 4ce26f: !ruby/object:Dooby::Task 
   todo: be able to add extra action
 d12cb3: !ruby/object:Dooby::Task 
@@ -85,3 +83,5 @@ b538a4: !ruby/object:Dooby::Task
   todo: copy message to symbol :done
 dc5ebc: !ruby/object:Dooby::Task 
   todo: forward to symbol :done
+a23300: !ruby/object:Dooby::Task 
+  todo: be able to add extra rule :done

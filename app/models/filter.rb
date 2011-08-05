@@ -17,12 +17,13 @@ class Filter < ActiveRecord::Base
   def actions_to_file; actions.first.to_file end
   def actions_to_s; actions.first.to_s end
 
-  def rules_to_file; rules.first.to_file end
-  def rules_to_s; rules.first.to_s end
+  def rules_contents; rules.map(&:contents) end
+  def rules_to_file; rules.map(&:to_file) end
+  def rules_to_s; rules.map(&:to_s) end
 
   def to_file
     ret = ":0 :\n"
-    ret += "#{rules_to_file}\n"
+    ret += rules_to_file.join("\n")+"\n"
     ret += actions_to_file
     ret
   end

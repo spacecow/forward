@@ -22,9 +22,14 @@ describe Procmail do
         [["Subject", "yeah", "contains"], ["Move Message to", ".temp/"]]
     end
 
-    context "#rules_to_file" do
+    context "#rules_to_file", :rules_to_file => true do
       it "has 1 lines for 1 rule" do
-        @filter.rules_to_file.should eq "*^Subject:.*yeah"
+        @filter.rules_to_file.should eq ["*^Subject:.*yeah"]
+      end
+
+      it "has 2 lines for 2 rules" do
+        @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
+        @filter.rules_to_file.should eq ["*^Subject:.*yeah", "*^To:.*gmail"]
       end
     end
 
@@ -34,42 +39,47 @@ describe Procmail do
       end
     end
 
-    context "#to_file" do
+    context "#to_file", :to_file => true do
       it "has 3 lines for 1 rule & 1 action" do
         @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\ntemp"
+      end
+
+      it "has 4 lines for 2 rules & 1 action" do
+        @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
+        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\ntemp"
       end
     end
   end
 
-  context "#rules_to_s for part" do
+  context "#rules_to_s for part", :rules_to_s => true do
     it "contains ending with star" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
-      arr.first.rules_to_s.should == "^To:.*admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec"]
     end
 
     it "contains" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec\n.admin-ml/")
-      arr.first.rules_to_s.should == "^To:.*admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec"]
     end
 
     it "is" do 
       arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec$\n.admin-ml/")
-      arr.first.rules_to_s.should == "^To: admin-ml*^@.*riec$"
+      arr.first.rules_to_s.should == ["^To: admin-ml*^@.*riec$"]
     end
 
     it "begins with ending with star" do 
       arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec.*\n.admin-ml/")
-      arr.first.rules_to_s.should == "^To: admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == ["^To: admin-ml*^@.*riec"]
     end
  
     it "begins with" do 
       arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec\n.admin-ml/")
-      arr.first.rules_to_s.should == "^To: admin-ml*^@.*riec"
+      arr.first.rules_to_s.should == ["^To: admin-ml*^@.*riec"]
     end
 
     it "ends with" do 
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec$\n.admin-ml/")
-      arr.first.rules_to_s.should == "^To:.*admin-ml*^@.*riec$"
+      arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec$"]
     end
   end
   
@@ -96,9 +106,9 @@ describe Procmail do
     end
   end
 
-  context "#load_filter" do
+  context "#load_filter", :load_filter => true do
     it "splits up in rule and action" do
-      filter = @bajs.load_filter(":0:","*^To:.*admin-ml*^@.*riec.*", ".admin-ml")
+      filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
       filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
       filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
     end 
@@ -112,7 +122,6 @@ describe Procmail do
       it "non-dot, slash" do @bajs.load_action(":0:","admin-ml/", @filter) end
       it "non-dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end
       it "dot, slash" do @bajs.load_action(":0:",".admin-ml/", @filter) end
-      
       after(:each) do
         @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
       end
@@ -122,7 +131,6 @@ describe Procmail do
       it ":0" do @bajs.load_action(":0", ".admin-ml/", @filter) end
       it ":0:" do @bajs.load_action(":0", ".admin-ml/", @filter) end
       it ":0 :" do @bajs.load_action(":0", ".admin-ml/", @filter) end
-
       after(:each) do
         @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
       end
@@ -131,7 +139,6 @@ describe Procmail do
     context "Copy Message to, for:" do
       it ":0c" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
       it ":0c:" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
-
       after(:each) do
         @filter.actions.last.contents.should == ["Copy Message to", ".admin-ml/"]
       end
@@ -140,29 +147,46 @@ describe Procmail do
     context "Forward Message to, for:" do
       it "! x" do @bajs.load_action(":0", "! test@example.com", @filter) end
       it "!x" do @bajs.load_action(":0", "!test@example.com", @filter) end
-
       after(:each) do
         @filter.actions.last.contents.should == ["Forward Message to", "test@example.com"]
       end
     end    
+
+    context "Forward Copy to, for:" do
+      it ":0c, ! x" do @bajs.load_action(":0c", "! test@example.com", @filter) end
+      it ":0c:, ! x" do @bajs.load_action(":0c", "! test@example.com", @filter) end
+      it ":0c, !x" do @bajs.load_action(":0c", "!test@example.com", @filter) end
+      it ":0c:, !x" do @bajs.load_action(":0c", "!test@example.com", @filter) end
+      after(:each) do
+        @filter.actions.last.contents.should == ["Forward Copy to", "test@example.com"]
+      end
+    end
+
   end
 
-  context "#load_rule" do
+  context "#load_rule", :load_rule => true do
     before(:each){ @filter = Filter.new }
 
     it "splits up in section, substance and part" do
-      @bajs.load_rule("*^To:.*admin-ml*^@.*riec.*", @filter)
-      @filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
+      @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter)
+      @filter.rules_contents.should == [["To", "admin-ml.*@.*riec", "contains"]]
+    end
+
+    it "can add multiple rules" do
+      @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter)
+      @bajs.load_rule("*^Subject: yeah!", @filter)
+      @filter.rules_contents.should ==
+        [["To", "admin-ml.*@.*riec", "contains"], ["Subject", "yeah!", "begins with"]]
     end
 
     context "split up a rule where the splitter is" do
-      it ":.*" do @bajs.load_rule("*^To:.*admin-ml*^@.*riec.*", @filter) end
-      it ".*" do @bajs.load_rule("*^To.*admin-ml*^@.*riec.*", @filter) end
-      it ": " do @bajs.load_rule("*^To: admin-ml*^@.*riec.*", @filter) end
+      it ":.*" do @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter) end
+      it ".*" do @bajs.load_rule("*^To.*admin-ml.*@.*riec.*", @filter) end
+      it ": " do @bajs.load_rule("*^To: admin-ml.*@.*riec.*", @filter) end
 
       after(:each) do
         @filter.rules.last.section.should == "To"
-        @filter.rules.last.substance.should == "admin-ml*^@.*riec"
+        @filter.rules.last.substance.should == "admin-ml.*@.*riec"
       end
     end
 

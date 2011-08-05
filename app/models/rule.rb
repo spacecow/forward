@@ -7,7 +7,7 @@ class Rule < ActiveRecord::Base
     [section, substance, part]
   end
 
-  def to_file; ret = "*#{to_s}" end
+  def to_file; ret = "*"+to_s end
 
   def to_s
     ret = "^"

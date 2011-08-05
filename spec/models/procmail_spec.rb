@@ -7,13 +7,14 @@ end
 describe Procmail do
   before(:each){ @bajs = Bajs.new }
 
-  context "#save_filters", :wip => true do
+  context "#save_filters", :save_filters => true do
     before(:each) do
       rule = Rule.create(:section => "Subject", :part => "contains", :substance => "yeah")
       action = Action.create(:operation => "Move Message to", :destination => "temp")
       @filter = Filter.create
       @filter.rules << rule
       @filter.actions << action
+      @filter.save
     end
 
     it "saves a users filter to file" do
@@ -24,18 +25,12 @@ describe Procmail do
 
     context "#rules_to_file", :rules_to_file => true do
       it "has 1 lines for 1 rule" do
-        @filter.rules_to_file.should eq ["*^Subject:.*yeah"]
+        @filter.rules_to_file.should eq "*^Subject:.*yeah"
       end
 
       it "has 2 lines for 2 rules" do
         @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
-        @filter.rules_to_file.should eq ["*^Subject:.*yeah", "*^To:.*gmail"]
-      end
-    end
-
-    context "#actions_to_file" do
-      it "has 1 lines for 1 action" do
-        @filter.actions_to_file.should eq "temp"
+        @filter.rules_to_file.should eq "*^Subject:.*yeah\n*^To:.*gmail"
       end
     end
 
@@ -48,6 +43,56 @@ describe Procmail do
         @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
         @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\ntemp"
       end
+
+      it "has 10 lines for 2 rules & 2 actions" do
+        @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
+        @filter.actions << Action.create(:operation => "Forward Copy to", :destination => "temp@gmail.com")
+        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\n{\n\t:0c\n\t!temp@gmail.com\n\n\t:0:\n\t.temp/\n}"
+      end
+    end
+  end
+
+  context "#actions_to_file", :actions_to_file => true do
+    before(:each) do
+      @filter = Filter.new
+      @filter.rules << Factory(:rule)
+    end
+
+    it "has 1 line for 1 action" do
+      @filter.actions << Action.create(:operation => "Move Message to", :destination => "temp")
+      @filter.save
+      @filter.actions_to_file.should eq "temp"
+    end
+
+    context "has 7 lines for 2 actions, for:" do
+      it "move, move" do
+        @filter.actions << Action.new(:operation => "Move Message to", :destination => "temp")
+        @filter.actions << Action.new(:operation => "Forward Message to", :destination => "example@gmail.com")
+        @filter.save
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0\n\t!example@gmail.com\n}"
+      end
+
+      it "copy, move" do
+        @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
+        @filter.save
+        @filter.actions << Action.create(:operation => "Forward Message to", :destination => "example@gmail.com")
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0\n\t!example@gmail.com\n}"
+      end
+  
+      it "move, copy" do
+        @filter.actions << Action.create(:operation => "Forward Message to", :destination => "example@gmail.com")
+        @filter.save
+        @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0\n\t!example@gmail.com\n}"
+      end
+
+      it "copy, copy" do
+        @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
+        @filter.save
+        @filter.actions << Action.create(:operation => "Forward Copy to", :destination => "example@gmail.com")
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0c\n\t!example@gmail.com\n}"
+      end
+  
     end
   end
 
@@ -83,6 +128,25 @@ describe Procmail do
     end
   end
   
+  context "#actions_to_s", :actions_to_s => true do
+    before(:each) do
+      rule = Factory(:rule)
+      action = Action.create(:operation => "Move Message to", :destination => "temp")
+      @filter = Filter.create
+      @filter.rules << rule
+      @filter.actions << action
+    end
+
+    it "has 1 line for 1 action" do
+      @filter.actions_to_s.should eq ["temp"]
+    end
+
+    it "has 2 lines for 2 actions" do
+      @filter.actions << Action.create(:operation => "Forward Message to", :destination => "example@gmail.com")
+      @filter.actions_to_s.should eq ["temp", "example@gmail.com"]
+    end
+  end
+
   context "#load_filters" do
     it "returns an empty array if file is empty" do
       arr = @bajs.load_filters("")

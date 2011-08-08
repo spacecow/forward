@@ -34,8 +34,10 @@ class Filter < ActiveRecord::Base
   def rules_to_s; rules.map(&:to_s) end
 
   def to_file
-    ret = ":0 :\n"
-    ret += rules_to_file+"\n"
+    ret = ":0"
+    ret += "c" if one_action? && copy_message?
+    ret += ":" if one_action? && move_message_to_folder?
+    ret += "\n"+rules_to_file+"\n"
     ret += actions_to_file
     ret
   end
@@ -48,6 +50,11 @@ class Filter < ActiveRecord::Base
     def at_least_one_rule_must_exist
       errors.add(:base, "At least one rule must exist.") if rules.empty?
     end
+
+    def copy_message?; actions.first.copy_message? end
+    def forward_message?; actions.first.forward_message? end
+    def move_message_to_folder?; actions.first.move_message_to_folder? end
+    def one_action?; actions.count == 1 end
 end
 
 

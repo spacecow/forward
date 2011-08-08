@@ -81,9 +81,9 @@ dc5ebc: !ruby/object:Dooby::Task
   todo: forward to symbol :done
 a23300: !ruby/object:Dooby::Task 
   todo: be able to add extra rule :done
-a7b8a5: !ruby/object:Dooby::Task 
-  todo: lock on folder, no lock for forwarding
 4a22f3: !ruby/object:Dooby::Task 
   todo: be able to add extra action :done
 b13fbd: !ruby/object:Dooby::Task 
   todo: add blank line to the end of the file :done
+7af69d: !ruby/object:Dooby::Task 
+  todo: lock on folder, no lock for forwarding :done

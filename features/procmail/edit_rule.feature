@@ -22,7 +22,7 @@ And a file ".procmail" should exist with:
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
 
-:0 :
+:0:
 *^To:.*yeah
 .temp/
 

@@ -35,19 +35,31 @@ describe Procmail do
     end
 
     context "#to_file", :to_file => true do
+      it "has a mark of copy in the recipe if copy" do
+        @filter.actions.destroy_all
+        @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
+        @filter.to_file.should eq ":0c:\n*^Subject:.*yeah\n.temp/" 
+      end
+
+      it "does not need a lock if it is forwarding" do
+        @filter.actions.destroy_all
+        @filter.actions << Action.create(:operation => "Forward Message to", :destination => "example@gmail.com")
+        @filter.to_file.should eq ":0\n*^Subject:.*yeah\n!example@gmail.com" 
+      end
+
       it "has 3 lines for 1 rule & 1 action" do
-        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n.temp/"
+        @filter.to_file.should eq ":0:\n*^Subject:.*yeah\n.temp/"
       end
 
       it "has 4 lines for 2 rules & 1 action" do
         @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
-        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\n.temp/"
+        @filter.to_file.should eq ":0:\n*^Subject:.*yeah\n*^To:.*gmail\n.temp/"
       end
 
       it "has 10 lines for 2 rules & 2 actions" do
         @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
         @filter.actions << Action.create(:operation => "Forward Copy to", :destination => "temp@gmail.com")
-        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\n{\n\t:0c\n\t!temp@gmail.com\n\n\t:0:\n\t.temp/\n}"
+        @filter.to_file.should eq ":0\n*^Subject:.*yeah\n*^To:.*gmail\n{\n\t:0c\n\t!temp@gmail.com\n\n\t:0:\n\t.temp/\n}"
       end
     end
   end

@@ -7,6 +7,7 @@ And I fill in "Password" with "correct"
 And I press "Login"
 Then I should be on to the edit page
 And I should see "Successfully logged in." as notice flash message
+And a user should exist with username: "user"
 
 Scenario: Incorrect login
 When I go to the login page

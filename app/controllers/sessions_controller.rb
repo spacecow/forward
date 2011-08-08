@@ -10,6 +10,9 @@ class SessionsController < ApplicationController
     if authpam(params[:username],params[:password])
       session[:username] = params[:username]
       session[:password] = params[:password]
+      unless User.find_by_username(session[:username])
+        User.create(:username => session[:username], :password => session[:password]) 
+      end
       redirect_to edit_path, :notice => notify(:logged_in)
     else
       redirect_to login_path, :alert => alert2(:incorrect,

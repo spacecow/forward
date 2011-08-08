@@ -1,7 +1,5 @@
 Forward::Application.routes.draw do
   match 'user/edit' => 'users#edit', :as => :edit_current_user
-  match 'admin_logout' => 'sessions#destroy', :as => :admin_logout
-  match 'admin_login' => 'sessions#new', :as => :admin_login
 
   resources :sessions, :only => [:new,:create,:destroy]
 
@@ -17,21 +15,18 @@ Forward::Application.routes.draw do
   namespace "procmail" do
     resources :filters
   end
+  match 'procmail', :controller => "procmail/filters", :action => "index"
 
   match 'edit'     => 'operator#edit'
   match 'logout' => 'sessions#destroy', :as => :logout
   match 'login' => 'sessions#new', :as => :login
-  #match 'login'    => 'operator#login'
-  #match 'logout'   => 'operator#logout'
   match 'connect'  => 'operator#connect'
   match 'update'   => 'operator#update'
-  match 'welcome'  => 'operator#login'
+  match 'welcome'  => 'sessions#new'
   match 'procmail' => 'operator#procmail'
   
-  get "operator/logout"
   get "operator/edit"
-  get "operator/login"
   post "operator/connect"
   post "operator/update"
-  root :to => "operator#login"
+  root :to => "sessions#new"
 end

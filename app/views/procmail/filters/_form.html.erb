@@ -1,7 +1,8 @@
+<div id="main">
 <%= semantic_form_for [:procmail, @filter] do |f| %>
   <%= f.semantic_errors %>
   <% @filter.rules.each do |rule| %>
-    <%= f.inputs :for => [:rules, rule], :class => "rule" do |ref| %>
+    <%= f.inputs :for => [:rules, rule], :class => :inline do |ref| %>
       <%= render 'rules/form', :f => ref %>
     <% end %>
   <% end %>
@@ -11,3 +12,4 @@
   <%= f.submit t(:cancel) %>
   <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)) %>
 <% end %>
+</div>

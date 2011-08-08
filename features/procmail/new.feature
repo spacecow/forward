@@ -43,6 +43,13 @@ And 0 filters should exist
 And 0 actions should exist
 And 0 rules should exist
 
+@wip
+Scenario: A rule is only halfway done
+When I go to the new procmail filter page
+And I fill in the first "rules substance" field with "oh boy" for "filter"
+And I press "Create"
+Then the first "rules substance" field should contain "oh boy" for "filter"
+
 Scenario: A filter is not created if rule is not completed
 When I go to the new procmail filter page
 And I select "Move Message to" from the first "actions operation" field for "filter"

@@ -24,7 +24,8 @@ DEFAULT=$MAILDIR
 
 :0 :
 *^Subject:.*yeah
-temporary
+.temporary/
+
 """
 
 Scenario: Empty actions are not saved

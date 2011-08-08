@@ -69,8 +69,6 @@ d12cb3: !ruby/object:Dooby::Task
   todo: read in more variables
 b538a4: !ruby/object:Dooby::Task 
   todo: minus in action/rules
-45de80: !ruby/object:Dooby::Task 
-  todo: add blank line to the end of the file
 "777537": !ruby/object:Dooby::Task 
   todo: escape dots
 8ba580: !ruby/object:Dooby::Task 
@@ -87,3 +85,5 @@ a7b8a5: !ruby/object:Dooby::Task
   todo: lock on folder, no lock for forwarding
 4a22f3: !ruby/object:Dooby::Task 
   todo: be able to add extra action :done
+b13fbd: !ruby/object:Dooby::Task 
+  todo: add blank line to the end of the file :done

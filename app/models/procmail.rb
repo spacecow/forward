@@ -19,6 +19,7 @@ module Procmail
       pipe.write "MAILDIR=$HOME/Maildir/\n"
       pipe.write "DEFAULT=$MAILDIR\n\n"
       pipe.write arr.map(&:to_file).join("\n\n")
+      pipe.write "\n"
       pipe.close_write
     end
   end

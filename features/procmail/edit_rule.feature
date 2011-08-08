@@ -24,7 +24,7 @@ DEFAULT=$MAILDIR
 
 :0 :
 *^To:.*yeah
-temp
+.temp/
 """
 
 Scenario: Empty rules are not saved

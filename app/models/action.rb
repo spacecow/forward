@@ -22,8 +22,7 @@ class Action < ActiveRecord::Base
     ret += ":" if move_message_to_folder?
     ret += "\n"
     ret += "\t"
-    ret += "!" + to_s if forward_message?
-    ret += "." + to_s + "/" if move_message_to_folder?
+    ret += destination_to_file
     ret
   end
 
@@ -31,7 +30,14 @@ class Action < ActiveRecord::Base
     [operation, destination]
   end
   
-  def to_file; to_s end
+  def destination_to_file
+    ret = ""
+    ret += "!" + to_s if forward_message?
+    ret += "." + to_s + "/" if move_message_to_folder?
+    ret
+  end
+    
+  def to_file; destination_to_file end
   def to_s; destination end
 end
 

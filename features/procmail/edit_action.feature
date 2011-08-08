@@ -11,6 +11,7 @@ Scenario: Edit action view
 Then "Move Message to" should be selected in the first "actions operation" field for "filter"
 And the "filter_actions_attributes_0_destination" field should contain "temp"
 
+@wip
 Scenario: Edit an action
 When I fill in the first "actions destination" field with "temporary" for "filter"
 And I press "Update"

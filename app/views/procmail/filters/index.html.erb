@@ -1,8 +1,8 @@
 <table id="filters">
 <% @filters.each do |filter| %>
   <tr>
-    <td><%= filter.rules_to_s %></td>
-    <td><%= filter.actions_to_s %></td>
+    <td><%= filter.rules_to_s.join %></td>
+    <td><%= filter.actions.map(&:destination_to_file).join %></td>
     <td><%= link_to t(:edit), edit_procmail_filter_path(filter) %></td>
   </tr>
 <% end %>

@@ -64,5 +64,6 @@ DEFAULT=$MAILDIR
 
 :0 :
 *^Subject:.*yeah
-temp
+.temp/
+
 """

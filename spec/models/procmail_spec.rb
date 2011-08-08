@@ -20,7 +20,7 @@ describe Procmail do
     it "saves a users filter to file" do
       @bajs.save_filters("test", "correct", [@filter])
       @bajs.read_filters("test", "correct").first.contents.should == 
-        [["Subject", "yeah", "contains"], ["Move Message to", ".temp/"]]
+        [["Subject", "yeah", "contains"], ["Move Message to", "temp"]]
     end
 
     context "#rules_to_file", :rules_to_file => true do
@@ -36,12 +36,12 @@ describe Procmail do
 
     context "#to_file", :to_file => true do
       it "has 3 lines for 1 rule & 1 action" do
-        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\ntemp"
+        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n.temp/"
       end
 
       it "has 4 lines for 2 rules & 1 action" do
         @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
-        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\ntemp"
+        @filter.to_file.should eq ":0 :\n*^Subject:.*yeah\n*^To:.*gmail\n.temp/"
       end
 
       it "has 10 lines for 2 rules & 2 actions" do
@@ -61,7 +61,7 @@ describe Procmail do
     it "has 1 line for 1 action" do
       @filter.actions << Action.create(:operation => "Move Message to", :destination => "temp")
       @filter.save
-      @filter.actions_to_file.should eq "temp"
+      @filter.actions_to_file.should eq ".temp/"
     end
 
     context "has 7 lines for 2 actions, for:" do
@@ -69,28 +69,28 @@ describe Procmail do
         @filter.actions << Action.new(:operation => "Move Message to", :destination => "temp")
         @filter.actions << Action.new(:operation => "Forward Message to", :destination => "example@gmail.com")
         @filter.save
-        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0\n\t!example@gmail.com\n}"
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\t.temp/\n\n\t:0\n\t!example@gmail.com\n}"
       end
 
       it "copy, move" do
         @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
         @filter.save
         @filter.actions << Action.create(:operation => "Forward Message to", :destination => "example@gmail.com")
-        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0\n\t!example@gmail.com\n}"
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\t.temp/\n\n\t:0\n\t!example@gmail.com\n}"
       end
   
       it "move, copy" do
         @filter.actions << Action.create(:operation => "Forward Message to", :destination => "example@gmail.com")
         @filter.save
         @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
-        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0\n\t!example@gmail.com\n}"
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\t.temp/\n\n\t:0\n\t!example@gmail.com\n}"
       end
 
       it "copy, copy" do
         @filter.actions << Action.create(:operation => "Copy Message to", :destination => "temp")
         @filter.save
         @filter.actions << Action.create(:operation => "Forward Copy to", :destination => "example@gmail.com")
-        @filter.actions_to_file.should eq "{\n\t:0c:\n\ttemp\n\n\t:0c\n\t!example@gmail.com\n}"
+        @filter.actions_to_file.should eq "{\n\t:0c:\n\t.temp/\n\n\t:0c\n\t!example@gmail.com\n}"
       end
   
     end
@@ -147,7 +147,7 @@ describe Procmail do
     end
   end
 
-  context "#load_filters" do
+  context "#load_filters", :load_filters => true do
     it "returns an empty array if file is empty" do
       arr = @bajs.load_filters("")
       arr.should be_empty
@@ -157,16 +157,16 @@ describe Procmail do
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
       arr.size.should == 1
       arr.last.contents.should == [["To", "admin-ml*^@.*riec", "contains"],
-                                   ["Move Message to", ".admin-ml/"]]
+                                   ["Move Message to", "admin-ml"]]
     end
 
     it "returns 2 filters in an array" do
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/\n\n:0 :\n*^CC:.*fir@.*riec.*\n.fir-cc/")
       arr.size.should == 2
       arr.first.contents.should == [["To", "admin-ml*^@.*riec", "contains"],
-                                    ["Move Message to", ".admin-ml/"]]
+                                    ["Move Message to", "admin-ml"]]
       arr.last.contents.should == [["CC", "fir@.*riec", "contains"],
-                                    ["Move Message to", ".fir-cc/"]]
+                                    ["Move Message to", "fir-cc"]]
     end
   end
 
@@ -174,7 +174,7 @@ describe Procmail do
     it "splits up in rule and action" do
       filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
       filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
-      filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
+      filter.actions.last.contents.should == ["Move Message to", "admin-ml"]
     end 
   end
     
@@ -182,12 +182,12 @@ describe Procmail do
     before(:each){ @filter = Filter.new }
 
     context "creates a destination folrder with dot and slash for" do
-      it "dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end
+      it "dot, non-slash" do @bajs.load_action(":0:",".admin-ml", @filter) end
       it "non-dot, slash" do @bajs.load_action(":0:","admin-ml/", @filter) end
       it "non-dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end
       it "dot, slash" do @bajs.load_action(":0:",".admin-ml/", @filter) end
       after(:each) do
-        @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
+        @filter.actions.last.contents.should == ["Move Message to", "admin-ml"]
       end
     end
 
@@ -196,15 +196,15 @@ describe Procmail do
       it ":0:" do @bajs.load_action(":0", ".admin-ml/", @filter) end
       it ":0 :" do @bajs.load_action(":0", ".admin-ml/", @filter) end
       after(:each) do
-        @filter.actions.last.contents.should == ["Move Message to", ".admin-ml/"]
+        @filter.actions.last.contents.should == ["Move Message to", "admin-ml"]
       end
     end
 
     context "Copy Message to, for:" do
       it ":0c" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
-      it ":0c:" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
+      it ":0c:" do @bajs.load_action(":0c", ".admin-ml", @filter) end
       after(:each) do
-        @filter.actions.last.contents.should == ["Copy Message to", ".admin-ml/"]
+        @filter.actions.last.contents.should == ["Copy Message to", "admin-ml"]
       end
     end
 

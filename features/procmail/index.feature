@@ -17,6 +17,7 @@ DEFAULT=$MAILDIR
 When I go to the procmail filters page
 
 Scenario: Filter index view
+Then show me the page
 Then I should see "^From: root@riec$" within the first "filters" table row
 And I should see ".root/" within the first "filters" table row
 And I should see an "Edit" link within the first "filters" table row

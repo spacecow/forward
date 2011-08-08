@@ -1,11 +1,6 @@
 module Procmail
   def prepare_filters(username, password)
-   # IO.popen("/usr/local/sbin/chprocmailrc -g #{username}", 'r+') do |pipe|
-   #   pipe.write(password)
-   #   pipe.close_write
-   #   @filters = load_filters(pipe.read)
-   # end
-    read_filters(username,password)
+    @filters = read_filters(username,password)
     current_user.filters.destroy_all
     current_user.filters = @filters
   end
@@ -91,8 +86,20 @@ module Procmail
     else
       action.operation = (recipe.include?("c") ? "Copy" : "Move") + " Message to"
     end
-    action.destination = prepare_destination(line)
+    action.destination = strip_destination(line) #prepare_destination(line)
     filter.actions << action
+  end
+
+  def strip_destination(s)
+    data = s.match(/^!\s*(.*)/)
+    return data[1] if data
+    data = s.match(/^\.(.*)\//)
+    return data[1] if data
+    data = s.match(/(.+)\//)
+    return data[1] if data
+    data = s.match(/\.(.*)/)
+    return data[1] if data
+    s
   end
 
   def prepare_destination(s)

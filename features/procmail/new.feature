@@ -10,16 +10,16 @@ DEFAULT=$MAILDIR
 
 Scenario: New Filter Rules View
 When I go to the new procmail filter page
-Then nothing should be selected in the first "rules section" field for "filter"
-And nothing should be selected in the first "rules part" field for "filter"
-And the first "rules substance" field for "filter" should be empty
-But I should see no second "rules substance" field for "filter"
+Then nothing should be selected in the first "section" field
+And nothing should be selected in the first "part" field
+And the first "substance" field should be empty
+But I should see no second "substance" field
 
 Scenario: New Filter Actions View
 When I go to the new procmail filter page
-Then nothing should be selected in the first "actions operation" field for "filter"
-And the first "actions destination" field for "filter" should be empty
-But I should see no second "actions destination" field for "filter"
+Then nothing should be selected in the first "operation" field
+And the first "destination" field should be empty
+But I should see no second "destination" field
 
 Scenario: New Filter View
 When I go to the new procmail filter page
@@ -34,26 +34,53 @@ And 0 filters should exist
 
 Scenario: A filter is not created if action is not completed
 When I go to the new procmail filter page
-And I select "Subject" from the first "rules section" field for "filter"
-And I select "contains" from the first "rules part" field for "filter"
-And I fill in the first "rules substance" field with "yeah" for "filter"
+And I select "Subject" from the first "section" field
+And I select "contains" from the first "part" field
+And I fill in the first "substance" field with "yeah"
 And I press "Create"
 Then I should see "At least one action must exist."
 And 0 filters should exist
 And 0 actions should exist
 And 0 rules should exist
 
-@wip
 Scenario: A rule is only halfway done
 When I go to the new procmail filter page
-And I fill in the first "rules substance" field with "oh boy" for "filter"
+And I fill in the first "substance" field with "oh boy"
 And I press "Create"
-Then the first "rules substance" field should contain "oh boy" for "filter"
+Then the first "substance" field should contain "oh boy"
+But I should see no second "substance" field
+And the first "destination" field should be empty
+But I should see no second "destination" field
+
+Scenario: An action is only halfway done
+When I go to the new procmail filter page
+And I fill in the first "destination" field with "ohboy"
+And I press "Create"
+Then the first "substance" field should be empty
+But I should see no second "substance" field
+And the first "destination" field should contain "ohboy"
+But I should see no second "destination" field
+
+Scenario: Add a rule before creating one
+When I go to the new procmail filter page
+And I press "+" in the first "rules" listing for "filter"
+Then the second "substance" field should be empty
+But I should see no third "substance" field
+And the first "destination" field should be empty
+But I should see no second "destination" field
+
+Scenario: Add an action before creating one
+When I go to the new procmail filter page
+And I press "+" in the first "actions" listing for "filter"
+Then the first "substance" field should be empty
+But I should see no second "substance" field
+And the second "destination" field should be empty
+But I should see no third "destination" field
 
 Scenario: A filter is not created if rule is not completed
 When I go to the new procmail filter page
-And I select "Move Message to" from the first "actions operation" field for "filter"
-And I fill in the first "actions destination" field with "temp" for "filter"
+And I select "Move Message to" from the first "operation" field
+And I fill in the first "destination" field with "temp"
 And I press "Create"
 Then I should see "At least one rule must exist."
 And 0 filters should exist
@@ -62,11 +89,11 @@ And 0 rules should exist
 
 Scenario: Create a filter
 When I go to the new procmail filter page
-And I select "Subject" from the first "rules section" field for "filter"
-And I select "contains" from the first "rules part" field for "filter"
-And I fill in the first "rules substance" field with "yeah" for "filter"
-And I select "Move Message to" from the first "actions operation" field for "filter"
-And I fill in the first "actions destination" field with "temp" for "filter"
+And I select "Subject" from the first "section" field
+And I select "contains" from the first "part" field
+And I fill in the first "substance" field with "yeah"
+And I select "Move Message to" from the first "operation" field
+And I fill in the first "destination" field with "temp"
 And I press "Create"
 Then 1 filters should exist
 And a rule should exist with filter: that filter, section: "Subject", part: "contains", substance: "yeah"
@@ -87,11 +114,11 @@ Given an action exists with operation: "Move Message to", destination: "temp"
 And a rule exists with section: "Subject", part: "contains", substance: "yeah"
 And a filter exists with user: that user, rules: that rule, actions: that action
 When I go to the new procmail filter page
-And I select "To" from the first "rules section" field for "filter"
-And I select "is" from the first "rules part" field for "filter"
-And I fill in the first "rules substance" field with "oh boy" for "filter"
-And I select "Forward Copy to" from the first "actions operation" field for "filter"
-And I fill in the first "actions destination" field with "example@gmail.com" for "filter"
+And I select "To" from the first "section" field
+And I select "is" from the first "part" field
+And I fill in the first "substance" field with "oh boy"
+And I select "Forward Copy to" from the first "operation" field
+And I fill in the first "destination" field with "example@gmail.com"
 And I press "Create"
 Then 2 filters should exist
 And a file ".procmail" should exist with:

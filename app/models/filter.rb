@@ -4,10 +4,10 @@ class Filter < ActiveRecord::Base
   belongs_to :user
 
   has_many :rules, :dependent => :destroy
-  accepts_nested_attributes_for :rules, :reject_if => lambda {|a| a[:section].blank? || a[:part].blank? || a[:substance].blank?}, :allow_destroy => true
+  accepts_nested_attributes_for :rules #, :reject_if => lambda {|a| a[:section].blank? || a[:part].blank? || a[:substance].blank?}, :allow_destroy => true
 
   has_many :actions, :dependent => :destroy
-  accepts_nested_attributes_for :actions, :reject_if => lambda {|a| a[:operation].blank? || a[:destination].blank?}, :allow_destroy => true
+  accepts_nested_attributes_for :actions #, :reject_if => lambda {|a| a[:operation].blank? || a[:destination].blank?}, :allow_destroy => true
 
   validate :at_least_one_action_must_exist
   validate :at_least_one_rule_must_exist

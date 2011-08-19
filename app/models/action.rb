@@ -3,6 +3,8 @@ class Action < ActiveRecord::Base
 
   belongs_to :filter
 
+  validates_presence_of :destination, :operation
+
   def <=>(action)
     if self.copy_message?
       -1

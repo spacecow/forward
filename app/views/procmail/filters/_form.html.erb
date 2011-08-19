@@ -1,13 +1,15 @@
 <div id="main">
-<%= semantic_form_for [:procmail, @filter] do |f| %>
+<%= semantic_form_for [:procmail, @filter], :html =>{:id => :filter} do |f| %>
   <%= f.semantic_errors %>
   <% @filter.rules.each do |rule| %>
-    <%= f.inputs :for => [:rules, rule], :class => :inline do |ref| %>
+    <%= f.inputs :for => [:rules, rule], :class => :inline, :id => :rules do |ref| %>
       <%= render 'rules/form', :f => ref %>
     <% end %>
   <% end %>
-  <%= f.semantic_fields_for :actions do |ref| %>
-    <%= render 'actions/form', :f => ref %>
+  <% @filter.actions.each do |action| %>
+    <%= f.inputs :for => [:actions, action], :class => :inline, :id => :actions do |ref| %>
+      <%= render 'actions/form', :f => ref %>
+    <% end %>
   <% end %>
   <%= f.submit t(:cancel) %>
   <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)) %>

@@ -12,7 +12,8 @@ en:
   locale: "Locale"
   login: "Login"
   logout: "Logout"
-  mail_forward_setting: "Mail Forward Settings for %{user}"
+  mail_filter: "Mail Filter"
+  mail_forward_settings: "Mail Forward Settings for %{user}"
   mail_forward_login: "Mail Forward Login"
   member: "Member"
   mini_admin: "mini-admin"
@@ -69,6 +70,23 @@ en:
       title: "Title"
       username: "Username"
       value: "Value"
+  rules:
+    parts:
+      begins_with: "begins with"
+      contains: "contains"
+      ends_with: "ends with"
+      is: "is"
+    sections:
+      cc: "Cc"
+      from: "From"
+      subject: "Subject"
+      to: "To"
+  actions:
+    operations:
+      copy_message_to: "Copy Message to"
+      forward_copy_to: "Forward Copy to"
+      forward_message_to: "Forward Message to"
+      move_message_to: "Move Message to"
 
   address_field: "Address Field"
   anonymous: "Anonymous"
@@ -76,4 +94,3 @@ en:
   dot_forward: "DOT Forward"
   filter: "Filter"
   translation: "Translation"
-

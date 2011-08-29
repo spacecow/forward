@@ -27,23 +27,33 @@ DEFAULT=$MAILDIR
 
 """
 
-@wip
 Scenario: Actions not fully filled in will not be saved, but other changes will
 When I press "+" in the first "actions" listing for "filter"
 And I fill in the first "destination" field with "temporary"
 And I select "Copy Message to" from the second "operation" field
 And I press "Update"
-Then 1 actions should exist
+Then a filter should exist
+And an action should exist with filter: that filter, operation: "Move Message to", destination: "temporary"
+And 1 actions should exist
 And I should be on the procmail filters page
-And I should see "Updated 1 rule & 1 action"
+And I should see "Updated rules: 1, actions: 1"
 
 Scenario: Add an action
 When I press "+" in the first "actions" listing for "filter"
 Then "Move Message to" should be selected in the first "operation" field
 And nothing should be selected in the second "operation" field
-But I should see no third "operation" field
+But I should see no third "actions" listing
 And the first "substance" field should contain "yeah"
-And I should see no second "substance" field
+And I should see no second "rules" listing
+And 1 actions should exist
+
+Scenario: Add a second action
+When I press "+" in the first "actions" listing for "filter"
+And I press "+" in the second "actions" listing for "filter"
+Then "Move Message to" should be selected in the first "operation" field
+And nothing should be selected in the second "operation" field
+And nothing should be selected in the third "operation" field
+And I should see no fourth "actions" listing
 And 1 actions should exist
 
 Scenario: The one action cannot miss destination
@@ -60,27 +70,20 @@ And I should see an error "can't be blank" at the first "operation" field
 But I should see no second "actions" listing
 And I should see 1 "rules" listing
 
-Scenario: Add a second rule
-When I press "+" in the first "actions" listing for "filter"
-And I press "+" in the second "actions" listing for "filter"
-Then "Move Message to" should be selected in the first "actions operation" field for "filter"
-And nothing should be selected in the second "actions operation" field for "filter"
-And nothing should be selected in the third "actions operation" field for "filter"
-And 1 actions should exist
-
 Scenario: An added actions' contents should remain when adding an additional action
 When I press "+" in the first "actions" listing for "filter"
-And I select "Copy Message to" from "filter_actions_attributes_1_operation"
+And I select "Copy Message to" from the second "operation" field
 And I press "+" in the second "actions" listing for "filter"
-Then "Move Message to" should be selected in the first "actions operation" field for "filter"
-And "Copy Message to" should be selected in the second "actions operation" field for "filter"
-And nothing should be selected in the third "actions operation" field for "filter"
+Then "Move Message to" should be selected in the first "operation" field
+And "Copy Message to" should be selected in the second "operation" field
+And nothing should be selected in the third "operation" field
+And I should see no fourth "actions" listing
 
 Scenario: An added rule's content should remain when adding an action
 When I press "+" in the first "rules" listing for "filter"
-And I select "begins with" from "filter_rules_attributes_1_part"
+And I select "begins with" from the second "part" field
 And I press "+" in the first "actions" listing for "filter"
-Then "begins with" should be selected in the second "rules part" field for "filter"
+Then "begins with" should be selected in the second "part" field
 
 Scenario: Delete an action
 When I press "-" in the first "actions" listing for "filter"

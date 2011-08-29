@@ -1,4 +1,6 @@
 Factory.define :action do |f|
+  f.operation "Move Message to"
+  f.destination "temp"
 end
 
 Factory.define :filter do |f|
@@ -9,6 +11,9 @@ Factory.define :locale do |f|
 end
 
 Factory.define :rule do |f|
+  f.section "To"
+  f.part "is"
+  f.substance "test@example.com"
 end
 
 Factory.define :translation do |f|

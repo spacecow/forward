@@ -9,6 +9,10 @@ class Procmail::FiltersController < ApplicationController
 
   def index
     prepare_filters(session[:username], session[:password])
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @filters }
+    end
   end
 
   def new
@@ -18,19 +22,24 @@ class Procmail::FiltersController < ApplicationController
 
   def create
     if params[:rule_plus] or params[:action_plus]
-      build_non_saved_rules
       build_added_rule
-      build_non_saved_actions
       build_added_action
       render :new and return
     end
     if @filter.save
       save_filters(session[:username], session[:password], current_user.filters)
       redirect_to procmail_filters_path
-    else
-      build_non_saved_rules
-      build_non_saved_actions
+    elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
       render :new
+    elsif @filter.actions.map(&:valid?).reject{|e| e==false}.empty?
+      render :new
+    else
+      @filter.rules.reject!{|e| !e.valid?}
+      @filter.actions.reject!{|e| !e.valid?}
+      @filter.save
+      save_filters(session[:username], session[:password], current_user.filters)
+      flash[:notice] = "Created rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
+      redirect_to procmail_filters_path
     end
   end
 
@@ -39,7 +48,7 @@ class Procmail::FiltersController < ApplicationController
     build_added_rule
     build_non_saved_actions
     build_added_action
-  end
+end
 
   def update
     if params[:rule_plus] or params[:action_plus]
@@ -50,17 +59,21 @@ class Procmail::FiltersController < ApplicationController
       render :edit and return
     end
     p @filter.actions
+    #p @filter.rules
     if @filter.update_attributes(params[:filter])
       save_filters(session[:username], session[:password], current_user.filters)
       redirect_to procmail_filters_path
+    elsif @filter.actions.map(&:valid?).reject{|e| e==false}.empty?
+      render :edit
+    elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
+      render :edit
     else
-      if @filter.actions.map(&:valid?).reject{|e| e==false}.empty?
-        render :edit
-      else
-        @filter.actions.reject!{|e| !e.valid?}
-        p @filter.actions
-        redirect_to procmail_filters_path
-      end
+      @filter.actions.reject!{|e| !e.valid?}
+      @filter.rules.reject!{|e| !e.valid?}
+      @filter.save
+      save_filters(session[:username], session[:password], current_user.filters)
+      flash[:notice] = "Updated rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
+      redirect_to procmail_filters_path
     end
   end
 

@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     if params[:username].blank? || params[:password].blank?
-      flash[:alert] = alert2(:incorrect,t('messages.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
+      flash[:alert] = alert2(:incorrect_username_or_password,t('messages.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
       redirect_to login_path and return
     end
     if authpam(params[:username],params[:password])
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       end
       redirect_to edit_path, :notice => notify(:logged_in)
     else
-      redirect_to login_path, :alert => alert2(:incorrect,
+      redirect_to login_path, :alert => alert2(:incorrect_username_or_password,
         t('messages.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
     end
 

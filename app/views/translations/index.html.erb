@@ -6,8 +6,8 @@
       <tr>
         <td class="bold"><%= key %></td>
         <td><%= t key[3..-1] %></td>
-        <td><%= link_to t(:edit), translations_path(:key => key) %></td>
-        <td><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></td>
+        <td class="action"><%= link_to t(:edit), translations_path(:key => key) %></td>
+        <td class="action"><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></td>
       </tr>
     <% end %>
   </table>

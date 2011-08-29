@@ -158,3 +158,8 @@ div#contents_container div#main_container div#main table tr td.bold {
 div#contents_container div#main_container div#main table tr td {
   padding-right: 5px;
 }
+
+/* line 120, ../../app/stylesheets/application.sass */
+td.action {
+  width: 30px;
+}

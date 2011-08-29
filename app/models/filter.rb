@@ -16,6 +16,7 @@ class Filter < ActiveRecord::Base
     [rules.first.contents, actions.first.contents]
   end
 
+  def actions_contents; actions.map(&:contents) end
   def actions_to_file
     if actions.count <= 1
       actions.first.to_file

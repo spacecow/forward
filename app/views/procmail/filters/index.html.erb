@@ -1,13 +1,62 @@
-<table id="filters">
-<% @filters.each do |filter| %>
-  <tr>
-    <td><%= filter.rules_to_s.join %></td>
-    <td><%= filter.actions.map(&:destination_to_file).join %></td>
-    <td><%= link_to t(:edit), edit_procmail_filter_path(filter) %></td>
-  </tr>
-<% end %>
-</table>
+<div id="main">
+  <% content_for(:site_nav) do %>
+    <%= link_to t(:logout), logout_path, :class => :right %>
+  <% end %>
 
-<div id="bottom_links">
-  <%= link_to new(:filter), new_procmail_filter_path %>
+  <h1><%= pl(:mail_filter) %></h1>
+
+  <table id="filters">
+    <% @filters.each do |filter| %>
+      <% i=0 %>
+      <% while i < [filter.rules.count, filter.actions.count].max %>
+        <tr>
+          <% if filter.rules.count > i %>
+            <td><%= filter.rules[i].section %></td>
+            <td><%= filter.rules[i].part %></td>
+            <td><%= filter.rules[i].substance %></td>
+          <% else %>
+            <td></td>
+            <td></td>
+            <td></td>
+          <% end %>
+          <% if filter.actions.count > i %>
+            <td><%= filter.actions[i].operation %></td>
+            <td><%= filter.actions[i].destination %></td>
+          <% else %>
+            <td></td>
+            <td></td>
+          <% end %>
+          <% if i == 0 %>
+            <td><%= link_to t(:edit), edit_procmail_filter_path(filter) if can? :edit, filter %></td>
+          <% end %>
+          <% i += 1 %>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+<!--
+  <table id="filters">
+  <% @filters.each do |filter| %>
+    <tr>
+      <td><%= filter.rules_to_s.join %></td>
+      <td><%= filter.actions.map(&:destination_to_file).join %></td>
+      <td><%= link_to t(:edit), edit_procmail_filter_path(filter) %></td>
+    </tr>
+  <% end %>
+  </table>
+-->
+
+  <div id="bottom_links">
+    <%= link_to new(:filter), new_procmail_filter_path %>
+  </div>
+
+  <div class="flash_plus_button">
+    <div id="flash_container" class="admin_width_with_margin">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="clear"></div>
 </div>

@@ -5,6 +5,13 @@ class Action < ActiveRecord::Base
 
   validates_presence_of :destination, :operation
 
+  COPY_MESSAGE_TO = "copy_message_to"
+  FORWARD_COPY_TO = "forward_copy_to"
+  FORWARD_MESSAGE_TO = "forward_message_to"
+  MOVE_MESSAGE_TO = "move_message_to"
+
+  OPERATIONS = [MOVE_MESSAGE_TO, COPY_MESSAGE_TO, FORWARD_MESSAGE_TO, FORWARD_COPY_TO]
+
   def <=>(action)
     if self.copy_message?
       -1
@@ -15,8 +22,15 @@ class Action < ActiveRecord::Base
     end 
   end
 
-  def copy_message?; operation.include?("Copy") end
-  def forward_message?; operation.include?("Forward") end
+  def contents; [operation, destination] end
+  def copy_message?; operation.include?("copy") end
+  def destination_to_file
+    ret = ""
+    ret += "!" + to_s if forward_message?
+    ret += "." + to_s + "/" if move_message_to_folder?
+    ret
+  end
+  def forward_message?; operation.include?("forward") end
   def move_message_to_folder?; !forward_message? end
   def multiple_action_to_file(last)
     ret = "\t:0"
@@ -27,18 +41,7 @@ class Action < ActiveRecord::Base
     ret += destination_to_file
     ret
   end
-
-  def contents
-    [operation, destination]
-  end
-  
-  def destination_to_file
-    ret = ""
-    ret += "!" + to_s if forward_message?
-    ret += "." + to_s + "/" if move_message_to_folder?
-    ret
-  end
-    
+  def self.operations; OPERATIONS.map{|e| I18n.t("actions.operations.#{e}")}.zip(OPERATIONS) end
   def to_file; destination_to_file end
   def to_s; destination end
 end

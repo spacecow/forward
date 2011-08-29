@@ -35,12 +35,21 @@ module Procmail
 
   def load_filter(recipe,arr)
     filter = Filter.new
+    action = false
     while line = arr.shift
-      return filter if line.blank?
+      return filter if line.blank? and !action
       if line =~ /^\*/
         load_rule(line,filter)
+      elsif line =~ /{/
+        action = true
+      elsif line =~ /}/
+        action = false
       else
-        load_action(recipe,line,filter)
+        if line =~ /:0/ 
+          recipe = line
+        elsif !line.blank?
+          load_action(recipe,line,filter)
+        end
       end
     end
     filter
@@ -49,18 +58,18 @@ module Procmail
   def load_part(s)
     if s =~ /^\.\*(.*)/
       if s =~ /(.*)\.\*$/
-        "contains"
+        Rule::CONTAINS 
       elsif s =~ /(.*)\$$/
-        "ends with"
+        Rule::ENDS_WITH
       else
-        "contains"
+        Rule::CONTAINS
       end
     elsif s =~ /(.*)\.\*$/
-      "begins with"
+      Rule::BEGINS_WITH
     elsif s =~ /(.*)\$$/
-      "is"
+      Rule::IS
     else
-      "begins with"
+      Rule::BEGINS_WITH
     end
   end
 
@@ -72,7 +81,7 @@ module Procmail
   end
 
   def load_rule(line,filter)
-    line           =~ /\^?(Subject|To|CC|From):?\s?(.*)/
+    line           =~ /\^?(Subject|To|Cc|From):?\s?(.*)/
     rule           = Rule.new
     rule.section   = $1
     rule.substance = strip_substance($2)
@@ -82,10 +91,19 @@ module Procmail
 
   def load_action(recipe,line,filter)
     action             = Action.new
+    line = line.strip
     if line =~ /^!/
-      action.operation = "Forward " + (recipe.include?("c") ? "Copy" : "Message") + " to"
+      if recipe.include?("c")
+        action.operation = Action::FORWARD_COPY_TO
+      else
+        action.operation = Action::FORWARD_MESSAGE_TO
+      end
     else
-      action.operation = (recipe.include?("c") ? "Copy" : "Move") + " Message to"
+      if recipe.include?("c")
+        action.operation = Action::COPY_MESSAGE_TO
+      else
+        action.operation = Action::MOVE_MESSAGE_TO
+      end 
     end
     action.destination = strip_destination(line) #prepare_destination(line)
     filter.actions << action

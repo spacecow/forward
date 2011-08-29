@@ -1,22 +1,37 @@
 class Rule < ActiveRecord::Base
   belongs_to :filter
 
-  PARTS = ["contains", "doesn't contain", "is", "isn't", "begins with", "ends with"]
+  validates_presence_of :section, :substance, :part
+
+  BEGINS_WITH = "begins_with"
+  CC = "cc"
+  CONTAINS = "contains"
+  ENDS_WITH = "ends_with"
+  FROM = "from"
+  IS = "is"
+  SUBJECT = "subject"
+  TO = "to"
+
+  SECTIONS = [SUBJECT, FROM, TO, CC]
+  PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def contents
     [section, substance, part]
   end
+  
+  def self.parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end
+  def self.sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS.map(&:capitalize)) end
 
   def to_file; ret = "*"+to_s end
 
   def to_s
     ret = "^"
-    ret += section
+    ret += section.nil? ? "" : section
     ret += ":"
-    ret += ".*" if part == "contains" or part == "ends with"
-    ret += " " if part == "is" or part == "begins with"
-    ret += substance
-    ret += "$" if part == "is" or part == "ends with"
+    ret += ".*" if part == CONTAINS or part == ENDS_WITH
+    ret += " " if part == IS or part == BEGINS_WITH
+    ret += substance.nil? ? "" : substance
+    ret += "$" if part == IS or part == ENDS_WITH
     ret
   end
 end

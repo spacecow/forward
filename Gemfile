@@ -28,5 +28,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'gherkin'
   gem 'mocha'
+  gem 'guard'
+  gem 'guard-cucumber'
 end
 gem "bcrypt-ruby", :require => "bcrypt"

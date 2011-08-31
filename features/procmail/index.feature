@@ -18,11 +18,11 @@ DEFAULT=$MAILDIR
 """
 When I go to the procmail filters page
 Then I should see the following filters:
-| From | is       | root@riec         | Move Message to | root     |
-| To   | contains | admin-ml.*@.*riec | Move Message to | admin-ml |
+| 1. | If from is "root@riec",             | then move message to "root".     | Edit |
+| 2. | If to contains "admin-ml.*@.*riec", | then move message to "admin-ml". | Edit |
 And a filter should exist
 And a rule should exist with filter: that filter, section: "From", part: "is", substance: "root@riec"
-And an action should exist with filter: that filter, operation: "Move Message to", destination: "root"
+And an action should exist with filter: that filter, operation: "move_message_to", destination: "root"
 
 Scenario: A filter has two rules
 Given a file ".procmailrc" exists with:
@@ -37,12 +37,12 @@ DEFAULT=$MAILDIR
 """
 When I go to the procmail filters page
 Then I should see the following filters:
-| From    | is          | root@riec | Forward Copy to | test@gmail.com |
-| Subject | begins with | secret    |                 |                |
+| 1. | If from is "root@riec",          | then forward copy to "test@gmail.com". | Edit |
+|    | If subject begins with "secret", |                                        |      |
 And a filter should exist
 And a rule should exist with filter: that filter, section: "From", part: "is", substance: "root@riec"
-And a rule should exist with filter: that filter, section: "Subject", part: "begins with", substance: "secret"
-And an action should exist with filter: that filter, operation: "Forward Copy to", destination: "test@gmail.com"
+And a rule should exist with filter: that filter, section: "Subject", part: "begins_with", substance: "secret"
+And an action should exist with filter: that filter, operation: "forward_copy_to", destination: "test@gmail.com"
 
 Scenario: A filter has two actions
 Given a file ".procmailrc" exists with:
@@ -62,18 +62,18 @@ DEFAULT=$MAILDIR
 """
 When I go to the procmail filters page
 Then I should see the following filters:
-| To | ends with | test@example.com | Move Message to | temporary           |
-|    |           |                  | Forward Copy to | testier@example.com |
+| 1. | If to ends with "test@example.com", | then move message to "temporary".           | Edit |
+|    |                                     | then forward copy to "testier@example.com". |      |
 And a filter should exist
-And a rule should exist with filter: that filter, section: "To", part: "ends with", substance: "test@example.com"
-And an action should exist with filter: that filter, operation: "Forward Copy to", destination: "testier@example.com"
-And an action should exist with filter: that filter, operation: "Move Message to", destination: "temporary"
+And a rule should exist with filter: that filter, section: "To", part: "ends_with", substance: "test@example.com"
+And an action should exist with filter: that filter, operation: "forward_copy_to", destination: "testier@example.com"
+And an action should exist with filter: that filter, operation: "move_message_to", destination: "temporary"
 
 Scenario: Links on filter index page
 When I go to the procmail filters page
-Then I should see links "New Filter" at the bottom of the page
+Then I should see links "New Mail Filter" at the bottom of the page
 
 Scenario: Links from filter index page
 When I go to the procmail filters page
-And I follow "New Filter" at the bottom of the page
+And I follow "New Mail Filter" at the bottom of the page
 Then I should be on the new procmail filter page

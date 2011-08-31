@@ -1,6 +1,6 @@
 module Procmail
   def prepare_filters(username, password)
-    @filters = read_filters(username,password)
+    @filters = read_filters(username, password)
     current_user.filters.destroy_all
     current_user.filters = @filters
   end

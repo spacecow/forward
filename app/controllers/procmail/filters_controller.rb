@@ -21,17 +21,25 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def create
+    redirect_to procmail_filters_path and return if params[:cancel] 
     if params[:rule_plus] or params[:action_plus]
       build_added_rule
       build_added_action
       render :new and return
     end
+
+#    p @filter.actions
+    
     if @filter.save
       save_filters(session[:username], session[:password], current_user.filters)
-      redirect_to procmail_filters_path
+      redirect_to procmail_filters_path, :notice => created(:filter)
     elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
+      @filter.rules.build if @filter.rules.empty?
+      @filter.actions.build if @filter.actions.empty?
       render :new
     elsif @filter.actions.map(&:valid?).reject{|e| e==false}.empty?
+      @filter.rules.build if @filter.rules.empty?
+      @filter.actions.build if @filter.actions.empty?
       render :new
     else
       @filter.rules.reject!{|e| !e.valid?}
@@ -48,9 +56,10 @@ class Procmail::FiltersController < ApplicationController
     build_added_rule
     build_non_saved_actions
     build_added_action
-end
+  end
 
   def update
+    redirect_to procmail_filters_path and return if params[:cancel] 
     if params[:rule_plus] or params[:action_plus]
       build_non_saved_rules
       build_added_rule
@@ -58,22 +67,29 @@ end
       build_added_action
       render :edit and return
     end
+
     p @filter.actions
-    #p @filter.rules
     if @filter.update_attributes(params[:filter])
+      filter = Filter.find(params[:id])
+      if filter.rules.empty? || filter.actions.empty? 
+        filter.destroy
+        flash[:notice] = removed(:filter)
+      end
       save_filters(session[:username], session[:password], current_user.filters)
       redirect_to procmail_filters_path
-    elsif @filter.actions.map(&:valid?).reject{|e| e==false}.empty?
-      render :edit
-    elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
-      render :edit
     else
-      @filter.actions.reject!{|e| !e.valid?}
-      @filter.rules.reject!{|e| !e.valid?}
-      @filter.save
-      save_filters(session[:username], session[:password], current_user.filters)
-      flash[:notice] = "Updated rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
-      redirect_to procmail_filters_path
+      if @filter.actions.map{|e| e.valid? && !e._destroy}.reject{|e| e==false}.empty?
+        render :edit
+      elsif @filter.rules.map{|e| e.valid? && !e._destroy}.reject{|e| e==false}.empty?
+        render :edit
+      else
+        @filter.actions.reject!{|e| !e.valid?}
+        @filter.rules.reject!{|e| !e.valid?}
+        @filter.save
+        save_filters(session[:username], session[:password], current_user.filters)
+        flash[:notice] = "Updated rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
+        redirect_to procmail_filters_path
+      end
     end
   end
 
@@ -88,6 +104,7 @@ end
     def build_non_saved_associations(assoc)
       if params["filter"] && params["filter"]["#{assoc}_attributes"] 
         params["filter"]["#{assoc}_attributes"].each do |key,value|
+          value.delete("_destroy") if value[:id].nil?
           @filter.send(assoc).build(value) if value[:id].nil?
         end
       end

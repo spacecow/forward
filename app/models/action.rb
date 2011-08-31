@@ -41,6 +41,7 @@ class Action < ActiveRecord::Base
     ret += destination_to_file
     ret
   end
+  def humanized_operation; operation.split('_').map(&:capitalize).join(' ').gsub(/To/,'to') end
   def self.operations; OPERATIONS.map{|e| I18n.t("actions.operations.#{e}")}.zip(OPERATIONS) end
   def to_file; destination_to_file end
   def to_s; destination end

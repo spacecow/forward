@@ -1,4 +1,6 @@
 en:
+  action: "Action"
+  action_sentence: 'then %{operation} "%{destination}".'
   address: "Address %{no}"
   admin: "Admin"
   cancel: "Cancel"
@@ -20,6 +22,10 @@ en:
   or: " or "
   possessive: "%{owner}'s %{obj}"
   profile: "Profile"
+  remove_action: "Remove Action"
+  remove_rule: "Remove Rule"
+  rule: "Rule"
+  rule_sentence: 'If %{subject} %{verb} "%{obj}", '
   show: "Show"
   sign_up: "Sign up"
   role: "Role"
@@ -55,6 +61,7 @@ en:
     added: "Successfully added %{obj}."
     created: "Successfully created %{obj}."
     deleted: "Successfully deleted %{obj}."
+    removed: "Successfully removed %{obj}."
     updated: "Successfully updated %{obj}."  
   formtastic:
     labels:

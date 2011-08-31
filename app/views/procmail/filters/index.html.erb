@@ -6,24 +6,19 @@
   <h1><%= pl(:mail_filter) %></h1>
 
   <table id="filters">
-    <% @filters.each do |filter| %>
+    <% @filters.each_with_index do |filter,no| %>
       <% i=0 %>
       <% while i < [filter.rules.count, filter.actions.count].max %>
         <tr>
+          <td><%= "#{no+1}." if i==0 %></td>
           <% if filter.rules.count > i %>
-            <td><%= filter.rules[i].section %></td>
-            <td><%= filter.rules[i].part %></td>
-            <td><%= filter.rules[i].substance %></td>
+              <td><%= t(:rule_sentence, :no => no+1, :subject => filter.rules[i].section.downcase, :verb => filter.rules[i].part.gsub(/_/,' '), :obj => filter.rules[i].substance ) %></td>
           <% else %>
-            <td></td>
-            <td></td>
             <td></td>
           <% end %>
           <% if filter.actions.count > i %>
-            <td><%= filter.actions[i].operation %></td>
-            <td><%= filter.actions[i].destination %></td>
+            <td><%= t(:action_sentence, :operation => filter.actions[i].operation.gsub(/_/,' '), :destination => filter.actions[i].destination ) %></td>
           <% else %>
-            <td></td>
             <td></td>
           <% end %>
           <% if i == 0 %>
@@ -35,20 +30,8 @@
     <% end %>
   </table>
 
-<!--
-  <table id="filters">
-  <% @filters.each do |filter| %>
-    <tr>
-      <td><%= filter.rules_to_s.join %></td>
-      <td><%= filter.actions.map(&:destination_to_file).join %></td>
-      <td><%= link_to t(:edit), edit_procmail_filter_path(filter) %></td>
-    </tr>
-  <% end %>
-  </table>
--->
-
   <div id="bottom_links">
-    <%= link_to new(:filter), new_procmail_filter_path %>
+    <%= link_to new(:mail_filter), new_procmail_filter_path %>
   </div>
 
   <div class="flash_plus_button">

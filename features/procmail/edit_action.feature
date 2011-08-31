@@ -2,8 +2,8 @@ Feature:
 Background:
 Given a user exists with username: "test", password: "correct"
 And I am logged in as that user
-And an action exists with operation: "Move Message to", destination: "temp"
 And a rule exists with section: "Subject", part: "contains", substance: "yeah"
+And an action exists with operation: "move_message_to", destination: "temp"
 And a filter exists with user: that user, rules: that rule, actions: that action
 When I go to the procmail filter's edit page
 
@@ -15,7 +15,7 @@ Scenario: Edit an action
 When I fill in the first "destination" field with "temporary"
 And I press "Update"
 Then 1 filters should exist
-And an action should exist with filter: that filter, operation: "Move Message to", destination: "temporary"
+And an action should exist with filter: that filter, operation: "move_message_to", destination: "temporary"
 And a file ".procmail" should exist with:
 """
 MAILDIR=$HOME/Maildir/
@@ -33,7 +33,7 @@ And I fill in the first "destination" field with "temporary"
 And I select "Copy Message to" from the second "operation" field
 And I press "Update"
 Then a filter should exist
-And an action should exist with filter: that filter, operation: "Move Message to", destination: "temporary"
+And an action should exist with filter: that filter, operation: "move_message_to", destination: "temporary"
 And 1 actions should exist
 And I should be on the procmail filters page
 And I should see "Updated rules: 1, actions: 1"
@@ -85,5 +85,49 @@ And I select "begins with" from the second "part" field
 And I press "+" in the first "actions" listing for "filter"
 Then "begins with" should be selected in the second "part" field
 
-Scenario: Delete an action
-When I press "-" in the first "actions" listing for "filter"
+Scenario Outline: Delete an action
+Given an action exists with operation: "copy_message_to", destination: "die", filter: that filter
+When I go to the procmail filter's edit page
+And I check the <order> "Remove Action"
+And I press "Update"
+Then an action should exist with destination: "<substance>"
+And 1 actions should exist
+And 1 rules should exist
+Examples:
+| order  | substance |
+| first  | die       |
+| second | temp      |
+
+Scenario: If one deletes the last action, the filter is also deleted
+When I check the first "Remove Action"
+And I press "Update"
+Then 0 filters should exist
+And 0 rules should exist
+And 0 actions should exist
+And I should see "Successfully removed filter." as notice flash message
+And a file ".procmail" should exist with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+
+
+"""
+
+Scenario: One cannot delete and leave a single empty action
+When I press "+" in the first "actions" listing for "filter"
+And I check the first "Remove Action"
+And I press "Update"
+And I should see an error "can't be blank" at the second "operation" field
+And I should see an error "can't be blank" at the second "destination" field
+
+Scenario: Add an extra action
+When I fill in a second action
+And I press "Update"
+Then 2 actions should exist
+
+Scenario: Delete an action that has not yet been saved
+When I fill in a second action
+And I check the second "Remove Action"
+And I press "Update"
+Then 1 actions should exist

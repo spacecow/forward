@@ -1,4 +1,4 @@
-<%= f.input :operation, :as => :select, :collection => Action.operations %>
-<%= f.input :destination %>
+<%= f.input :operation, :as => :select, :collection => Action.operations, :label => false, :input_html => {:class => :w250} %>
+<%= f.input :destination, :label => false %>
+<%= f.input :_destroy, :as => :boolean, :label => t(:remove_action)  %>
 <%= f.submit "+", :name => "action_plus" %>
-<%= f.submit "-" %>

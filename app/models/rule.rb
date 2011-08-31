@@ -15,10 +15,8 @@ class Rule < ActiveRecord::Base
   SECTIONS = [SUBJECT, FROM, TO, CC]
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
-  def contents
-    [section, substance, part]
-  end
-  
+  def contents; [section, substance, part] end
+  def humanized_part; part.gsub(/_/,' ') end 
   def self.parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end
   def self.sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS.map(&:capitalize)) end
 

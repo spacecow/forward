@@ -87,7 +87,7 @@ b13fbd: !ruby/object:Dooby::Task
   todo: lock on folder, no lock for forwarding :done
 21923e: !ruby/object:Dooby::Task 
   todo: include a line in .forward
-8fd8d6: !ruby/object:Dooby::Task 
-  todo: add jap sentence on filter index page
 13cc68: !ruby/object:Dooby::Task 
   todo: minus in action/rules :done
+e1966a: !ruby/object:Dooby::Task 
+  todo: add jap sentence on filter index page :done

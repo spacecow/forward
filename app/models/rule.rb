@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Rule < ActiveRecord::Base
   belongs_to :filter
 
@@ -15,6 +16,17 @@ class Rule < ActiveRecord::Base
   SECTIONS = [SUBJECT, FROM, TO, CC]
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
+  def translated_section 
+    I18n.t("rules.sections."+section.downcase)
+  end
+  def translated_part_and_substance
+    s = I18n.t("rules.parts."+part) 
+    if s.include?('次')
+      s.gsub(/次/,"「#{substance}」")
+    else
+      %(#{s} "#{substance}")
+    end
+  end
   def contents; [section, substance, part] end
   def humanized_part; part.gsub(/_/,' ') end 
   def self.parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end

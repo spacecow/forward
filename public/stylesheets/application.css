@@ -177,20 +177,16 @@ div#contents_container div#main_container div#main a {
 div#contents_container div#main_container div#main table {
   margin-left: 10px;
 }
-/* line 130, ../../app/stylesheets/application.sass */
-div#contents_container div#main_container div#main table tr {
-  border: 1px solid black;
-}
-/* line 132, ../../app/stylesheets/application.sass */
+/* line 131, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main table tr td.bold {
   font-weight: bold;
 }
-/* line 134, ../../app/stylesheets/application.sass */
+/* line 133, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main table tr td {
   padding-right: 5px;
 }
 
-/* line 137, ../../app/stylesheets/application.sass */
+/* line 136, ../../app/stylesheets/application.sass */
 td.action {
   width: 30px;
 }

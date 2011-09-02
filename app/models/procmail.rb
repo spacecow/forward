@@ -55,6 +55,15 @@ module Procmail
     filter
   end
 
+  def load_rule(line,filter)
+    line           =~ /^\*\^([a-zA-Z(\-|)]+):?\s*(.+)/
+    rule           = Rule.new
+    rule.section   = Rule.map_section($1)
+    rule.substance = strip_substance($2)
+    rule.part      = load_part($2)
+    filter.rules << rule
+  end
+
   def load_part(s)
     if s =~ /^\.\*(.*)/
       if s =~ /(.*)\.\*$/
@@ -78,15 +87,6 @@ module Procmail
     s = s[0..-3] if s =~ /(.*)\.\*$/
     s = s[0..-2] if s =~ /(.*)\$$/
     s
-  end
-
-  def load_rule(line,filter)
-    line           =~ /\^?(Subject|To|Cc|From):?\s?(.*)/
-    rule           = Rule.new
-    rule.section   = $1
-    rule.substance = strip_substance($2)
-    rule.part      = load_part($2)
-    filter.rules << rule
   end
 
   def load_action(recipe,line,filter)

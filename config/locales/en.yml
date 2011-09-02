@@ -88,6 +88,8 @@ en:
       from: "From"
       subject: "Subject"
       to: "To"
+      to_or_cc: "To or Cc"
+      spam_flag: "Spam-Flag"
   actions:
     operations:
       copy_message_to: "Copy Message to"

@@ -46,96 +46,121 @@ div#contents_container ul li {
   margin-left: 10px !important;
 }
 
-/* line 48, ../../app/stylesheets/application.sass */
+/* line 46, ../../app/stylesheets/application.sass */
+.small-font {
+  font-size: small !important;
+}
+
+/* line 50, ../../app/stylesheets/application.sass */
+fieldset.compact li {
+  margin-bottom: 0 !important;
+}
+
+/* line 54, ../../app/stylesheets/application.sass */
 li .w100 {
   width: 100px;
 }
-/* line 50, ../../app/stylesheets/application.sass */
+/* line 56, ../../app/stylesheets/application.sass */
 li .w150 {
-  width: 150px;
+  width: 150px !important;
 }
-/* line 52, ../../app/stylesheets/application.sass */
+/* line 58, ../../app/stylesheets/application.sass */
+li .w200 {
+  width: 200px;
+}
+/* line 60, ../../app/stylesheets/application.sass */
 li .w250 {
   width: 250px;
 }
 
-/* line 55, ../../app/stylesheets/application.sass */
+/* line 62, ../../app/stylesheets/application.sass */
+li.small_label {
+  width: 130px;
+}
+/* line 64, ../../app/stylesheets/application.sass */
+li.small_label label {
+  font-size: small;
+  margin-top: 5px;
+  padding: 0 !important;
+}
+
+/* line 69, ../../app/stylesheets/application.sass */
 div#header {
   height: 53px;
   text-align: right;
 }
 
-/* line 60, ../../app/stylesheets/application.sass */
+/* line 74, ../../app/stylesheets/application.sass */
 div#contents_container.application {
   width: 400px;
   margin: 90px auto 0 auto;
 }
-/* line 64, ../../app/stylesheets/application.sass */
+/* line 78, ../../app/stylesheets/application.sass */
 div#contents_container.application div#main_container div#main {
   width: 380px;
 }
-/* line 67, ../../app/stylesheets/application.sass */
+/* line 81, ../../app/stylesheets/application.sass */
 div#contents_container.application div#main_container div#main form div.flash_plus_button {
   width: 380px;
 }
 
-/* line 70, ../../app/stylesheets/application.sass */
+/* line 84, ../../app/stylesheets/application.sass */
 div#contents_container.admin {
   width: 600px;
   margin: 90px auto 0 auto;
 }
-/* line 74, ../../app/stylesheets/application.sass */
+/* line 88, ../../app/stylesheets/application.sass */
 div#contents_container.admin div#main_container div#main {
   width: 580px;
 }
-/* line 77, ../../app/stylesheets/application.sass */
+/* line 91, ../../app/stylesheets/application.sass */
 div#contents_container.admin div#main_container div#main form div.flash_plus_button {
   width: 580px;
 }
-/* line 79, ../../app/stylesheets/application.sass */
+/* line 93, ../../app/stylesheets/application.sass */
 div#contents_container.admin div#main_container div#main div.footer {
   margin-top: 10px;
   display: block;
   background: #486e92;
 }
 
-/* line 84, ../../app/stylesheets/application.sass */
+/* line 98, ../../app/stylesheets/application.sass */
 div.flash_plus_button {
   margin-top: 10px;
   float: left;
   background: #486e92;
 }
-/* line 88, ../../app/stylesheets/application.sass */
+/* line 102, ../../app/stylesheets/application.sass */
 div.flash_plus_button div#flash_container {
   margin: 10px 0 5px 10px;
   float: left;
   width: 290px;
 }
-/* line 92, ../../app/stylesheets/application.sass */
+/* line 106, ../../app/stylesheets/application.sass */
 div.flash_plus_button div#flash_container.admin_width_with_margin {
   width: 560px;
   margin: 10px;
 }
-/* line 95, ../../app/stylesheets/application.sass */
+/* line 109, ../../app/stylesheets/application.sass */
 div.flash_plus_button div#flash_container.admin_width_with_margin div#flash_alert {
   color: white;
 }
-/* line 97, ../../app/stylesheets/application.sass */
+/* line 111, ../../app/stylesheets/application.sass */
 div.flash_plus_button div#flash_container.admin_width_with_margin div#flash_notice {
   color: white;
 }
-/* line 99, ../../app/stylesheets/application.sass */
+/* line 113, ../../app/stylesheets/application.sass */
 div.flash_plus_button input.submit {
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 102, ../../app/stylesheets/application.sass */
+/* line 116, ../../app/stylesheets/application.sass */
 div.flash_plus_button input.right {
   float: right;
   margin: 10px 0 5px 5px;
 }
 
-/* line 107, ../../app/stylesheets/application.sass */
+/* line 121, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container {
   border: 1px solid #2c4153;
   -moz-border-radius: 10px;
@@ -146,47 +171,47 @@ div#contents_container div#main_container {
   border-radius: 10px;
   background: #486e92;
 }
-/* line 111, ../../app/stylesheets/application.sass */
+/* line 125, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav {
   margin-left: 10px;
   padding-top: 5px;
   height: 24px;
   font-size: 14px;
 }
-/* line 116, ../../app/stylesheets/application.sass */
+/* line 130, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav a {
   color: white;
   text-decoration: none;
 }
-/* line 119, ../../app/stylesheets/application.sass */
+/* line 133, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav a.right {
   float: right;
   margin-right: 10px;
 }
-/* line 122, ../../app/stylesheets/application.sass */
+/* line 136, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main {
   margin: 0 auto;
   border: 1px solid #2c4153;
   background: white;
 }
-/* line 126, ../../app/stylesheets/application.sass */
+/* line 140, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main a {
   font-size: 90%;
 }
-/* line 128, ../../app/stylesheets/application.sass */
+/* line 142, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main table {
   margin-left: 10px;
 }
-/* line 131, ../../app/stylesheets/application.sass */
+/* line 145, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main table tr td.bold {
   font-weight: bold;
 }
-/* line 133, ../../app/stylesheets/application.sass */
+/* line 147, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main table tr td {
   padding-right: 5px;
 }
 
-/* line 136, ../../app/stylesheets/application.sass */
+/* line 150, ../../app/stylesheets/application.sass */
 td.action {
   width: 30px;
 }

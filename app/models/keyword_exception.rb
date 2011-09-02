@@ -1,0 +1,2 @@
+class KeywordException < RuntimeError
+end

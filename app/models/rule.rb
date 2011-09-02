@@ -12,12 +12,14 @@ class Rule < ActiveRecord::Base
   IS = "is"
   SUBJECT = "subject"
   TO = "to"
+  TO_OR_CC = "to_or_cc"
+  SPAM_FLAG = "spam_flag"
 
-  SECTIONS = [SUBJECT, FROM, TO, CC]
+  SECTIONS = [SUBJECT, FROM, TO, CC, TO_OR_CC, SPAM_FLAG]
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def translated_section 
-    I18n.t("rules.sections."+section.downcase)
+    I18n.t("rules.sections."+section.downcase.gsub(/\|/,'_or_'))
   end
   def translated_part_and_substance
     s = I18n.t("rules.parts."+part) 
@@ -29,14 +31,37 @@ class Rule < ActiveRecord::Base
   end
   def contents; [section, substance, part] end
   def humanized_part; part.gsub(/_/,' ') end 
+  def self.map_section(s)
+    case s
+    when "Subject"; SUBJECT
+    when "To"; TO
+    when "Cc"; CC
+    when "From"; FROM
+    when /X-Spam-Flag|X-Barracuda-Spam-Flag/; SPAM_FLAG
+    when /To|Cc/i; TO_OR_CC
+    else raise KeywordException, "Keyword '#{s}' not found."
+    end
+  end
   def self.parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end
-  def self.sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS.map(&:capitalize)) end
+  def self.sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS) end
+
+  def self.section_to_file(s)
+    case s
+    when "subject"; "Subject"
+    when "from"; "From"
+    when "to"; "To"
+    when "cc"; "Cc"
+    when "to_or_cc"; "To|Cc"
+    when "spam_flag"; "X-Spam-Flag|X-Barracuda-Spam-Flag"
+    else raise KeywordException, "Keyword placeholder '#{s}' not found."
+    end 
+  end
 
   def to_file; ret = "*"+to_s end
 
   def to_s
     ret = "^"
-    ret += section.nil? ? "" : section
+    ret += section.nil? ? "" : Rule.section_to_file(section)
     ret += ":"
     ret += ".*" if part == CONTAINS or part == ENDS_WITH
     ret += " " if part == IS or part == BEGINS_WITH

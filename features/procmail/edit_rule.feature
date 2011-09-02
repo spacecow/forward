@@ -2,7 +2,7 @@ Feature:
 Background:
 Given a user exists with username: "test", password: "correct"
 And I am logged in as that user
-And a rule exists with section: "Subject", part: "contains", substance: "yeah"
+And a rule exists with section: "subject", part: "contains", substance: "yeah"
 And an action exists with operation: "move_message_to", destination: "temp"
 And a filter exists with user: that user, rules: that rule, actions: that action
 When I go to the procmail filter's edit page
@@ -93,7 +93,7 @@ Then the first action should be filled out
 And "Copy Message to" should be selected in the second "operation" field
 
 Scenario Outline: Delete a rule 
-Given a rule exists with section: "To", part: "is", substance: "SPAM", filter: that filter
+Given a rule exists with section: "to", part: "is", substance: "SPAM", filter: that filter
 When I go to the procmail filter's edit page
 And I check the <order> "Remove Rule"
 And I press "Update"

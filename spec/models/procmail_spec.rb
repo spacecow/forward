@@ -7,9 +7,21 @@ end
 describe Procmail do
   before(:each){ @bajs = Bajs.new }
 
+  context "#read_filters", :read_filters => true do
+    it "should raise an error when dealing with tags it does not know" do
+      filter = ":0:\n*^Super-Strange-Tag:.*YES\n.Junk/"
+      lambda{@bajs.load_filters(filter)}.should raise_error(KeywordException)
+      
+    end
+    it "should handle spam" do
+      filter = ":0:\n*^(X-Spam-Flag|X-Barracuda-Spam-Flag):.*YES\n.Junk/"
+      lambda{@bajs.load_filters(filter)}.should_not raise_error(KeywordException)
+    end
+  end
+
   context "#save_filters", :save_filters => true do
     before(:each) do
-      rule = Rule.create(:section => "Subject", :part => "contains", :substance => "yeah")
+      rule = Rule.create(:section => "subject", :part => "contains", :substance => "yeah")
       action = Action.create(:operation => "Move Message to", :destination => "temp")
       @filter = Filter.create
       @filter.rules << rule
@@ -20,7 +32,7 @@ describe Procmail do
     it "saves a users filter to file" do
       @bajs.save_filters("test", "correct", [@filter])
       @bajs.read_filters("test", "correct").first.contents.should == 
-        [["Subject", "yeah", "contains"], ["move_message_to", "temp"]]
+        [["subject", "yeah", "contains"], ["move_message_to", "temp"]]
     end
 
     context "#rules_to_file", :rules_to_file => true do
@@ -29,7 +41,7 @@ describe Procmail do
       end
 
       it "has 2 lines for 2 rules" do
-        @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
+        @filter.rules << Rule.create(:section => "to", :part => "contains", :substance => "gmail")
         @filter.rules_to_file.should eq "*^Subject:.*yeah\n*^To:.*gmail"
       end
     end
@@ -52,12 +64,12 @@ describe Procmail do
       end
 
       it "has 4 lines for 2 rules & 1 action" do
-        @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
+        @filter.rules << Rule.create(:section => "to", :part => "contains", :substance => "gmail")
         @filter.to_file.should eq ":0:\n*^Subject:.*yeah\n*^To:.*gmail\n.temp/"
       end
 
       it "has 10 lines for 2 rules & 2 actions" do
-        @filter.rules << Rule.create(:section => "To", :part => "contains", :substance => "gmail")
+        @filter.rules << Rule.create(:section => "to", :part => "contains", :substance => "gmail")
         @filter.actions << Action.create(:operation => "forward_copy_to", :destination => "temp@gmail.com")
         @filter.to_file.should eq ":0\n*^Subject:.*yeah\n*^To:.*gmail\n{\n\t:0c\n\t!temp@gmail.com\n\n\t:0:\n\t.temp/\n}"
       end
@@ -168,16 +180,16 @@ describe Procmail do
     it "returns 1 filter in an array" do
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
       arr.size.should == 1
-      arr.last.contents.should == [["To", "admin-ml*^@.*riec", "contains"],
+      arr.last.contents.should == [["to", "admin-ml*^@.*riec", "contains"],
                                    ["move_message_to", "admin-ml"]]
     end
 
     it "returns 2 filters in an array" do
       arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/\n\n:0 :\n*^Cc:.*fir@.*riec.*\n.fir-cc/")
       arr.size.should == 2
-      arr.first.contents.should == [["To", "admin-ml*^@.*riec", "contains"],
+      arr.first.contents.should == [["to", "admin-ml*^@.*riec", "contains"],
                                     ["move_message_to", "admin-ml"]]
-      arr.last.contents.should == [["Cc", "fir@.*riec", "contains"],
+      arr.last.contents.should == [["cc", "fir@.*riec", "contains"],
                                     ["move_message_to", "fir-cc"]]
     end
   end
@@ -185,13 +197,13 @@ describe Procmail do
   context "#load_filter", :load_filter => true do
     it "splits up in rule and action" do
       filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
-      filter.rules.last.contents.should == ["To", "admin-ml*^@.*riec", "contains"]
+      filter.rules.last.contents.should == ["to", "admin-ml*^@.*riec", "contains"]
       filter.actions.last.contents.should == ["move_message_to", "admin-ml"]
     end 
 
     it "can load two actions" do
       filter = @bajs.load_filter(":0", ["*^To: test@example.com", "{", "\t:0c:", "\t.temp/", "\n", "\t:0c:", "\t.temporary", "\}"])
-      filter.rules_contents.should == [["To", "test@example.com", "begins_with"]]
+      filter.rules_contents.should == [["to", "test@example.com", "begins_with"]]
       filter.actions_contents.should == [["copy_message_to", "temp"],["copy_message_to", "temporary"]]
     end
   end
@@ -251,23 +263,24 @@ describe Procmail do
 
     it "splits up in section, substance and part" do
       @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter)
-      @filter.rules_contents.should == [["To", "admin-ml.*@.*riec", "contains"]]
+      @filter.rules_contents.should == [["to", "admin-ml.*@.*riec", "contains"]]
     end
 
     it "can add multiple rules" do
       @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter)
       @bajs.load_rule("*^Subject: yeah!", @filter)
       @filter.rules_contents.should ==
-        [["To", "admin-ml.*@.*riec", "contains"], ["Subject", "yeah!", "begins_with"]]
+        [["to", "admin-ml.*@.*riec", "contains"], ["subject", "yeah!", "begins_with"]]
     end
 
     context "split up a rule where the splitter is" do
       it ":.*" do @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter) end
       it ".*" do @bajs.load_rule("*^To.*admin-ml.*@.*riec.*", @filter) end
       it ": " do @bajs.load_rule("*^To: admin-ml.*@.*riec.*", @filter) end
+      it ": " do @bajs.load_rule("*^To:  admin-ml.*@.*riec.*", @filter) end
 
       after(:each) do
-        @filter.rules.last.section.should == "To"
+        @filter.rules.last.section.should == "to"
         @filter.rules.last.substance.should == "admin-ml.*@.*riec"
       end
     end

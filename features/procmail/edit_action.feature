@@ -2,7 +2,7 @@ Feature:
 Background:
 Given a user exists with username: "test", password: "correct"
 And I am logged in as that user
-And a rule exists with section: "Subject", part: "contains", substance: "yeah"
+And a rule exists with section: "subject", part: "contains", substance: "yeah"
 And an action exists with operation: "move_message_to", destination: "temp"
 And a filter exists with user: that user, rules: that rule, actions: that action
 When I go to the procmail filter's edit page
@@ -11,6 +11,7 @@ Scenario: Edit action view
 Then "Move Message to" should be selected in the first "operation" field
 And the first "destination" field should contain "temp"
 
+@wip
 Scenario: Edit an action
 When I fill in the first "destination" field with "temporary"
 And I press "Update"

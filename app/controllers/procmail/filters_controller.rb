@@ -8,7 +8,13 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def index
-    prepare_filters(session[:username], session[:password])
+    begin
+      prepare_filters(session[:username], session[:password])
+    rescue KeywordException => e
+      @error = "You have encounted an error.<br>The administrator has been informed.<br>Please wait while the problem is being resolved.<br><br>We will contact you shortly.<br><br>#{e}" 
+
+      ErrorMailer.keyword_error(session[:username],e).deliver
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @filters }

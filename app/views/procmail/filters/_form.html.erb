@@ -10,13 +10,13 @@
     <%= f.semantic_errors %>
     <h2 class="left-margin"><%= t(:rule) %></h2>
     <% @filter.rules.each do |rule| %>
-      <%= f.inputs :for => [:rules, rule], :class => "inline left-margin", :id => :rules do |ref| %>
+      <%= f.inputs :for => [:rules, rule], :class => "inline left-margin compact", :id => :rules do |ref| %>
         <%= render 'rules/form', :f => ref %>
       <% end %>
     <% end %>
     <h2 class="left-margin"><%= t(:action) %></h2>
     <% @filter.actions.each do |action| %>
-      <%= f.inputs :for => [:actions, action], :class => "inline left-margin", :id => :actions do |ref| %>
+      <%= f.inputs :for => [:actions, action], :class => "inline left-margin compact", :id => :actions do |ref| %>
         <%= render 'actions/form', :f => ref %>
       <% end %>
     <% end %>

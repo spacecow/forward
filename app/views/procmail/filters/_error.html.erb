@@ -1,0 +1,12 @@
+<h1>Error</h1>
+
+<%= raw @error %>
+
+<div class="flash_plus_button">
+  <div id="flash_container" class="admin_width_with_margin">
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+    <% end %>
+  </div>
+</div>
+<div class="clear"></div>

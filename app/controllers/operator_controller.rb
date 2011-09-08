@@ -21,7 +21,7 @@ class OperatorController < ApplicationController
     if authpam(params[:username],params[:password])
       session[:username] = params[:username]
       session[:password] = params[:password]
-      redirect_to edit_path, :notice => notify(:logged_in)
+      redirect_to forward_edit_path, :notice => notify(:logged_in)
     else
       redirect_to login_path, :alert => alert2(:incorrect,
         t('messages.or',:obj1=>ft(:username),:obj2=>ftd(:password)))
@@ -51,7 +51,7 @@ class OperatorController < ApplicationController
   def update
     if params[:commit] == add(:address_field)
       flash[:notice] = added(:address_field)
-      redirect_to edit_path(:commit => add(:address_field), :no => address_field_no, :address => params[:address])
+      redirect_to forward_edit_path(:commit => add(:address_field), :no => address_field_no, :address => params[:address])
     else
       IO.popen("/usr/local/sbin/chfwd -s #{session[:username]}", 'r+') do |pipe|
         pipe.write "#{session[:password]}\n"
@@ -60,7 +60,7 @@ class OperatorController < ApplicationController
         pipe.close_write
       end
       flash[:notice] = updated(:forwarding_address)
-      redirect_to edit_path
+      redirect_to forward_edit_path
     end
   end
 

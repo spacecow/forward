@@ -5,7 +5,7 @@ When I go to the login page
 And I fill in "Username" with "user"
 And I fill in "Password" with "correct"
 And I press "Login"
-Then I should be on to the edit page
+Then I should be on to the forward edit page
 And I should see "Successfully logged in." as notice flash message
 And a user should exist with username: "user"
 
@@ -18,7 +18,7 @@ Then I should be on to the login page
 And I should see "Invalid login or password." as alert flash message
 
 Scenario: Cannot reach edit page without authorization
-When I go to the edit page
+When I go to the forward edit page
 Then I should be on the login page
 And I should see "Unauthorized access." as alert flash message
 

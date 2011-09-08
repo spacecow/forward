@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       unless User.find_by_username(session[:username])
         User.create(:username => session[:username], :password => session[:password]) 
       end
-      redirect_to edit_path, :notice => notify(:logged_in)
+      redirect_to forward_edit_path, :notice => notify(:logged_in)
     else
       redirect_to login_path, :alert => alert2(:incorrect_username_or_password,
         t('messages.or',:obj1=>ft(:username),:obj2=>ftd(:password)))

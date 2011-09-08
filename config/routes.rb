@@ -17,14 +17,16 @@ Forward::Application.routes.draw do
   end
   match 'procmail', :controller => "procmail/filters", :action => "index"
 
-  match 'edit'     => 'operator#edit'
+  namespace "forward" do
+  end
+
   match 'logout' => 'sessions#destroy', :as => :logout
   match 'login' => 'sessions#new', :as => :login
-  match 'connect'  => 'operator#connect'
-  match 'update'   => 'operator#update'
   match 'welcome'  => 'sessions#new'
-  match 'procmail' => 'operator#procmail'
   
+  match 'forward/edit' => 'operator#edit'
+  match 'forward/connect'  => 'operator#connect'
+  match 'forward/update'   => 'operator#update'
   get "operator/edit"
   post "operator/connect"
   post "operator/update"

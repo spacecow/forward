@@ -1,7 +1,7 @@
 Feature:
 
 Scenario: No access to edit without login
-When I go to the edit page
+When I go to the forward edit page
 Then I should see "Unauthorized access." as alert flash message
 And I should be on the login page
 

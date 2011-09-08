@@ -7,6 +7,7 @@ Then the first "section" field should have options "BLANK, Subject, From, To, Cc
 And the first "part" field should have options "BLANK, contains, is, begins with, ends with"
 And the first "substance" field should be empty
 And I should see a "+" button within the "filter" form
+And "Procmail" 
 
 Scenario: Procmail Action View
 Given I am logged in as "test"

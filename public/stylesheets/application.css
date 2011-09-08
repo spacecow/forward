@@ -11,39 +11,39 @@ a {
   color: #486e92;
 }
 
-/* line 135, ../../app/stylesheets/application.sass */
+/* line 134, ../../app/stylesheets/application.sass */
 div#contents_container.small {
   width: 400px;
 }
-/* line 83, ../../app/stylesheets/application.sass */
+/* line 82, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#site_nav {
   font-size: 14px;
 }
-/* line 85, ../../app/stylesheets/application.sass */
+/* line 84, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#site_nav div#language {
   float: left;
   width: 60px;
 }
-/* line 88, ../../app/stylesheets/application.sass */
+/* line 87, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#site_nav div#navigation {
   text-align: center;
   float: left;
   width: 260px;
 }
-/* line 92, ../../app/stylesheets/application.sass */
+/* line 91, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#site_nav div#navigation a {
   padding: 0 10px;
 }
-/* line 94, ../../app/stylesheets/application.sass */
-div#contents_container.small div#main_container div#site_nav div#navigation a.selected {
+/* line 93, ../../app/stylesheets/application.sass */
+div#contents_container.small div#main_container div#site_nav div#navigation a.active {
   color: black;
 }
-/* line 96, ../../app/stylesheets/application.sass */
+/* line 95, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#site_nav div#login {
   float: left;
   width: 60px;
 }
-/* line 99, ../../app/stylesheets/application.sass */
+/* line 98, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main {
   width: 380px;
 }
@@ -92,108 +92,108 @@ div#contents_container.small div#main_container div#main div.table {
   margin: 0 auto;
 }
 /* line 66, ../../app/stylesheets/application.sass */
-div#contents_container.small div#main_container div#main div.table div.outer {
+div#contents_container.small div#main_container div#main div.table div {
   border: 1px solid white;
 }
 /* line 68, ../../app/stylesheets/application.sass */
-div#contents_container.small div#main_container div#main div.table div.outer:hover {
-  border: 1px dashed #486e92;
+div#contents_container.small div#main_container div#main div.table div:hover {
+  border: 1px dashed black;
 }
-/* line 71, ../../app/stylesheets/application.sass */
-div#contents_container.small div#main_container div#main div.table div.outer div.inner span {
+/* line 70, ../../app/stylesheets/application.sass */
+div#contents_container.small div#main_container div#main div.table div span {
   float: left;
   padding: 5px 0;
 }
-/* line 74, ../../app/stylesheets/application.sass */
-div#contents_container.small div#main_container div#main div.table div.outer div.inner span.bold {
+/* line 73, ../../app/stylesheets/application.sass */
+div#contents_container.small div#main_container div#main div.table div span.bold {
   font-weight: bold;
 }
-/* line 76, ../../app/stylesheets/application.sass */
-div#contents_container.small div#main_container div#main div.table div.outer div.inner span.action {
+/* line 75, ../../app/stylesheets/application.sass */
+div#contents_container.small div#main_container div#main div.table div span.action {
   width: 30px;
   font-size: 12px;
 }
-/* line 103, ../../app/stylesheets/application.sass */
+/* line 102, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main div#bottom_links {
   font-size: 12px;
   margin: 10px 0 0 10px;
 }
-/* line 107, ../../app/stylesheets/application.sass */
+/* line 106, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main form div.flash_plus_button {
   margin-top: 10px;
   background: #486e92;
 }
-/* line 110, ../../app/stylesheets/application.sass */
+/* line 109, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main form div.flash_plus_button div#flash_container {
   height: 30px;
   margin: 10px 0 5px 10px;
   float: left;
   width: 290px;
 }
-/* line 115, ../../app/stylesheets/application.sass */
+/* line 114, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main form div.flash_plus_button div#flash_container div#flash_alert {
   color: white;
 }
-/* line 117, ../../app/stylesheets/application.sass */
+/* line 116, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main form div.flash_plus_button input.submit {
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 120, ../../app/stylesheets/application.sass */
+/* line 119, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main div.flash {
   margin-top: 10px;
   height: 30px;
   background: #486e92;
 }
-/* line 124, ../../app/stylesheets/application.sass */
+/* line 123, ../../app/stylesheets/application.sass */
 div#contents_container.small div#main_container div#main div.flash div#flash_container {
   padding: 5px 0 0 10px;
   color: white;
 }
-/* line 128, ../../app/stylesheets/application.sass */
+/* line 127, ../../app/stylesheets/application.sass */
 div#contents_container.small div#footer {
   font-size: 11px;
   font-style: italic;
   text-align: right;
 }
-/* line 132, ../../app/stylesheets/application.sass */
+/* line 131, ../../app/stylesheets/application.sass */
 div#contents_container.small div#footer a {
   font-size: 11px;
 }
 
-/* line 137, ../../app/stylesheets/application.sass */
+/* line 136, ../../app/stylesheets/application.sass */
 div#contents_container.wider {
   width: 500px;
 }
-/* line 83, ../../app/stylesheets/application.sass */
+/* line 82, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#site_nav {
   font-size: 14px;
 }
-/* line 85, ../../app/stylesheets/application.sass */
+/* line 84, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#site_nav div#language {
   float: left;
   width: 60px;
 }
-/* line 88, ../../app/stylesheets/application.sass */
+/* line 87, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#site_nav div#navigation {
   text-align: center;
   float: left;
   width: 360px;
 }
-/* line 92, ../../app/stylesheets/application.sass */
+/* line 91, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#site_nav div#navigation a {
   padding: 0 10px;
 }
-/* line 94, ../../app/stylesheets/application.sass */
-div#contents_container.wider div#main_container div#site_nav div#navigation a.selected {
+/* line 93, ../../app/stylesheets/application.sass */
+div#contents_container.wider div#main_container div#site_nav div#navigation a.active {
   color: black;
 }
-/* line 96, ../../app/stylesheets/application.sass */
+/* line 95, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#site_nav div#login {
   float: left;
   width: 60px;
 }
-/* line 99, ../../app/stylesheets/application.sass */
+/* line 98, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main {
   width: 480px;
 }
@@ -242,108 +242,108 @@ div#contents_container.wider div#main_container div#main div.table {
   margin: 0 auto;
 }
 /* line 66, ../../app/stylesheets/application.sass */
-div#contents_container.wider div#main_container div#main div.table div.outer {
+div#contents_container.wider div#main_container div#main div.table div {
   border: 1px solid white;
 }
 /* line 68, ../../app/stylesheets/application.sass */
-div#contents_container.wider div#main_container div#main div.table div.outer:hover {
-  border: 1px dashed #486e92;
+div#contents_container.wider div#main_container div#main div.table div:hover {
+  border: 1px dashed black;
 }
-/* line 71, ../../app/stylesheets/application.sass */
-div#contents_container.wider div#main_container div#main div.table div.outer div.inner span {
+/* line 70, ../../app/stylesheets/application.sass */
+div#contents_container.wider div#main_container div#main div.table div span {
   float: left;
   padding: 5px 0;
 }
-/* line 74, ../../app/stylesheets/application.sass */
-div#contents_container.wider div#main_container div#main div.table div.outer div.inner span.bold {
+/* line 73, ../../app/stylesheets/application.sass */
+div#contents_container.wider div#main_container div#main div.table div span.bold {
   font-weight: bold;
 }
-/* line 76, ../../app/stylesheets/application.sass */
-div#contents_container.wider div#main_container div#main div.table div.outer div.inner span.action {
+/* line 75, ../../app/stylesheets/application.sass */
+div#contents_container.wider div#main_container div#main div.table div span.action {
   width: 30px;
   font-size: 12px;
 }
-/* line 103, ../../app/stylesheets/application.sass */
+/* line 102, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main div#bottom_links {
   font-size: 12px;
   margin: 10px 0 0 10px;
 }
-/* line 107, ../../app/stylesheets/application.sass */
+/* line 106, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main form div.flash_plus_button {
   margin-top: 10px;
   background: #486e92;
 }
-/* line 110, ../../app/stylesheets/application.sass */
+/* line 109, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main form div.flash_plus_button div#flash_container {
   height: 30px;
   margin: 10px 0 5px 10px;
   float: left;
   width: 290px;
 }
-/* line 115, ../../app/stylesheets/application.sass */
+/* line 114, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main form div.flash_plus_button div#flash_container div#flash_alert {
   color: white;
 }
-/* line 117, ../../app/stylesheets/application.sass */
+/* line 116, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main form div.flash_plus_button input.submit {
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 120, ../../app/stylesheets/application.sass */
+/* line 119, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main div.flash {
   margin-top: 10px;
   height: 30px;
   background: #486e92;
 }
-/* line 124, ../../app/stylesheets/application.sass */
+/* line 123, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#main_container div#main div.flash div#flash_container {
   padding: 5px 0 0 10px;
   color: white;
 }
-/* line 128, ../../app/stylesheets/application.sass */
+/* line 127, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#footer {
   font-size: 11px;
   font-style: italic;
   text-align: right;
 }
-/* line 132, ../../app/stylesheets/application.sass */
+/* line 131, ../../app/stylesheets/application.sass */
 div#contents_container.wider div#footer a {
   font-size: 11px;
 }
 
-/* line 139, ../../app/stylesheets/application.sass */
+/* line 138, ../../app/stylesheets/application.sass */
 div#contents_container.widest {
   width: 800px;
 }
-/* line 83, ../../app/stylesheets/application.sass */
+/* line 82, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#site_nav {
   font-size: 14px;
 }
-/* line 85, ../../app/stylesheets/application.sass */
+/* line 84, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#site_nav div#language {
   float: left;
   width: 60px;
 }
-/* line 88, ../../app/stylesheets/application.sass */
+/* line 87, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#site_nav div#navigation {
   text-align: center;
   float: left;
   width: 660px;
 }
-/* line 92, ../../app/stylesheets/application.sass */
+/* line 91, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#site_nav div#navigation a {
   padding: 0 10px;
 }
-/* line 94, ../../app/stylesheets/application.sass */
-div#contents_container.widest div#main_container div#site_nav div#navigation a.selected {
+/* line 93, ../../app/stylesheets/application.sass */
+div#contents_container.widest div#main_container div#site_nav div#navigation a.active {
   color: black;
 }
-/* line 96, ../../app/stylesheets/application.sass */
+/* line 95, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#site_nav div#login {
   float: left;
   width: 60px;
 }
-/* line 99, ../../app/stylesheets/application.sass */
+/* line 98, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main {
   width: 780px;
 }
@@ -392,80 +392,80 @@ div#contents_container.widest div#main_container div#main div.table {
   margin: 0 auto;
 }
 /* line 66, ../../app/stylesheets/application.sass */
-div#contents_container.widest div#main_container div#main div.table div.outer {
+div#contents_container.widest div#main_container div#main div.table div {
   border: 1px solid white;
 }
 /* line 68, ../../app/stylesheets/application.sass */
-div#contents_container.widest div#main_container div#main div.table div.outer:hover {
-  border: 1px dashed #486e92;
+div#contents_container.widest div#main_container div#main div.table div:hover {
+  border: 1px dashed black;
 }
-/* line 71, ../../app/stylesheets/application.sass */
-div#contents_container.widest div#main_container div#main div.table div.outer div.inner span {
+/* line 70, ../../app/stylesheets/application.sass */
+div#contents_container.widest div#main_container div#main div.table div span {
   float: left;
   padding: 5px 0;
 }
-/* line 74, ../../app/stylesheets/application.sass */
-div#contents_container.widest div#main_container div#main div.table div.outer div.inner span.bold {
+/* line 73, ../../app/stylesheets/application.sass */
+div#contents_container.widest div#main_container div#main div.table div span.bold {
   font-weight: bold;
 }
-/* line 76, ../../app/stylesheets/application.sass */
-div#contents_container.widest div#main_container div#main div.table div.outer div.inner span.action {
+/* line 75, ../../app/stylesheets/application.sass */
+div#contents_container.widest div#main_container div#main div.table div span.action {
   width: 30px;
   font-size: 12px;
 }
-/* line 103, ../../app/stylesheets/application.sass */
+/* line 102, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main div#bottom_links {
   font-size: 12px;
   margin: 10px 0 0 10px;
 }
-/* line 107, ../../app/stylesheets/application.sass */
+/* line 106, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main form div.flash_plus_button {
   margin-top: 10px;
   background: #486e92;
 }
-/* line 110, ../../app/stylesheets/application.sass */
+/* line 109, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main form div.flash_plus_button div#flash_container {
   height: 30px;
   margin: 10px 0 5px 10px;
   float: left;
   width: 290px;
 }
-/* line 115, ../../app/stylesheets/application.sass */
+/* line 114, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main form div.flash_plus_button div#flash_container div#flash_alert {
   color: white;
 }
-/* line 117, ../../app/stylesheets/application.sass */
+/* line 116, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main form div.flash_plus_button input.submit {
   float: right;
   margin: 10px 10px 5px 0;
 }
-/* line 120, ../../app/stylesheets/application.sass */
+/* line 119, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main div.flash {
   margin-top: 10px;
   height: 30px;
   background: #486e92;
 }
-/* line 124, ../../app/stylesheets/application.sass */
+/* line 123, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#main_container div#main div.flash div#flash_container {
   padding: 5px 0 0 10px;
   color: white;
 }
-/* line 128, ../../app/stylesheets/application.sass */
+/* line 127, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#footer {
   font-size: 11px;
   font-style: italic;
   text-align: right;
 }
-/* line 132, ../../app/stylesheets/application.sass */
+/* line 131, ../../app/stylesheets/application.sass */
 div#contents_container.widest div#footer a {
   font-size: 11px;
 }
 
-/* line 142, ../../app/stylesheets/application.sass */
+/* line 141, ../../app/stylesheets/application.sass */
 div#contents_container {
   margin: 90px auto 0 auto;
 }
-/* line 144, ../../app/stylesheets/application.sass */
+/* line 143, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container {
   border: 1px solid #2c4153;
   -moz-border-radius: 10px;
@@ -476,111 +476,111 @@ div#contents_container div#main_container {
   border-radius: 10px;
   background: #486e92;
 }
-/* line 148, ../../app/stylesheets/application.sass */
+/* line 147, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav {
   margin-left: 10px;
   height: 24px;
   padding-top: 5px;
 }
-/* line 152, ../../app/stylesheets/application.sass */
+/* line 151, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#site_nav a {
   color: white;
 }
-/* line 154, ../../app/stylesheets/application.sass */
+/* line 153, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main {
   margin: 0 auto;
   border: 1px solid #2c4153;
   background: white;
 }
-/* line 158, ../../app/stylesheets/application.sass */
+/* line 157, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main h1 {
   margin: 15px 0 10px 10px;
   font-weight: bold;
 }
-/* line 161, ../../app/stylesheets/application.sass */
+/* line 160, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main h1:nth-child(1) {
   margin-top: 5px;
 }
 
-/* line 164, ../../app/stylesheets/application.sass */
+/* line 163, ../../app/stylesheets/application.sass */
 .w25 {
   width: 25px;
 }
 
-/* line 166, ../../app/stylesheets/application.sass */
+/* line 165, ../../app/stylesheets/application.sass */
 .w100 {
   width: 100px;
 }
 
-/* line 168, ../../app/stylesheets/application.sass */
+/* line 167, ../../app/stylesheets/application.sass */
 .w150 {
   width: 150px !important;
 }
 
-/* line 170, ../../app/stylesheets/application.sass */
+/* line 169, ../../app/stylesheets/application.sass */
 .w250 {
   width: 250px;
 }
 
-/* line 172, ../../app/stylesheets/application.sass */
+/* line 171, ../../app/stylesheets/application.sass */
 .w300 {
   width: 300px !important;
 }
 
-/* line 174, ../../app/stylesheets/application.sass */
+/* line 173, ../../app/stylesheets/application.sass */
 .w373 {
   width: 373px;
 }
 
-/* line 176, ../../app/stylesheets/application.sass */
+/* line 175, ../../app/stylesheets/application.sass */
 .w398 {
   width: 398px;
 }
 
-/* line 178, ../../app/stylesheets/application.sass */
+/* line 177, ../../app/stylesheets/application.sass */
 .w400 {
   width: 400px;
 }
 
-/* line 180, ../../app/stylesheets/application.sass */
+/* line 179, ../../app/stylesheets/application.sass */
 .margin-top {
   margin-top: 5px;
 }
 
-/* line 182, ../../app/stylesheets/application.sass */
+/* line 181, ../../app/stylesheets/application.sass */
 .truncate {
   overflow: hidden;
 }
 
-/* line 184, ../../app/stylesheets/application.sass */
+/* line 183, ../../app/stylesheets/application.sass */
 .margin-left {
   margin-left: 10px;
 }
 
-/* line 188, ../../app/stylesheets/application.sass */
+/* line 187, ../../app/stylesheets/application.sass */
 .small_label label {
   width: 150px;
   font-size: 12px;
   margin-top: 3px;
 }
-/* line 192, ../../app/stylesheets/application.sass */
+/* line 191, ../../app/stylesheets/application.sass */
 .small_label label input {
   margin-top: 3px;
 }
 
-/* line 197, ../../app/stylesheets/application.sass */
+/* line 196, ../../app/stylesheets/application.sass */
 fieldset.inline ol label {
   float: left;
 }
-/* line 199, ../../app/stylesheets/application.sass */
+/* line 198, ../../app/stylesheets/application.sass */
 fieldset.inline ol li {
   float: left;
 }
-/* line 201, ../../app/stylesheets/application.sass */
+/* line 200, ../../app/stylesheets/application.sass */
 fieldset.inline ol input {
   float: left;
 }
-/* line 203, ../../app/stylesheets/application.sass */
+/* line 202, ../../app/stylesheets/application.sass */
 fieldset.inline ol input.submit {
   margin: 0 !important;
 }

@@ -63,19 +63,18 @@ a
   div.table
     width: $width - 4*$main_margin_width
     margin: 0 auto
-    div.outer
+    div
       border: 1px solid white
       &:hover
-        border: 1px dashed $main_frame_colour
-      div.inner
-        span
-          float: left
-          padding: 5px 0
-        span.bold
-          font-weight: bold
-        span.action
-          width: 30px
-          font-size: 12px
+        border: 1px dashed black
+      span
+        float: left
+        padding: 5px 0
+      span.bold
+        font-weight: bold
+      span.action
+        width: 30px
+        font-size: 12px
 
 @mixin content_container($width)
   width: $width 
@@ -91,7 +90,7 @@ a
         width: $width - $language_width - $login_width - 2*$main_margin_width
         a
           padding: 0 10px
-        a.selected
+        a.active
           color: black
       div#login
         float: left 

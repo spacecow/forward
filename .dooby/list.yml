@@ -99,7 +99,7 @@ a08301: !ruby/object:Dooby::Task
   todo: move to ./ folder
 0fd429: !ruby/object:Dooby::Task 
   todo: add more keywords :done
-db953e: !ruby/object:Dooby::Task 
-  todo: delete a filter
 "718841": !ruby/object:Dooby::Task 
   todo: move forward to its on folder :done
+b4b5a3: !ruby/object:Dooby::Task 
+  todo: navigator selector test :done

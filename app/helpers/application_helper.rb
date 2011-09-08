@@ -1,5 +1,4 @@
 module ApplicationHelper
-  def admin_pages?; request.path =~ /translations/ || request.path =~ /locales/ || request.path =~ /filters/ end 
   def create(s); t2(:create,s) end
   def current_language; english? ? t(:japanese) : t(:english) end
   def edit(s); t2(:edit,s) end

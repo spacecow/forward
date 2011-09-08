@@ -18,8 +18,8 @@ DEFAULT=$MAILDIR
 """
 When I go to the procmail filters page
 Then I should see the following filters:
-| 1. | If From is "root@riec",             | then Move Message to "root".     | Edit |
-| 2. | If To contains "admin-ml.*@.*riec", | then Move Message to "admin-ml". | Edit |
+| 1. | If From is "root@riec",             | then Move Message to "root".     | Edit | Del |
+| 2. | If To contains "admin-ml.*@.*riec", | then Move Message to "admin-ml". | Edit | Del |
 And a filter should exist
 And a rule should exist with filter: that filter, section: "From", part: "is", substance: "root@riec"
 And an action should exist with filter: that filter, operation: "move_message_to", destination: "root"
@@ -37,8 +37,8 @@ DEFAULT=$MAILDIR
 """
 When I go to the procmail filters page
 Then I should see the following filters:
-| 1. | If From is "root@riec",          | then Forward Copy to "test@gmail.com". | Edit |
-|    | If Subject begins with "secret", |                                        |      |
+| 1. | If From is "root@riec",          | then Forward Copy to "test@gmail.com". | Edit | Del |
+|    | If Subject begins with "secret", |                                        |      |     |
 And a filter should exist
 And a rule should exist with filter: that filter, section: "From", part: "is", substance: "root@riec"
 And a rule should exist with filter: that filter, section: "Subject", part: "begins_with", substance: "secret"
@@ -62,8 +62,8 @@ DEFAULT=$MAILDIR
 """
 When I go to the procmail filters page
 Then I should see the following filters:
-| 1. | If To ends with "test@example.com", | then Move Message to "temporary".           | Edit |
-|    |                                     | then Forward Copy to "testier@example.com". |      |
+| 1. | If To ends with "test@example.com", | then Move Message to "temporary".           | Edit | Del |
+|    |                                     | then Forward Copy to "testier@example.com". |      |     |
 And a filter should exist
 And a rule should exist with filter: that filter, section: "To", part: "ends_with", substance: "test@example.com"
 And an action should exist with filter: that filter, operation: "forward_copy_to", destination: "testier@example.com"

@@ -1,3 +1,6 @@
+<%= content_for(:container) do %>widest<% end %>
+<% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
+
 <div id="main">
   <% content_for(:site_nav) do %>
     <%= link_to t(:logout), logout_path, :class => :right %>
@@ -8,15 +11,15 @@
 
   <%= semantic_form_for [:procmail, @filter], :html =>{:id => :filter} do |f| %>
     <%= f.semantic_errors %>
-    <h2 class="left-margin"><%= t(:rule) %></h2>
+    <h2 class="margin-left"><%= t(:rule) %></h2>
     <% @filter.rules.each do |rule| %>
-      <%= f.inputs :for => [:rules, rule], :class => "inline left-margin compact", :id => :rules do |ref| %>
+      <%= f.inputs :for => [:rules, rule], :class => "inline margin-left compact", :id => :rules do |ref| %>
         <%= render 'rules/form', :f => ref %>
       <% end %>
     <% end %>
-    <h2 class="left-margin"><%= t(:action) %></h2>
+    <h2 class="margin-left"><%= t(:action) %></h2>
     <% @filter.actions.each do |action| %>
-      <%= f.inputs :for => [:actions, action], :class => "inline left-margin compact", :id => :actions do |ref| %>
+      <%= f.inputs :for => [:actions, action], :class => "inline margin-left compact", :id => :actions do |ref| %>
         <%= render 'actions/form', :f => ref %>
       <% end %>
     <% end %>
@@ -26,8 +29,8 @@
           <%= content_tag :div, msg, :id => "flash_#{name}" %>
         <% end %>
       </div>
-      <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)), :class => :right %>
-      <%= f.submit t(:cancel), :class => :right, :name => :cancel %>
+      <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)), :class => :submit %>
+      <%= f.submit t(:cancel), :class => :submit, :name => :cancel %>
       <div class="clear"></div>
     </div>
     <div class="clear"></div>

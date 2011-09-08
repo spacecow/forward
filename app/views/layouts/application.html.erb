@@ -17,17 +17,31 @@
 <div id="header">
   <%# image_tag 'witch.gif' %>
 </div>
-<div id="contents_container" class="<%= admin_pages? ? 'admin' : 'application' %>">
+<div id="contents_container" class="<%= yield(:container) %>">
   <div id="main_container">
     <div id="site_nav">
-      <% if english? %>
-        <%= link_to "日本語", :language => 'ja', :address => @input %>
-      <% else %>
-        <%= link_to "English", :language => 'en', :address => @input %>
+      <div id="language">
+        <% if english? %>
+          <%= link_to "日本語", :language => 'ja', :address => @input %>
+        <% else %>
+          <%= link_to "English", :language => 'en', :address => @input %>
+        <% end %>
+      </div>
+      <% unless yield(:no_navigation) == "true" %>
+        <div id="navigation">
+          <%= link_to "Forward", operator_edit_path, :class => request.path =~ /forward/ ? :selected : "" %>
+          <%= link_to "Procmail", procmail_filters_path, :class => request.path =~ /procmail/ ? :selected : "" %>
+          <%= link_to "Translations", translations_path, :class => request.path =~ /translations/ ? :selected : "" %>
+        </div>
       <% end %>
-      <%= yield(:site_nav) %>
+      <div id="login">
+        <%= yield(:login) %>
+      </div>
     </div>
     <%= yield %>
+  </div>
+  <div id="footer">
+    <%= link_to t(:flexible_information_system_research_center) %>
   </div>
 </div>
 </body>

@@ -9,6 +9,7 @@ en:
   delete: "Delete"
   edit: "Edit"
   english: "English"
+  flexible_information_system_research_center: "Flexible Information System Research Center"
   forwarding_address: "Address"
   japanese: "日本語"
   locale: "Locale"
@@ -44,7 +45,7 @@ en:
     view: "View %{obj}"
     view_own: "View own %{obj}"
   alert:
-    invalid_login_or_password: "Invalid login or password."
+    incorrect_username_or_password: "Invalid login or password."
     incorrect: "%{obj} incorrect."
     unauthorized_access: "Unauthorized access."
   notice:

@@ -29,7 +29,7 @@ Scenario: Add a field in japanese
 Given dotforward contains "test1\n"
 And I am logged in as "test"
 And I follow "日本語"
-And I press "転送先を追加"
+And I press "転送先追加"
 Then I should see a "転送先 6" field
 But I should see "転送先が追加されました" as notice flash message
 

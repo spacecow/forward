@@ -1,20 +1,26 @@
+<%= content_for(:container) do %>widest<% end %>
+<% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
+
 <div id="main">
   <h1><%= pl(:translation) %></h1>
 
-  <table>
+  <div class="table">
     <% @translations.keys.reject{|e| e =~ /content_key/}.sort_by{|e| locale(e)}.each do |key| %>
-      <tr>
-        <td class="bold"><%= key %></td>
-        <td><%= t key[3..-1] %></td>
-        <td class="action"><%= link_to t(:edit), translations_path(:key => key) %></td>
-        <td class="action"><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></td>
-      </tr>
+      <div class="outer">
+        <div class="inner">
+          <span class="bold w398 truncate"><%= key %></span>
+          <span class="w300 truncate"><%= t key[3..-1] %></span>
+          <span class="action"><%= link_to t(:edit), translations_path(:key => key) %></span>
+          <span class="action"><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></span>
+          <div class="clear"></div>
+        </div>
+      </div>
     <% end %>
-  </table>
+  </div>
 
   <h1><%= add(:translation) %></h1>
 
-  <%= semantic_form_for @translation do |f| %>
+  <%= semantic_form_for @translation, :html => {:class => "normal"} do |f| %>
     <%= f.input :locale, :as => :select, :collection => @locales %>
     <%= f.input :key %>
     <%= f.input :value %>
@@ -24,13 +30,13 @@
 
   <h1><%= add(:locale) %></h1>
 
-  <%= semantic_form_for @locale do |f| %>
+  <%= semantic_form_for @locale, :html => {:class => "normal"} do |f| %>
     <%= f.input :title %>
     <%= f.submit (@locale.new_record? ? create(:locale) : update(:locale)), :class => :submit %>
   <% end %>
   <div class="clear"></div>
 
-  <div class="flash_plus_button">
+  <div class="flash">
     <div id="flash_container" class="admin_width_with_margin">
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, :id => "flash_#{name}" %>

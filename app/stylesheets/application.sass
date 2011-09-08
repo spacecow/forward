@@ -1,151 +1,204 @@
 @import "compass/css3/border-radius"
 
-$header_height: 53px
-$header_contents_container_separator_width: 90px
-$contents_container_width: 400px
-$contents_container_width_admin: 600px
+$main_margin_width: 10px
+
+$contents_container_width_small: 400px
+$contents_container_width_wider: 500px
+$contents_container_width_widest: 800px
+$header_contents_container_separator_width: 90px 
 
 $site_nav_height: 24px
-$main_margin_width: 10px
-$main_width: $contents_container_width - 2*$main_margin_width
-$main_width_admin: $contents_container_width_admin - 2*$main_margin_width
 
-$main_frame_colour: #486e92
 $main_frame_border_colour: #2c4153
+$main_frame_colour: #486e92
+$main_radius: 10px
+
+$language_width: 60px
+$login_width: 60px
+
+$flash_container_width: 290px
+
+$label_width: 100px 
+$label_margin_width: 5px
+$label_full_width: $label_width + $label_margin_width
+$text_field_width: 200px
 
 div.clear
   clear: both
   height: 0
   overflow: hidden
 
-.hidden
-  visibility: hidden
-
-a.active
+a
   text-decoration: none
   color: $main_frame_colour
-  font-size: 14px
 
-span.translation_missing
-  color: red
-  background: black
-
-div#contents_container
-  h1
-    font-weight: bold
-    margin: 10px 0 10px 20px
-  ul
-    margin: 0 10px
+@mixin form($width)
+  form.formtastic
     li
       list-style-type: none
+  form.normal
+    li
+      list-style-type: none
+    label
+      float: left
+      width: $label_width
+      text-align: right
+      margin-right: $label_margin_width
+    input
+      width: $text_field_width
+    input.submit
+      width: auto
+      margin: 5px 0 0 $label_full_width
+    p.box_plus_button
+      margin: 5px
+      margin-left: $main_margin_width
+      label
+        font-size: 14px
+        width: auto
+      input.submit
+        float: right
+        margin: 0 67px 0 0
 
-.left-margin
-  margin-left: 10px
-  ol
-    margin-left: 10px !important
-.small-font
-  font-size: small !important
+@mixin table($width)
+  div.table
+    width: $width - 4*$main_margin_width
+    margin: 0 auto
+    div.outer
+      border: 1px solid white
+      &:hover
+        border: 1px dashed $main_frame_colour
+      div.inner
+        span
+          float: left
+          padding: 5px 0
+        span.bold
+          font-weight: bold
+        span.action
+          width: 30px
+          font-size: 12px
 
-fieldset.compact
-  li
-    margin-bottom: 0 !important
-
-li
-  .w100
-    width: 100px
-  .w150
-    width: 150px !important
-  .w200
-    width: 200px
-  .w250
-    width: 250px
-li.small_label
-  width: 130px
-  label
-    font-size: small
-    margin-top: 5px
-    padding: 0 !important
-
-div#header
-  //background: url("/images/header.gif")
-  height: $header_height
-  text-align: right
-
-div#contents_container.application
-  width: $contents_container_width
-  margin: $header_contents_container_separator_width auto 0 auto
+@mixin content_container($width)
+  width: $width 
   div#main_container
+    div#site_nav
+      font-size: 14px
+      div#language
+        float: left
+        width: $language_width
+      div#navigation
+        text-align: center
+        float: left
+        width: $width - $language_width - $login_width - 2*$main_margin_width
+        a
+          padding: 0 10px
+        a.selected
+          color: black
+      div#login
+        float: left 
+        width: $login_width
     div#main
-      width: $main_width
-      form
+      width: $width - 2*$main_margin_width
+      +form($width)
+      +table($width)
+      div#bottom_links
+        font-size: 12px
+        margin: 10px 0 0 $main_margin_width
+      form 
         div.flash_plus_button
-          width: $main_width
-
-div#contents_container.admin
-  width: $contents_container_width_admin
-  margin: $header_contents_container_separator_width auto 0 auto
-  div#main_container
-    div#main
-      width: $main_width_admin
-      form
-        div.flash_plus_button
-          width: $main_width_admin
-      div.footer
+          margin-top: 10px
+          background: $main_frame_colour
+          div#flash_container
+            height: 30px
+            margin: 10px 0 5px 10px
+            float: left
+            width: $flash_container_width
+            div#flash_alert
+              color: white
+          input.submit
+            float: right
+            margin: 10px 10px 5px 0
+      div.flash
         margin-top: 10px
-        display: block
+        height: 30px
         background: $main_frame_colour
+        div#flash_container
+          padding: 5px 0 0 $main_margin_width
+          color: white
 
-div.flash_plus_button
-  margin-top: 10px
-  float: left
-  background: $main_frame_colour
-  div#flash_container
-    margin: 10px 0 5px 10px
-    float: left
-    width: 290px
-  div#flash_container.admin_width_with_margin
-    width: $main_width_admin - 20px
-    margin: 10px
-    div#flash_alert
-      color: white
-    div#flash_notice
-      color: white
-  input.submit
-    float: right
-    margin: 10px 10px 5px 0
-  input.right
-    float: right
-    margin: 10px 0 5px 5px 
-  
+  div#footer
+    font-size: 11px
+    font-style: italic
+    text-align: right
+    a
+      font-size: 11px
+
+div#contents_container.small
+  +content_container($contents_container_width_small)
+div#contents_container.wider
+  +content_container($contents_container_width_wider)
+div#contents_container.widest
+  +content_container($contents_container_width_widest)
+
 div#contents_container
+  margin: $header_contents_container_separator_width auto 0 auto
   div#main_container
     border: 1px solid $main_frame_border_colour
-    +border-radius(10px)
+    +border-radius($main_radius)
     background: $main_frame_colour
     div#site_nav
       margin-left: $main_margin_width
-      padding-top: 5px
       height: $site_nav_height
-      font-size: 14px
+      padding-top: 5px
       a
         color: white
-        text-decoration: none
-      a.right
-        float: right
-        margin-right: $main_margin_width
     div#main
       margin: 0 auto
       border: 1px solid $main_frame_border_colour
       background: white
-      a
-        font-size: 90%
-      table
-        margin-left: 10px
-        tr
-          td.bold
-            font-weight: bold
-          td
-            padding-right: 5px
+      h1
+        margin: 15px 0 10px $main_margin_width 
+        font-weight: bold
+      h1:nth-child(1)
+        margin-top: 5px
 
-td.action
-  width: 30px
+.w25
+  width: 25px
+.w100
+  width: 100px
+.w150
+  width: 150px !important
+.w250
+  width: 250px
+.w300
+  width: 300px !important
+.w373
+  width: 373px
+.w398
+  width: 398px
+.w400
+  width: 400px 
+.margin-top
+  margin-top: 5px
+.truncate
+  overflow: hidden
+.margin-left
+  margin-left: $main_margin_width
+
+.small_label
+  label
+    width: 150px
+    font-size: 12px
+    margin-top: 3px
+    input
+      margin-top: 3px
+
+fieldset.inline
+  ol
+    label
+      float: left
+    li
+      float: left
+    input
+      float: left
+    input.submit
+      margin: 0 !important

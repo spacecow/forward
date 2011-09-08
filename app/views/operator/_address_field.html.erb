@@ -1,3 +1,2 @@
 <%= label_tag "address[#{no}]".to_sym, t(:address,:no=>no.to_i+1) %>
-<%= text_field_tag "address[#{no}]", value %>
-<div class="clear"></div>
+<%= text_field_tag "address[#{no}]", value, :class => :w300 %>

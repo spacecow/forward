@@ -1,3 +1,6 @@
+<%= content_for(:container) do %>widest<% end %>
+<% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
+
 <div id="main">
   <% content_for(:site_nav) do %>
     <%= link_to t(:logout), logout_path, :class => :right %>

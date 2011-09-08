@@ -1,3 +1,6 @@
+<%= content_for(:container) do %>small<% end %>
+<%= content_for(:no_navigation) do %><%= true %><% end %>
+
 <div id="main">
   <%= title t(:login) %>
 
@@ -11,11 +14,11 @@
       <%= password_field_tag :password %>
     </p>
     <div class="flash_plus_button">
-      <div id="flash_container">
-        <% flash.each do |name, msg| %>
+      <% flash.each do |name, msg| %>
+        <div id="flash_container">
           <%= content_tag :div, msg, :id => "flash_#{name}" %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
       <%= submit_tag t(:login), :class => :submit, :id => :update %>
       <div class="clear"></div>
     </div>

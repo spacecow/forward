@@ -16,6 +16,7 @@ Then 1 filters should exist
 When I go to the procmail filter's edit page
 
 Scenario: You should be able to log out
+Then show me the page
 When I follow "Logout"
 Then I should be on the login page
 

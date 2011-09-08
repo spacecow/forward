@@ -1,8 +1,7 @@
-<div id="main">
-  <% content_for(:site_nav) do %>
-    <%= link_to t(:logout), logout_path, :class => :right %>
-  <% end %>
+<%= content_for(:container) do %>wider<% end %>
+<% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
 
+<div id="main">
   <h1><%= t(:mail_forward_settings,:user=>session[:username]) %></h1>
 
   <%= form_tag update_path, :id => "address_edit", :class => :normal do %>
@@ -12,8 +11,8 @@
       <% end %>
     <% end %>
     <%# link_to_add_fields add(:address_field) %>
-    <p class="spacier">
-      <%= label_tag "address[keep]", ft(:keep_a_copy), :class => %w(longer smaller) %>
+    <p class="box_plus_button">
+      <%= label_tag "address[keep]", ft(:keep_a_copy), :class => %w(w200 f14 ta-left) %>
       <%= check_box_tag "address[keep]", 'yes', @input["keep"], :class => :checkbox %>
       <%= submit_tag add(:address_field), :class => :submit, :id => :add %>
       <div class="clear"></div>

@@ -1,35 +1,39 @@
 <h1><%= pl(:mail_filter) %></h1>
 
-<table id="filters">
+<div class="table r4" id="filters">
   <% @filters.each_with_index do |filter,no| %>
-    <% i=0 %>
-    <% while i < [filter.rules.count, filter.actions.count].max %>
-      <tr>
-        <td><%= "#{no+1}." if i==0 %></td>
-        <% if filter.rules.count > i %>
-            <td><%= t(:rule_sentence, :no => no+1, :section => filter.rules[i].translated_section, :part => filter.rules[i].translated_part_and_substance ) %></td>
-        <% else %>
-          <td></td>
-        <% end %>
-        <% if filter.actions.count > i %>
-          <td><%= t(:action_sentence, :operation => t("actions.operations."+filter.actions[i].operation), :destination => filter.actions[i].destination ) %></td>
-        <% else %>
-          <td></td>
-        <% end %>
-        <% if i == 0 %>
-          <td><%= link_to t(:edit), edit_procmail_filter_path(filter) if can? :edit, filter %></td>
-        <% end %>
-        <% i += 1 %>
-      </tr>
-    <% end %>
+    <div class="outer">
+      <% i=0 %>
+      <% while i < [filter.rules.count, filter.actions.count].max %>
+        <div class="inner">
+          <span class="w25">
+            <%= "#{no+1}." if i==0 %>
+          </span>
+          <span class="w373 truncate">
+            <%= t(:rule_sentence, :no => no+1, :section => filter.rules[i].translated_section, :part => filter.rules[i].translated_part_and_substance ) if filter.rules.count > i %>
+          </span>
+          <span class="w300 truncate">
+            <%= t(:action_sentence, :operation => t("actions.operations."+filter.actions[i].operation), :destination => filter.actions[i].destination ) if filter.actions.count > i %>
+          </span>
+          <span class="action">
+            <%= link_to t(:edit), edit_procmail_filter_path(filter) if can?(:edit, filter) && i==0 %>
+          </span>
+          <span class="action">
+            <%= link_to t(:del), edit_procmail_filter_path(filter) if can?(:destroy, filter) && i==0 %>
+          </span>
+          <% i+=1 %>
+          <div class="clear"></div>
+        </div>
+      <% end %>
+    </div>
   <% end %>
-</table>
+</div>
 
 <div id="bottom_links">
   <%= link_to new(:mail_filter), new_procmail_filter_path, :class => "left-margin small-font" %>
 </div>
 
-<div class="flash_plus_button">
+<div class="flash">
   <div id="flash_container" class="admin_width_with_margin">
     <% flash.each do |name, msg| %>
       <%= content_tag :div, msg, :id => "flash_#{name}" %>

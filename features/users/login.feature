@@ -15,7 +15,7 @@ And I fill in "Username" with "user"
 And I fill in "Password" with "incorrect"
 And I press "Login"
 Then I should be on to the login page
-And I should see "Username or password incorrect." as alert flash message
+And I should see "Invalid login or password." as alert flash message
 
 Scenario: Cannot reach edit page without authorization
 When I go to the edit page

@@ -40,7 +40,7 @@ DEFAULT=$MAILDIR
 
 Scenario: Create a second filter
 Given an action exists with operation: "forward_copy_to", destination: "example@gmail.com"
-And a rule exists with section: "To", part: "is", substance: "oh boy"
+And a rule exists with section: "to", part: "is", substance: "oh boy"
 And a filter exists with user: that user, rules: that rule, actions: that action
 When I go to the new procmail filter page
 And I fill in a filter

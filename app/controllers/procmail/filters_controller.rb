@@ -100,6 +100,8 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def destroy
+    @filter.destroy
+    save_filters(session[:username], session[:password], current_user.filters)
     redirect_to procmail_filters_path
   end
 

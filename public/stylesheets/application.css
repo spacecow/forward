@@ -528,13 +528,13 @@ div#contents_container div#main_container div#main h1:nth-child(1) {
 }
 
 /* line 173, ../../app/stylesheets/application.sass */
-.w373 {
-  width: 373px;
+.w371 {
+  width: 371px;
 }
 
 /* line 175, ../../app/stylesheets/application.sass */
-.w398 {
-  width: 398px;
+.w396 {
+  width: 396px;
 }
 
 /* line 177, ../../app/stylesheets/application.sass */
@@ -557,30 +557,35 @@ div#contents_container div#main_container div#main h1:nth-child(1) {
   margin-left: 10px;
 }
 
-/* line 187, ../../app/stylesheets/application.sass */
+/* line 185, ../../app/stylesheets/application.sass */
+.small_font {
+  font-size: 13px;
+}
+
+/* line 188, ../../app/stylesheets/application.sass */
 .small_label label {
   width: 150px;
   font-size: 12px;
   margin-top: 3px;
 }
-/* line 191, ../../app/stylesheets/application.sass */
+/* line 192, ../../app/stylesheets/application.sass */
 .small_label label input {
   margin-top: 3px;
 }
 
-/* line 196, ../../app/stylesheets/application.sass */
+/* line 197, ../../app/stylesheets/application.sass */
 fieldset.inline ol label {
   float: left;
 }
-/* line 198, ../../app/stylesheets/application.sass */
+/* line 199, ../../app/stylesheets/application.sass */
 fieldset.inline ol li {
   float: left;
 }
-/* line 200, ../../app/stylesheets/application.sass */
+/* line 201, ../../app/stylesheets/application.sass */
 fieldset.inline ol input {
   float: left;
 }
-/* line 202, ../../app/stylesheets/application.sass */
+/* line 203, ../../app/stylesheets/application.sass */
 fieldset.inline ol input.submit {
   margin: 0 !important;
 }

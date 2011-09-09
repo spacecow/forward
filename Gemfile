@@ -1,8 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.0.10'
+gem 'activesupport', '3.0.10'
 gem "compass", ">= 0.11.beta.7"
-gem 'mysql2', "0.2.6"
+gem 'mysql2', '<0.3'
 gem 'redis'
 gem 'formtastic'
 gem 'cancan'

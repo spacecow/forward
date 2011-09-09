@@ -30,6 +30,7 @@ en:
   show: "Show"
   sign_up: "Sign up"
   role: "Role"
+  title: "Title"
   update: "Update"
   label:
     add: "Add %{obj}"

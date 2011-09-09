@@ -2,8 +2,9 @@ Forward::Application.routes.draw do
   match 'user/edit' => 'users#edit', :as => :edit_current_user
 
   resources :sessions, :only => [:new,:create,:destroy]
-
   resources :users, :only =>[:edit,:update]
+
+  resources :messages, :only => [:new]
 
   resources :locales, :only => [:create]
   resources :translations, :only => [:index,:create] do

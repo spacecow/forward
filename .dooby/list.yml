@@ -91,8 +91,6 @@ b13fbd: !ruby/object:Dooby::Task
   todo: minus in action/rules :done
 e1966a: !ruby/object:Dooby::Task 
   todo: add jap sentence on filter index page :done
-f1f24f: !ruby/object:Dooby::Task 
-  todo: be able to delete a filter
 a08301: !ruby/object:Dooby::Task 
   todo: actions starting with &
 "940839": !ruby/object:Dooby::Task 
@@ -103,3 +101,5 @@ a08301: !ruby/object:Dooby::Task
   todo: move forward to its on folder :done
 b4b5a3: !ruby/object:Dooby::Task 
   todo: navigator selector test :done
+b90d80: !ruby/object:Dooby::Task 
+  todo: be able to delete a filter :done

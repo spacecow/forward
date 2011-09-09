@@ -73,7 +73,27 @@ Scenario: Links on filter index page
 When I go to the procmail filters page
 Then I should see links "New Mail Filter" at the bottom of the page
 
-Scenario: Links from filter index page
+Scenario Outline: Links from filter index page
 When I go to the procmail filters page
-And I follow "New Mail Filter" at the bottom of the page
-Then I should be on the new procmail filter page
+And I follow "<link>" at the <section> of the page
+Then I should be on the <path> page
+Examples:
+| link                 | path                | section |
+| New Mail Filter      | new procmail filter | bottom  |
+| Flexible Information | new message         | footer  |
+
+Scenario: Delete a filter
+Given a file ".procmailrc" exists with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+:0 :
+*^From: root@riec$
+.root/
+"""
+When I go to the procmail filters page
+And I follow "Del" within the first "filters" table row
+Then 0 filters should exist
+And 0 rules should exist
+And 0 actions should exist

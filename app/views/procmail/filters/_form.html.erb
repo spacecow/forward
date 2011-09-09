@@ -1,4 +1,4 @@
-<%= content_for(:container) do %>widest<% end %>
+<%= content_for(:container) do %>widerer<% end %>
 <% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
 
 <div id="main">
@@ -17,20 +17,25 @@
         <%= render 'rules/form', :f => ref %>
       <% end %>
     <% end %>
+    <%= f.commit_button add(:rule), :class => "submit inner", :name => "rule_plus" %>
+    <div class="clear"></div>
+    <div class="hr"></div>
     <h2 class="margin-left"><%= t(:action) %></h2>
     <% @filter.actions.each do |action| %>
       <%= f.inputs :for => [:actions, action], :class => "inline margin-left compact", :id => :actions do |ref| %>
         <%= render 'actions/form', :f => ref %>
       <% end %>
     <% end %>
+    <%= f.submit add(:action), :class => "submit inner", :name => "action_plus" %>
+    <div class="clear"></div>
     <div class="flash_plus_button">
       <div id="flash_container">
         <% flash.each do |name, msg| %>
           <%= content_tag :div, msg, :id => "flash_#{name}" %>
         <% end %>
       </div>
-      <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)), :class => :submit %>
-      <%= f.submit t(:cancel), :class => :submit, :name => :cancel %>
+      <%= f.submit either_of(@filter.new_record?, t(:create), t(:update)), :class => "submit outer" %>
+      <%= f.submit t(:cancel), :class => "submit outer", :name => :cancel %>
       <div class="clear"></div>
     </div>
     <div class="clear"></div>

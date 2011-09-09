@@ -103,11 +103,11 @@ b90d80: !ruby/object:Dooby::Task
   todo: be able to delete a filter :done
 11825d: !ruby/object:Dooby::Task 
   todo: add message
-"940839": !ruby/object:Dooby::Task 
-  todo: move to ./ folder
 5fb49a: !ruby/object:Dooby::Task 
   todo: colour errors red
-"226011": !ruby/object:Dooby::Task 
-  todo: plus button to one add button
 104aae: !ruby/object:Dooby::Task 
   todo: default enter key should be create/update
+3de53a: !ruby/object:Dooby::Task 
+  todo: move to ./ folder :done
+9b980b: !ruby/object:Dooby::Task 
+  todo: plus button to one add button :done

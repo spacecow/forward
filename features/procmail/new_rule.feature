@@ -39,13 +39,13 @@ But I should see no second "actions" listing
 
 Scenario: Add a rule before creating one
 When I go to the new procmail filter page
-And I press "+" in the first "rules" listing for "filter"
+And I press "Add Rule"
 Then I should see 2 "rules" listing
 And I should see 1 "actions" listing
 
 Scenario: A second rule is not saved if it is not filled in correctly
 When I go to the new procmail filter page
-And I press "+" in the first "rules" listing for "filter"
+And I press "Add Rule"
 And I fill in a filter
 And I fill in the second "substance" field with "it's ok"
 And I press "Create"

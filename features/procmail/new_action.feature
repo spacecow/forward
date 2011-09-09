@@ -19,7 +19,6 @@ When I go to the new procmail filter page
 And I fill in a rule
 And I press "Create"
 Then I should see an error "can't be blank" at the first "operation" field
-And I should see an error "can't be blank" at the first "destination" field
 And I should see no second "actions" listing
 And I should see 1 "rules" listing 
 And 0 filters should exist
@@ -37,13 +36,13 @@ But I should see no second "actions" listing
 
 Scenario: Add an action before creating one
 When I go to the new procmail filter page
-And I press "+" in the first "actions" listing for "filter"
+And I press "Add Action"
 Then I should see 1 "rules" listing
 And I should see 2 "actions" listing
 
 Scenario: A second action is not saved if it is not filled in correctly
 When I go to the new procmail filter page
-And I press "+" in the first "actions" listing for "filter"
+And I press "Add Action"
 And I fill in a filter
 And I fill in the second "destination" field with "it's ok"
 And I press "Create"

@@ -28,7 +28,7 @@ DEFAULT=$MAILDIR
 """
 
 Scenario: Rules not fully filled in will not be saved, but other changes will
-When I press "+" in the first "rules" listing for "filter"
+When I press "Add Rule"
 And I fill in the first "substance" field with "oh yeah"
 And I select "To" from the second "section" field
 And I press "Update"
@@ -39,7 +39,7 @@ And I should be on the procmail filters page
 And I should see "Updated rules: 1, actions: 1"
 
 Scenario: Add a rule
-When I press "+" in the first "rules" listing for "filter"
+When I press "Add Rule"
 Then the first rule should be filled out
 But the second rule should be empty
 And I should see no third "rules" listing
@@ -48,8 +48,8 @@ But I should see no second "actions" listing
 And 1 rules should exist
 
 Scenario: Add a second rule
-When I press "+" in the first "rules" listing for "filter"
-And I press "+" in the second "rules" listing for "filter"
+When I press "Add Rule"
+And I press "Add Rule"
 Then the first rule should be filled out
 But the second rule should be empty
 And the third rule should be empty
@@ -78,17 +78,17 @@ But I should see no second "rules" listing
 And I should see 1 "actions" listing
 
 Scenario: An added rule's contents should remain when adding an additional action
-When I press "+" in the first "rules" listing for "filter"
+When I press "Add Rule"
 And I select "is" from the second "part" field
-And I press "+" in the second "rules" listing for "filter"
+And I press "Add Rule"
 Then the first rule should be filled out
 And "is" should be selected in the second "part" field
 And the third rule should be empty
 
 Scenario: An added actions' content should remain when adding a rule
-When I press "+" in the first "actions" listing for "filter"
+When I press "Add Action"
 And I select "Copy Message to" from the second "operation" field
-And I press "+" in the first "rules" listing for "filter"
+And I press "Add Rule"
 Then the first action should be filled out
 And "Copy Message to" should be selected in the second "operation" field
 
@@ -121,7 +121,7 @@ DEFAULT=$MAILDIR
 """
 
 Scenario: One cannot delete and leave a single empty rule
-When I press "+" in the first "rules" listing for "filter"
+When I press "Add Rule"
 And I check the first "Remove Rule"
 And I press "Update"
 And I should see an error "can't be blank" at the second "section" field

@@ -16,7 +16,7 @@ When /I fill in a rule$/ do
   And %(I fill in the first "substance" field with "yeah")
 end
 When /I fill in a second rule$/ do
-  When %(I press "+" in the first "rules" listing for "filter")
+  When %(I press "Add Rule")
   When %(I select "To" from the second "section" field)
   And %(I select "is" from the second "part" field)
   And %(I fill in the second "substance" field with "oh boy")
@@ -28,7 +28,7 @@ When /I fill in an action/ do
   And %(I fill in the first "destination" field with "temp")
 end
 When /I fill in a second action/ do
-  When %(I press "+" in the first "actions" listing for "filter")
+  When %(I press "Add Action")
   And %(I select "Copy Message to" from the second "operation" field)
   And %(I fill in the second "destination" field with "temporary")
 end

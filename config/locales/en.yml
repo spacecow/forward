@@ -20,6 +20,8 @@ en:
   mail_forward_settings: "Mail Forward Settings for %{user}"
   mail_forward_login: "Mail Forward Login"
   member: "Member"
+  message: "Message"
+  message_to: "Message to %{user}"
   mini_admin: "mini-admin"
   or: " or "
   possessive: "%{owner}'s %{obj}"
@@ -53,6 +55,7 @@ en:
   notice:
     logged_in: "Successfully logged in."
     logged_out: "Successfully logged out."
+    message_sent: "Thank you. Your message has been sent."
     thank_you_for_sending: "Thank you. Your comment has been sent to the editor."
     thank_you_for_signing_up: "Thank you for signing up! You are now logged in."
   messages:
@@ -60,6 +63,16 @@ en:
     or: "%{obj1} or %{obj2}"
     sure?: "Are you sure?"
     welcome: "Welcome %{user}."
+    priorities:
+      high: "high"
+      low: "low"
+      normal: "normal"
+      urgent: "urgent"
+    types:
+      bug: "bug"
+      comment: "comment"
+      enhancement: "enhancement"
+      feature: "feature"
   success:
     added: "Successfully added %{obj}."
     created: "Successfully created %{obj}."
@@ -74,10 +87,15 @@ en:
       keep_a_copy: "Keep a copy on the server" 
       key: "Key"
       locale: "Locale"
+      message: "Message"
       name: "Name"
       password: "Password"
       password_confirmation: "Password confirmation"
+      priority: "Priority"
+      sender: "Sender"
+      subject: "Subject"
       title: "Title"
+      type: "Type"
       username: "Username"
       value: "Value"
   rules:

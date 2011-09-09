@@ -101,8 +101,6 @@ b4b5a3: !ruby/object:Dooby::Task
   todo: navigator selector test :done
 b90d80: !ruby/object:Dooby::Task 
   todo: be able to delete a filter :done
-11825d: !ruby/object:Dooby::Task 
-  todo: add message
 104aae: !ruby/object:Dooby::Task 
   todo: default enter key should be create/update
 3de53a: !ruby/object:Dooby::Task 
@@ -111,3 +109,5 @@ b90d80: !ruby/object:Dooby::Task
   todo: plus button to one add button :done
 03f504: !ruby/object:Dooby::Task 
   todo: colour errors red :done
+ef63a9: !ruby/object:Dooby::Task 
+  todo: add message :done

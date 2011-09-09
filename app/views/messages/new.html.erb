@@ -1,2 +1,25 @@
-<h1>Messages#new</h1>
-<p>Find me in app/views/messages/new.html.erb</p>
+<%= content_for(:container) do %>wider<% end %>
+<% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
+
+<div id="main">
+
+<%= title t(:message_to, :user => t(:admin)) %>
+
+<%= semantic_form_for @message, :html => {:class => "normal"} do |f| %>
+  <%= f.input :subject %>
+  <%= f.input :body, :label => ft(:message) %>
+  <%= f.input :priority, :as => :select, :collection => Message.priorities %>
+  <%= f.input :message_type, :label => :type, :as => :select, :collection => Message.types %>
+  <%= f.input :user, :label => :sender, :as => :string, :input_html => {:disabled => true} %>
+  <%= f.submit t2(:send,:message), :class => :submit %>
+<% end %>
+
+<div class="flash">
+  <div id="flash_container" class="admin_width_with_margin">
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+    <% end %>
+  </div>
+</div>
+
+</div>

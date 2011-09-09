@@ -4,7 +4,7 @@ Forward::Application.routes.draw do
   resources :sessions, :only => [:new,:create,:destroy]
   resources :users, :only =>[:edit,:update]
 
-  resources :messages, :only => [:new]
+  resources :messages, :only => [:new,:create]
 
   resources :locales, :only => [:create]
   resources :translations, :only => [:index,:create] do

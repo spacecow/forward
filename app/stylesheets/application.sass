@@ -17,12 +17,12 @@ $main_radius: 10px
 $language_width: 60px
 $login_width: 60px
 
-$flash_container_width: 290px
-
 $label_width: 100px 
 $label_margin_width: 5px
 $label_full_width: $label_width + $label_margin_width
 $text_field_width: 200px
+$textarea_width: 300px
+$textarea_height: 200px
 
 div.clear
   clear: both
@@ -54,6 +54,9 @@ a
       margin-right: $label_margin_width
     input
       width: $text_field_width
+    textarea
+      width: $textarea_width
+      height: $textarea_height
     input.submit
       width: auto
       margin: 5px 0 0 $label_full_width
@@ -85,7 +88,7 @@ a
         width: 30px
         font-size: 12px
 
-@mixin content_container($width)
+@mixin content_container($width,$flash_width)
   width: $width 
   div#main_container
     div#site_nav
@@ -129,7 +132,7 @@ a
             height: 30px
             margin: 10px 0 5px 10px
             float: left
-            width: $flash_container_width
+            width: $flash_width
             div#flash_alert
               color: white
           input.submit
@@ -151,13 +154,13 @@ a
       font-size: 11px
 
 div#contents_container.small
-  +content_container($contents_container_width_small)
+  +content_container($contents_container_width_small, 290px)
 div#contents_container.wider
-  +content_container($contents_container_width_wider)
+  +content_container($contents_container_width_wider, 390px)
 div#contents_container.widerer
-  +content_container($contents_container_width_widerer)
+  +content_container($contents_container_width_widerer, 390px)
 div#contents_container.widest
-  +content_container($contents_container_width_widest)
+  +content_container($contents_container_width_widest, 590px)
 
 div#contents_container
   margin: $header_contents_container_separator_width auto 0 auto

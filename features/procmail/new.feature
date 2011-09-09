@@ -38,6 +38,9 @@ DEFAULT=$MAILDIR
 
 """
 
+Scenario: Creation of a filter should add a line to .forward
+
+
 Scenario: Create a second filter
 Given an action exists with operation: "forward_copy_to", destination: "example@gmail.com"
 And a rule exists with section: "to", part: "is", substance: "oh boy"

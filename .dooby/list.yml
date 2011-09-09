@@ -85,8 +85,6 @@ b13fbd: !ruby/object:Dooby::Task
   todo: add blank line to the end of the file :done
 7af69d: !ruby/object:Dooby::Task 
   todo: lock on folder, no lock for forwarding :done
-21923e: !ruby/object:Dooby::Task 
-  todo: include a line in .forward
 13cc68: !ruby/object:Dooby::Task 
   todo: minus in action/rules :done
 e1966a: !ruby/object:Dooby::Task 
@@ -111,3 +109,7 @@ b90d80: !ruby/object:Dooby::Task
   todo: colour errors red :done
 ef63a9: !ruby/object:Dooby::Task 
   todo: add message :done
+"464891": !ruby/object:Dooby::Task 
+  todo: add admin message management
+21923e: !ruby/object:Dooby::Task 
+  todo: include a line in .forward

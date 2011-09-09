@@ -17,7 +17,7 @@ When I fill in the first "destination" field with "temporary"
 And I press "Update"
 Then 1 filters should exist
 And an action should exist with filter: that filter, operation: "move_message_to", destination: "temporary"
-And a file ".procmail" should exist with:
+And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
@@ -121,7 +121,7 @@ Then 0 filters should exist
 And 0 rules should exist
 And 0 actions should exist
 And I should see "Successfully removed filter." as notice flash message
-And a file ".procmail" should exist with:
+And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR

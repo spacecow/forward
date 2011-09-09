@@ -2,7 +2,7 @@ Feature:
 Background:
 Given a user exists with username: "test", password: "correct"
 And I am logged in as that user
-And a file ".procmail" exists with:
+And a file ".procmailrc" exists with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR

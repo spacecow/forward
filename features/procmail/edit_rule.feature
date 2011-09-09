@@ -16,7 +16,7 @@ When I select "To" from the first "section" field
 And I press "Update"
 Then 1 filters should exist
 Then a rule should exist with filter: that filter, section: "To", part: "contains", substance: "yeah"
-And a file ".procmail" should exist with:
+And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
@@ -111,7 +111,7 @@ Then 0 filters should exist
 And 0 rules should exist
 And 0 actions should exist
 And I should see "Successfully removed filter." as notice flash message
-And a file ".procmail" should exist with:
+And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR

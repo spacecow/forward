@@ -29,8 +29,8 @@
       </div>
       <% unless yield(:no_navigation) == "true" %>
         <div id="navigation">
-          <%= link_to ".forward", forward_edit_path, :class => request.path =~ /forward/ ? :active : "" %>
-          <%= link_to ".procmailrc", procmail_filters_path, :class => request.path =~ /procmail/ ? :active : "" %>
+          <%= link_to t(:mail_forwarding), forward_edit_path, :class => request.path =~ /forward/ ? :active : "" %>
+          <%= link_to t(:mail_filtering), procmail_filters_path, :class => request.path =~ /procmail/ ? :active : "" %>
           <%= link_to pl(:translation), translations_path, :class => request.path =~ /translations/ ? :active : "" if can? :index, Translation %>
         </div>
       <% end %>

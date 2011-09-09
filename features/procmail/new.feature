@@ -2,7 +2,7 @@ Feature:
 Background:
 Given a user exists with username: "test", password: "correct"
 And I am logged in as that user
-And a file ".procmail" exists with:
+And a file ".procmailrc" exists with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
@@ -27,7 +27,7 @@ Then 1 filters should exist
 And a rule should exist with filter: that filter, section: "Subject", part: "contains", substance: "yeah"
 And an action exist with filter: that filter, operation: "move_message_to", destination: "temp"
 And I should see "Successfully created filter." as notice flash message
-And a file ".procmail" should exist with:
+And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
@@ -39,7 +39,16 @@ DEFAULT=$MAILDIR
 """
 
 Scenario: Creation of a filter should add a line to .forward
-
+Given a file ".forward" exists with:
+"""
+"""
+When I go to the new procmail filter page
+And I fill in a filter
+And I press "Create"
+Then a file ".forward" should exist with:
+"""
+"|IFS=' ' && exec /usr/local/bin/procmail -f- || exit 75 #test"
+"""
 
 Scenario: Create a second filter
 Given an action exists with operation: "forward_copy_to", destination: "example@gmail.com"
@@ -49,7 +58,7 @@ When I go to the new procmail filter page
 And I fill in a filter
 And I press "Create"
 Then 2 filters should exist
-And a file ".procmail" should exist with:
+And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR

@@ -23,6 +23,7 @@ Scenario: Edit view in English
 Given dotforward contains "test1"
 And I am logged in as "test"
 Then I should see "Logout"
+And I should see "Mail Forward Settings for test"
 And I should see fields from "Address 1" to "Address 5"
 And I should not see "Address 6"
 And the "Keep a copy on the server" checkbox should not be checked

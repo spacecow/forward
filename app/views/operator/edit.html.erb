@@ -2,7 +2,7 @@
 <% content_for(:login) do %><%= link_to t(:logout), logout_path %><% end %>
 
 <div id="main">
-  <h1><%= t(:mail_forward_settings,:user=>session[:username]) %></h1>
+  <h1><%= t(:mail_forward_settings_for,:user=>session[:username]) %></h1>
 
   <%= form_tag forward_update_path, :id => "address_edit", :class => :normal do %>
     <% @input.each do |key, value| %>

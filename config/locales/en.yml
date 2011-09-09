@@ -16,6 +16,7 @@ en:
   login: "Login"
   logout: "Logout"
   mail_filter: "Mail Filter"
+  mail_filters_for: "Mail Filters for %{user}"
   mail_forward_settings: "Mail Forward Settings for %{user}"
   mail_forward_login: "Mail Forward Login"
   member: "Member"
@@ -105,3 +106,8 @@ en:
   dot_forward: "DOT Forward"
   filter: "Filter"
   translation: "Translation"
+
+  activerecord:
+    errors:
+      messages:
+        invalid_email: "invalid email address"

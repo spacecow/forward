@@ -54,7 +54,7 @@ class Action < ActiveRecord::Base
 
     def valid_destination_email
       #p destination =~ /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/
-      errors.add(:destination, "invalid email address") if forward_message? && !resembles_email?
+      errors.add(:destination, I18n.t("activerecord.errors.messages.invalid_email")) if forward_message? && !resembles_email?
 
     end
 end

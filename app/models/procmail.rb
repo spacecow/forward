@@ -3,6 +3,7 @@ module Procmail
     @filters = read_filters(username, password)
     current_user.filters.destroy_all
     current_user.filters = @filters
+    raise FilterCreationException, "Filter id is nil." if current_user.filters.map(&:id).include?(nil)
   end
 
   def read_filters(username, password)
@@ -105,7 +106,11 @@ module Procmail
         action.operation = Action::MOVE_MESSAGE_TO
       end 
     end
-    action.destination = strip_destination(line) #prepare_destination(line)
+    action.destination = strip_destination(line) 
+    if action.forward_message? && !action.resembles_email?
+      raise InvalidEmailException, "Destination email must be valid." 
+    end
+
     filter.actions << action
   end
 

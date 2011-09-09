@@ -3,7 +3,8 @@ class Action < ActiveRecord::Base
 
   belongs_to :filter
 
-  validates_presence_of :destination, :operation
+  validates_presence_of :operation #, :destination
+  validate :valid_destination_email
 
   COPY_MESSAGE_TO = "copy_message_to"
   FORWARD_COPY_TO = "forward_copy_to"
@@ -43,8 +44,19 @@ class Action < ActiveRecord::Base
   end
   def humanized_operation; operation.split('_').map(&:capitalize).join(' ').gsub(/To/,'to') end
   def self.operations; OPERATIONS.map{|e| I18n.t("actions.operations.#{e}")}.zip(OPERATIONS) end
+  def resembles_email?
+    destination.match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/)
+  end
   def to_file; destination_to_file end
   def to_s; destination end
+
+  private
+
+    def valid_destination_email
+      #p destination =~ /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/
+      errors.add(:destination, "invalid email address") if forward_message? && !resembles_email?
+
+    end
 end
 
 # == Schema Information

@@ -31,7 +31,7 @@ DEFAULT=$MAILDIR
 Scenario: Actions not fully filled in will not be saved, but other changes will
 When I press "+" in the first "actions" listing for "filter"
 And I fill in the first "destination" field with "temporary"
-And I select "Copy Message to" from the second "operation" field
+And I fill in the second "destination" with "oh yeah"
 And I press "Update"
 Then a filter should exist
 And an action should exist with filter: that filter, operation: "move_message_to", destination: "temporary"
@@ -57,12 +57,27 @@ And nothing should be selected in the third "operation" field
 And I should see no fourth "actions" listing
 And 1 actions should exist
 
-Scenario: The one action cannot miss destination
+Scenario Outline: The one action cannot miss destination if it is forwarding
 When I fill in the first "destination" field with ""
+And I select "<forwarding>" from the first "operation" field
 And I press "Update"
-And I should see an error "can't be blank" at the first "destination" field
+Then I should see an error "invalid email address" at the first "destination" field
 But I should see no second "actions" listing
 And I should see 1 "rules" listing
+Examples:
+| forwarding         |
+| Forward Message to |
+| Forward Copy to    |
+
+Scenario Outline: The one action can miss destination if the message is moved 
+When I fill in the first "destination" field with ""
+And I select "<moving>" from the first "operation" field
+And I press "Update"
+Then an action should exist with destination: "", operation: "<moving_key>"
+Examples:
+| moving          | moving_key      |
+| Move Message to | move_message_to |
+| Copy Message to | copy_message_to |
 
 Scenario: The one action cannot miss operation
 When I select "" from the first "operation" field
@@ -120,7 +135,6 @@ When I press "+" in the first "actions" listing for "filter"
 And I check the first "Remove Action"
 And I press "Update"
 And I should see an error "can't be blank" at the second "operation" field
-And I should see an error "can't be blank" at the second "destination" field
 
 Scenario: Add an extra action
 When I fill in a second action

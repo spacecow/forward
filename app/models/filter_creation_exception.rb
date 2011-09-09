@@ -1,0 +1,2 @@
+class FilterCreationException < RuntimeError
+end

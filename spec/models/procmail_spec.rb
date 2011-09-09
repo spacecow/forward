@@ -79,7 +79,7 @@ describe Procmail do
   context "#actions_to_file", :actions_to_file => true do
     before(:each) do
       @filter = Filter.new
-      @filter.rules << Factory(:rule)
+      @filter.rules << Factory.build(:rule)
     end
 
     it "has 1 line for 1 action" do
@@ -154,7 +154,7 @@ describe Procmail do
   
   context "#actions_to_s", :actions_to_s => true do
     before(:each) do
-      rule = Factory(:rule)
+      rule = Factory.build(:rule)
       action = Action.create(:operation => "move_message_to", :destination => "temp")
       @filter = Filter.create
       @filter.rules << rule
@@ -196,7 +196,7 @@ describe Procmail do
 
   context "#load_filter", :load_filter => true do
     it "splits up in rule and action" do
-      filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
+      p filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
       filter.rules.last.contents.should == ["to", "admin-ml*^@.*riec", "contains"]
       filter.actions.last.contents.should == ["move_message_to", "admin-ml"]
     end 
@@ -211,7 +211,22 @@ describe Procmail do
   context "#load_action", :load_action => true do
     before(:each){ @filter = Filter.new }
 
-    context "creates a destination folrder with dot and slash for" do
+    it "error gets raised if destination email is not valid" do
+      lambda{@bajs.load_action(":0:", "!", @filter)}.should raise_error(InvalidEmailException)
+    end
+
+    it "destination email is valid", :resemble_email => true do
+      lambda{@bajs.load_action(":0:", "!example@gmail.com", @filter)}.should_not raise_error(InvalidEmailException)
+    end
+
+
+
+    it "destination folder can be empty if a message is being moved" do
+      @bajs.load_action(":0:", "./", @filter)
+      @filter.actions.last.contents.should == ["move_message_to", ""]
+    end
+
+    context "creates a destination folder with dot and slash for" do
       it "dot, non-slash" do @bajs.load_action(":0:",".admin-ml", @filter) end
       it "non-dot, slash" do @bajs.load_action(":0:","admin-ml/", @filter) end
       it "non-dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end

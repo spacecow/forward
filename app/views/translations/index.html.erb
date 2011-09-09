@@ -8,7 +8,7 @@
     <% @translations.keys.reject{|e| e =~ /content_key/}.sort_by{|e| locale(e)}.each do |key| %>
       <div class="outer">
         <div class="inner">
-          <span class="bold w396 truncate"><%= key %></span>
+          <span class="bold w398 truncate"><%= key %></span>
           <span class="w300 truncate"><%= t key[3..-1] %></span>
           <span class="action"><%= link_to t(:edit), translations_path(:key => key) %></span>
           <span class="action"><%= link_to t(:del), delete_translations_path(:key => key), :confirm => sure?, :method => :delete %></span>

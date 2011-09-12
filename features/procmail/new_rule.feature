@@ -63,15 +63,15 @@ Then 2 rules should exist
 Scenario: Delete a rule that has not yet been saved
 When I go to the new procmail filter page
 And I fill in a filter
-And I fill in a second action
+And I fill in a second rule
+And I press the second "Delete" button
 And I press "Create"
 Then 1 rules should exist
 
 Scenario: One cannot create a filter with every rule removed 
 When I go to the new procmail filter page
 And I fill in a filter
-And I check the first "Remove Rule"
+And I press the first "Delete" button
 And I press "Create"
-Then I should see "At least one rule must exist."
-And the first rule should be empty
-And the first action should be filled out
+Then the first rule should be empty
+And the first action should be filled out 

@@ -61,15 +61,14 @@ Scenario: Delete an action that has not yet been saved
 When I go to the new procmail filter page
 And I fill in a filter
 And I fill in a second action
-And I check the second "Remove Action"
+And I press the third "Delete" button
 And I press "Create"
 Then 1 actions should exist
 
 Scenario: One cannot create a filter with every action removed 
 When I go to the new procmail filter page
 And I fill in a filter
-And I check the first "Remove Action"
+And I press the second "Delete" button
 And I press "Create"
-Then I should see "At least one action must exist."
-And the first rule should be filled out
+Then the first rule should be filled out
 And the first action should be empty

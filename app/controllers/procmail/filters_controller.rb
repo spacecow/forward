@@ -40,8 +40,21 @@ class Procmail::FiltersController < ApplicationController
       build_added_action
       render :new and return
     end
+    delete_button = params.keys.select{|e| e.match(/minus/)}.join
+    if delete_button.present?
+      delete_attr = delete_button.split('_')[0]
+      delete_index = delete_button.split('_')[-1].to_i
+      if delete_attr == "rule"
+        @filter.rules.delete_at(delete_index)
+      else
+        @filter.actions.delete_at(delete_index)
+      end
+      @filter.rules.build if @filter.rules.empty?
+      @filter.actions.build if @filter.actions.empty?
+      render :edit and return
+    end
 
-#    p @filter.actions
+    #p @filter.actions
     
     if @filter.save
       save_filters(session[:username], session[:password], current_user.filters)
@@ -80,8 +93,25 @@ class Procmail::FiltersController < ApplicationController
       build_added_action
       render :edit and return
     end
-
-    p @filter.actions
+    delete_button = params.keys.select{|e| e.match(/minus/)}.join
+    if delete_button.present?
+      delete_attr = delete_button.split('_')[0]
+      delete_index = delete_button.split('_')[-1]
+      if delete_attr == "rule"
+        delete_rule = params[:filter][:rules_attributes].delete(delete_index)
+        Rule.find(delete_rule[:id].to_i).destroy if delete_rule[:id]
+      else
+        delete_action = params[:filter][:actions_attributes].delete(delete_index)
+        Action.find(delete_action[:id].to_i).destroy if delete_action[:id]
+      end
+      build_non_saved_rules
+      build_non_saved_actions
+      @filter.rules.build if @filter.rules.empty?
+      @filter.actions.build if @filter.actions.empty?
+      render :edit and return
+    end
+    
+    #p @filter.actions
     if @filter.update_attributes(params[:filter])
       filter = Filter.find(params[:id])
       if filter.rules.empty? || filter.actions.empty? 

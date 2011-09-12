@@ -104,37 +104,30 @@ Then "begins with" should be selected in the second "part" field
 Scenario Outline: Delete an action
 Given an action exists with operation: "copy_message_to", destination: "die", filter: that filter
 When I go to the procmail filter's edit page
-And I check the <order> "Remove Action"
-And I press "Update"
-Then an action should exist with destination: "<substance>"
+And I press the <order> "Delete" button
+Then the first "destination" field should contain "<substance>"
 And 1 actions should exist
-And 1 rules should exist
 Examples:
 | order  | substance |
-| first  | die       |
-| second | temp      |
+| second | die       |
+| third  | temp      |
 
-Scenario: If one deletes the last action, the filter is also deleted
-When I check the first "Remove Action"
-And I press "Update"
-Then 0 filters should exist
-And 0 rules should exist
-And 0 actions should exist
-And I should see "Successfully removed filter." as notice flash message
-And a file ".procmailrc" should exist with:
-"""
-MAILDIR=$HOME/Maildir/
-DEFAULT=$MAILDIR
+Scenario: Delete an added action
+When I go to the procmail filter's edit page
+And I press "Add Action"
+And I press the third "Delete" button
+Then the first "destination" field should contain "temp"
+And I should see no second "actions" listing
 
-
-
-"""
+Scenario: If one deletes the last action, a new empty action appears
+When I press the second "Delete" button
+Then the first action should be empty
 
 Scenario: One cannot delete and leave a single empty action
 When I press "Add Action"
-And I check the first "Remove Action"
+And I press the second "Delete" button
 And I press "Update"
-And I should see an error "can't be blank" at the second "operation" field
+And I should see an error "can't be blank" at the first "operation" field
 
 Scenario: Add an extra action
 When I fill in a second action
@@ -143,6 +136,6 @@ Then 2 actions should exist
 
 Scenario: Delete an action that has not yet been saved
 When I fill in a second action
-And I check the second "Remove Action"
+And I press the third "Delete" button
 And I press "Update"
 Then 1 actions should exist

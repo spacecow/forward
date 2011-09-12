@@ -12,18 +12,18 @@
   <%= semantic_form_for [:procmail, @filter], :html =>{:id => :filter} do |f| %>
     <%= f.semantic_errors %>
     <h2 class="margin-left"><%= t(:rule) %></h2>
-    <% @filter.rules.each do |rule| %>
+    <% @filter.rules.each_with_index do |rule,i| %>
       <%= f.inputs :for => [:rules, rule], :class => "inline margin-left compact", :id => :rules do |ref| %>
-        <%= render 'rules/form', :f => ref %>
+        <%= render 'rules/form', :f => ref, :i => i %>
       <% end %>
     <% end %>
     <%= f.submit add(:rule), :class => "submit inner", :name => "rule_plus" %>
     <div class="clear"></div>
     <div class="hr"></div>
     <h2 class="margin-left"><%= t(:action) %></h2>
-    <% @filter.actions.each do |action| %>
+    <% @filter.actions.each_with_index do |action,i| %>
       <%= f.inputs :for => [:actions, action], :class => "inline margin-left compact", :id => :actions do |ref| %>
-        <%= render 'actions/form', :f => ref %>
+        <%= render 'actions/form', :f => ref, :i => i %>
       <% end %>
     <% end %>
     <%= f.submit add(:action), :class => "submit inner", :name => "action_plus" %>

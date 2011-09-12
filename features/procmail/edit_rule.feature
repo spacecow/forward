@@ -95,38 +95,32 @@ And "Copy Message to" should be selected in the second "operation" field
 Scenario Outline: Delete a rule 
 Given a rule exists with section: "to", part: "is", substance: "SPAM", filter: that filter
 When I go to the procmail filter's edit page
-And I check the <order> "Remove Rule"
-And I press "Update"
-Then a rule should exist with substance: "<substance>"
+And I press the <order> "Delete" button
+Then the first "substance" field should contain "<substance>"
 And 1 rules should exist
 Examples:
 | order  | substance |
 | first  | SPAM      |
 | second | yeah      |
 
-Scenario: If one deletes the last rule, the filter is also deleted
-When I check the first "Remove Rule"
-And I press "Update"
-Then 0 filters should exist
-And 0 rules should exist
-And 0 actions should exist
-And I should see "Successfully removed filter." as notice flash message
-And a file ".procmailrc" should exist with:
-"""
-MAILDIR=$HOME/Maildir/
-DEFAULT=$MAILDIR
+Scenario: Delete an added rule
+When I go to the procmail filter's edit page
+And I press "Add Rule"
+And I press the second "Delete" button
+Then the first "substance" field should contain "yeah"
+And I should see no second "rules" listing
 
-
-
-"""
+Scenario: If one deletes the last rule, a new empty rule appears
+When I press the first "Delete" button
+Then the first rule should be empty
 
 Scenario: One cannot delete and leave a single empty rule
 When I press "Add Rule"
-And I check the first "Remove Rule"
+And I press the first "Delete" button
 And I press "Update"
-And I should see an error "can't be blank" at the second "section" field
-And I should see an error "can't be blank" at the second "part" field
-And I should see an error "can't be blank" at the second "substance" field
+And I should see an error "can't be blank" at the first "section" field
+And I should see an error "can't be blank" at the first "part" field
+And I should see an error "can't be blank" at the first "substance" field
 
 Scenario: Add an extra rule
 When I fill in a second rule
@@ -135,6 +129,6 @@ Then 2 rules should exist
 
 Scenario: Delete a rule that has not yet been saved
 When I fill in a second rule
-And I check the second "Remove Rule"
+And I press the second "Delete" button
 And I press "Update"
 Then 1 rules should exist

@@ -1,4 +1,5 @@
 <%= f.input :section, :as => :select, :collection => Rule.sections, :label => false, :label => false, :input_html => {:class => :w100} %>
 <%= f.input :part, :as => :select, :collection => Rule.parts, :label => false, :label => false, :input_html => {:class => :w150} %>
 <%= f.input :substance, :label => false, :input_html => {:class => :w150} %>
-<%= f.input :_destroy, :as => :boolean, :label => t(:remove_rule), :wrapper_html => {:class => :small_label}  %>
+<%# f.input :_destroy, :as => :boolean, :label => t(:remove_rule), :wrapper_html => {:class => :small_label}  %>
+<%= f.submit t(:delete), :name => "rule_minus_#{i}" %>

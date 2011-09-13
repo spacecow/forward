@@ -65,8 +65,6 @@ e8d6c8: !ruby/object:Dooby::Task
   todo: route testing :done
 793b19: !ruby/object:Dooby::Task 
   todo: english/japanese :done
-d12cb3: !ruby/object:Dooby::Task 
-  todo: read in more variables
 "777537": !ruby/object:Dooby::Task 
   todo: escape dots
 8ba580: !ruby/object:Dooby::Task 
@@ -115,3 +113,5 @@ ef63a9: !ruby/object:Dooby::Task
   todo: minus button :done
 a82894: !ruby/object:Dooby::Task 
   todo: include a line in .forward :done
+313c62: !ruby/object:Dooby::Task 
+  todo: read in more variables :done

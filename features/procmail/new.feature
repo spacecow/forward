@@ -141,3 +141,41 @@ DEFAULT=$MAILDIR
 .temp/
 
 """
+
+Scenario: Everything above the first rule should be included
+Given a file ".procmailrc" exists with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+PMDIR=$HOME/.procmail
+
+# Logfile
+LOGFILE=$PMDIR/log
+
+:0c
+*^To: oh boy$
+!example@gmail.com
+
+"""
+When I go to the procmail filters page
+And I go to the new procmail filter page
+And I fill in a filter
+And I press "Create"
+Then a file ".procmailrc" should exist with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+PMDIR=$HOME/.procmail
+
+# Logfile
+LOGFILE=$PMDIR/log
+
+:0c
+*^To: oh boy$
+!example@gmail.com
+
+:0:
+*^Subject:.*yeah
+.temp/
+
+"""

@@ -1,11 +1,11 @@
 # password: "secret"
 foo:
-  email: foo@example.com
+  username: foo
   password_hash: 3488f5f7efecab14b91eb96169e5e1ee518a569f
   password_salt: bef65e058905c379436d80d1a32e7374b139e7b0
 
 bar:
-  email: bar@example.com
+  username: bar
   password_hash: 3488f5f7efecab14b91eb96169e5e1ee518a569f
   password_salt: bef65e058905c379436d80d1a32e7374b139e7b0
 

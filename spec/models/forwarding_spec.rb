@@ -1,10 +1,10 @@
 require 'spec_helper' 
 
 class Bajs 
-  include Forward
+  include Forwarding
 end
 
-describe Forward do
+describe Forwarding do
   before(:each){ @bajs = Bajs.new }
 
   it "should handle an empty file" do

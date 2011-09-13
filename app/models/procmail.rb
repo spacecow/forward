@@ -15,7 +15,7 @@ module Procmail
   end
 
   def save_filters(username, password, arr)
-    IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'r+') do |pipe|
+    IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'w+') do |pipe|
       pipe.write "#{password}\n"
       pipe.write "MAILDIR=$HOME/Maildir/\n"
       pipe.write "DEFAULT=$MAILDIR\n\n"

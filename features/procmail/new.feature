@@ -48,6 +48,22 @@ And I press "Create"
 Then a file ".forward" should exist with:
 """
 "|IFS=' ' && exec /usr/local/bin/procmail -f- || exit 75 #test"
+
+"""
+
+Scenario: Nothing is written to .forward if it is already set up for procmail
+Given a file ".forward" exists with:
+"""
+"|IFS=' ' && exec /usr/local/bin/procmail -f- || exit 75 #test"
+
+"""
+When I go to the new procmail filter page
+And I fill in a filter
+And I press "Create"
+Then a file ".forward" should exist with:
+"""
+"|IFS=' ' && exec /usr/local/bin/procmail -f- || exit 75 #test"
+
 """
 
 Scenario: Create a second filter
@@ -73,12 +89,55 @@ DEFAULT=$MAILDIR
 
 """
 
-Scenario: One cannot create a filter with every action&rules removed 
-When I go to the new procmail filter page
-And I check the first "Remove Action"
-And I check the first "Remove Rule"
+Scenario: A long file should also be saved
+Given a file ".procmailrc" exists with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+:0c:
+*^Subject:.*fefe
+.fefwwdx/
+
+:0:
+*^From:.*fefe
+.fefe/
+
+:0:
+*^Cc:.*d$
+./
+
+:0:
+*^Subject:.*fefe
+.fefe/
+"""
+When I go to the procmail filters page
+And I go to the new procmail filter page
+And I fill in a filter
 And I press "Create"
-Then I should see "At least one action must exist."
-And I should see "At least one rule must exist."
-And the first rule should be empty
-And the first action should be empty
+Then a file ".procmailrc" should exist with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+:0c:
+*^Subject:.*fefe
+.fefwwdx/
+
+:0:
+*^From:.*fefe
+.fefe/
+
+:0:
+*^Cc:.*d$
+./
+
+:0:
+*^Subject:.*fefe
+.fefe/
+
+:0:
+*^Subject:.*yeah
+.temp/
+
+"""

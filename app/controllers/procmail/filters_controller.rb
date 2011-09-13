@@ -1,4 +1,5 @@
 class Procmail::FiltersController < ApplicationController
+  include Forwarding
   include Procmail
 
   before_filter :build_user_filter_with_params, :only => :create
@@ -58,6 +59,7 @@ class Procmail::FiltersController < ApplicationController
     
     if @filter.save
       save_filters(session[:username], session[:password], current_user.filters)
+      update_forwards(session[:username], session[:password])
       redirect_to procmail_filters_path, :notice => created(:filter)
     elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
       @filter.rules.build if @filter.rules.empty?
@@ -72,6 +74,7 @@ class Procmail::FiltersController < ApplicationController
       @filter.actions.reject!{|e| !e.valid?}
       @filter.save
       save_filters(session[:username], session[:password], current_user.filters)
+      update_forwards(session[:username], session[:password])
       flash[:notice] = "Created rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
       redirect_to procmail_filters_path
     end
@@ -111,7 +114,7 @@ class Procmail::FiltersController < ApplicationController
       render :edit and return
     end
     
-    #p @filter.actions
+    p @filter.actions
     if @filter.update_attributes(params[:filter])
       filter = Filter.find(params[:id])
       if filter.rules.empty? || filter.actions.empty? 
@@ -157,4 +160,5 @@ class Procmail::FiltersController < ApplicationController
     def build_non_saved_actions; build_non_saved_associations(:actions) end
     def build_non_saved_rules; build_non_saved_associations(:rules) end
     def build_user_filter_with_params; @filter = current_user.filters.build(params[:filter]) end
+
 end

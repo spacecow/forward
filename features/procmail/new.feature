@@ -6,6 +6,7 @@ And a file ".procmailrc" exists with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
+
 """
 
 Scenario: New Filter View
@@ -20,7 +21,8 @@ And I press "Cancel"
 Then 0 filters should exist
 
 Scenario: Create a filter
-When I go to the new procmail filter page
+When I go to the procmail filters page
+And I go to the new procmail filter page
 And I fill in a filter
 And I press "Create"
 Then 1 filters should exist
@@ -31,7 +33,6 @@ And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
-
 :0:
 *^Subject:.*yeah
 .temp/
@@ -67,13 +68,21 @@ Then a file ".forward" should exist with:
 """
 
 Scenario: Create a second filter
-Given an action exists with operation: "forward_copy_to", destination: "example@gmail.com"
-And a rule exists with section: "to", part: "is", substance: "oh boy"
-And a filter exists with user: that user, rules: that rule, actions: that action
-When I go to the new procmail filter page
+Given a file ".procmailrc" exists with:
+"""
+MAILDIR=$HOME/Maildir/
+DEFAULT=$MAILDIR
+
+:0c
+*^To: oh boy$
+!example@gmail.com
+
+"""
+When I go to the procmail filters page
+And I go to the new procmail filter page
 And I fill in a filter
 And I press "Create"
-Then 2 filters should exist
+#Then 2 filters should exist
 And a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/

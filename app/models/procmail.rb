@@ -17,9 +17,12 @@ module Procmail
   def save_filters(username, password, arr)
     IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'w+') do |pipe|
       pipe.write "#{password}\n"
-      #pipe.write "MAILDIR=$HOME/Maildir/\n"
-      #pipe.write "DEFAULT=$MAILDIR\n\n"
-      pipe.write session[:prolog]
+      if session[:prolog].blank?
+        pipe.write "MAILDIR=$HOME/Maildir/\n"
+        pipe.write "DEFAULT=$MAILDIR\n\n"
+      else
+        pipe.write "#{session[:prolog]}\n"
+      end
       pipe.write arr.map(&:to_file).join("\n\n")
       pipe.write "\n"
       pipe.close_write
@@ -38,7 +41,7 @@ module Procmail
       end
       prolog.push line unless rule_definition 
     end
-    session[:prolog] = "#{prolog.join("\n")}\n"
+    session[:prolog] = "#{prolog.join("\n")}"
     filters
   end
 

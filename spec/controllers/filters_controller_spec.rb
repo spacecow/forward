@@ -3,7 +3,11 @@ require 'spec_helper'
 describe Procmail::FiltersController do
   controller_actions = controller_actions("procmail/filters")
 
-  before(:each){ @filter = Factory(:filter) }
+  before(:each) do
+    @filter = Factory(:filter)
+    Factory(:rule, :filter_id => @filter.id)
+    Factory(:action, :filter_id => @filter.id)
+  end
  
   describe "a user is not logged in" do
     controller_actions.each do |action,req|

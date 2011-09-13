@@ -55,7 +55,7 @@ class Procmail::FiltersController < ApplicationController
       render :edit and return
     end
 
-    #p @filter.actions
+    p @filter.actions
     
     if @filter.save
       save_filters(session[:username], session[:password], current_user.filters)
@@ -159,6 +159,6 @@ class Procmail::FiltersController < ApplicationController
     end
     def build_non_saved_actions; build_non_saved_associations(:actions) end
     def build_non_saved_rules; build_non_saved_associations(:rules) end
-    def build_user_filter_with_params; @filter = current_user.filters.build(params[:filter]) end
+    def build_user_filter_with_params; @filter = current_user.filters.build(params[:filter]) if current_user end
 
 end

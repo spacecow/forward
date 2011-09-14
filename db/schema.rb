@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110909071720) do
+ActiveRecord::Schema.define(:version => 20110914030502) do
 
   create_table "actions", :force => true do |t|
     t.string   "operation"
@@ -43,13 +43,19 @@ ActiveRecord::Schema.define(:version => 20110909071720) do
     t.datetime "updated_at"
   end
 
+  create_table "rule_groups", :force => true do |t|
+    t.integer  "filter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "rules", :force => true do |t|
     t.string   "section"
     t.string   "part"
     t.string   "substance"
-    t.integer  "filter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "rule_group_id"
   end
 
   create_table "translations", :force => true do |t|

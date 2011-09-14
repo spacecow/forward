@@ -122,43 +122,41 @@ describe Procmail do
 
   context "#rules_to_s for part", :rules_to_s => true do
     it "contains ending with star" do 
-      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
       arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec"]
     end
 
     it "contains" do 
-      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec\n.admin-ml/")
       arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec"]
     end
 
     it "is" do 
-      arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec$\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec$\n.admin-ml/")
       arr.first.rules_to_s.should == ["^To: admin-ml*^@.*riec$"]
     end
 
     it "begins with ending with star" do 
-      arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec.*\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec.*\n.admin-ml/")
       arr.first.rules_to_s.should == ["^To: admin-ml*^@.*riec"]
     end
  
     it "begins with" do 
-      arr = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To: admin-ml*^@.*riec\n.admin-ml/")
       arr.first.rules_to_s.should == ["^To: admin-ml*^@.*riec"]
     end
 
     it "ends with" do 
-      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec$\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec$\n.admin-ml/")
       arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec$"]
     end
   end
   
   context "#actions_to_s", :actions_to_s => true do
     before(:each) do
-      rule = Factory.build(:rule)
-      action = Action.create(:operation => "move_message_to", :destination => "temp")
       @filter = Filter.create
-      @filter.rules << rule
-      @filter.actions << action
+      rule = Factory.build(:rule, :filter_id => @filter.id)
+      action = Action.create(:operation => "move_message_to", :destination => "temp", :filter_id => @filter.id)
     end
 
     it "has 1 line for 1 action" do
@@ -166,26 +164,26 @@ describe Procmail do
     end
 
     it "has 2 lines for 2 actions" do
-      @filter.actions << Action.create(:operation => "forward_message_to", :destination => "example@gmail.com")
+      Action.create(:operation => "forward_message_to", :destination => "example@gmail.com", :filter_id => @filter.id)
       @filter.actions_to_s.should eq ["temp", "example@gmail.com"]
     end
   end
 
   context "#load_filters", :load_filters => true do
     it "returns an empty array if file is empty" do
-      arr = @bajs.load_filters("")
+      arr, prolog = @bajs.load_filters("")
       arr.should be_empty
     end
       
     it "returns 1 filter in an array" do
-      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
       arr.size.should == 1
       arr.last.contents.should == [["to", "admin-ml*^@.*riec", "contains"],
                                    ["move_message_to", "admin-ml"]]
     end
 
     it "returns 2 filters in an array" do
-      arr = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/\n\n:0 :\n*^Cc:.*fir@.*riec.*\n.fir-cc/")
+      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/\n\n:0 :\n*^Cc:.*fir@.*riec.*\n.fir-cc/")
       arr.size.should == 2
       arr.first.contents.should == [["to", "admin-ml*^@.*riec", "contains"],
                                     ["move_message_to", "admin-ml"]]

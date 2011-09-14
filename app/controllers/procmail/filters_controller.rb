@@ -23,6 +23,7 @@ class Procmail::FiltersController < ApplicationController
     rescue InvalidEmailException => e
       deliver_error(e)
     end
+    session[:prolog] = "#{@prolog.join("\n")}"
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @filters }

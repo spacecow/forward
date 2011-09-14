@@ -1,6 +1,6 @@
 module Procmail
   def prepare_filters(username, password)
-    @filters = read_filters(username, password)
+    @filters, @prolog = read_filters(username, password)
     current_user.filters.destroy_all
     current_user.filters = @filters
     raise FilterCreationException, "Filter id is nil." if current_user.filters.map(&:id).include?(nil)
@@ -14,14 +14,14 @@ module Procmail
     end
   end
 
-  def save_filters(username, password, arr)
+  def save_filters(username, password, prolog, arr)
     IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'w+') do |pipe|
       pipe.write "#{password}\n"
-      if session[:prolog].blank?
+      if prolog.blank?
         pipe.write "MAILDIR=$HOME/Maildir/\n"
         pipe.write "DEFAULT=$MAILDIR\n\n"
       else
-        pipe.write "#{session[:prolog]}\n"
+        pipe.write "#{prolog}\n"
       end
       pipe.write arr.map(&:to_file).join("\n\n")
       pipe.write "\n"
@@ -41,8 +41,7 @@ module Procmail
       end
       prolog.push line unless rule_definition 
     end
-    session[:prolog] = "#{prolog.join("\n")}"
-    filters
+    [filters, prolog]
   end
 
   def load_filter(recipe,arr)

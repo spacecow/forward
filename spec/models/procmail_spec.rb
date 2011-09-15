@@ -21,17 +21,16 @@ describe Procmail do
 
   context "#save_filters", :save_filters => true do
     before(:each) do
-      rule = Rule.create(:section => "subject", :part => "contains", :substance => "yeah")
-      action = Action.create(:operation => "Move Message to", :destination => "temp")
       @filter = Filter.create
-      @filter.rules << rule
-      @filter.actions << action
+      Rule.create(:section => "subject", :part => "contains", :substance => "yeah", :filter_id => @filter.id)
+      Action.create(:operation => "Move Message to", :destination => "temp", :filter_id => @filter.id)
       @filter.save
     end
 
     it "saves a users filter to file" do
-      @bajs.save_filters("test", "correct", [@filter])
-      @bajs.read_filters("test", "correct").first.contents.should == 
+      @bajs.save_filters("test", "correct", "", [@filter])
+      arr, prolog = @bajs.read_filters("test", "correct")
+      arr.first.contents.should == 
         [["subject", "yeah", "contains"], ["move_message_to", "temp"]]
     end
 
@@ -40,7 +39,22 @@ describe Procmail do
         @filter.rules_to_file.should eq "*^Subject:.*yeah"
       end
 
-      it "has 2 lines for 2 rules" do
+      context "has 1 line for 2 OR-rules" do
+        before(:each) do @filter.glue = "or" end
+        it "with the same section" do
+          Rule.create(:section => "subject", :part => "is", :substance => "oh boy", :filter_id => @filter.id)
+          @filter.rules_to_file
+          @filter.rules_to_file.should == "*^Subject:(.*yeah| oh boy$)"
+        end
+
+        it "with different sections" do
+          Rule.create(:section => "to", :part => "is", :substance => "oh boy", :filter_id => @filter.id)
+          @filter.rules_to_file
+          @filter.rules_to_file.should == "*^Subject:.*yeah|^To: oh boy$"
+        end
+      end
+
+      it "has 2 lines for 2 AND-rules" do
         @filter.rules << Rule.create(:section => "to", :part => "contains", :substance => "gmail")
         @filter.rules_to_file.should eq "*^Subject:.*yeah\n*^To:.*gmail"
       end
@@ -69,8 +83,8 @@ describe Procmail do
       end
 
       it "has 10 lines for 2 rules & 2 actions" do
-        @filter.rules << Rule.create(:section => "to", :part => "contains", :substance => "gmail")
-        @filter.actions << Action.create(:operation => "forward_copy_to", :destination => "temp@gmail.com")
+        Rule.create(:section => "to", :part => "contains", :substance => "gmail", :filter_id => @filter.id)
+        Action.create(:operation => "forward_copy_to", :destination => "temp@gmail.com", :filter_id => @filter.id)
         @filter.to_file.should eq ":0\n*^Subject:.*yeah\n*^To:.*gmail\n{\n\t:0c\n\t!temp@gmail.com\n\n\t:0:\n\t.temp/\n}"
       end
     end
@@ -271,6 +285,31 @@ describe Procmail do
 
   end
 
+  context "#split_substance", :split_substance => true do
+    before(:each){ @filter = Filter.new }
+
+    it "does nothing to a regular regex" do
+      @bajs.split_substance("SPAM").should == ["SPAM"]
+    end
+
+    it "deletes a regular paranthesis" do
+      @bajs.split_substance("(SPAM)").should == ["SPAM"]
+    end
+    
+    it "adds whats before the paranthesis to every element" do
+      @bajs.split_substance(".*(SPAM|JUNK)").should == [".*SPAM", ".*JUNK"]
+    end
+
+    it "adds whats after the paranthesis to every element" do
+      @bajs.split_substance("(SPAM|JUNK).*").should == ["SPAM.*", "JUNK.*"]
+    end
+
+    it "adds whats before&after the paranthesis to every element" do
+      @bajs.split_substance(".*(SPAM|JUNK).*").should == [".*SPAM.*", ".*JUNK.*"]
+    end
+
+  end
+
   context "#load_rule", :load_rule => true do
     before(:each){ @filter = Filter.new }
 
@@ -279,11 +318,30 @@ describe Procmail do
       @filter.rules_contents.should == [["to", "admin-ml.*@.*riec", "contains"]]
     end
 
+    context "can load OR-rules with", :or_rule => true do
+      it "same section" do
+        @bajs.load_rule("*^From:(.*DELLNEWS.*|newsmail@sios.*)", @filter)
+        @filter.rules_contents.should == [["from", "DELLNEWS", "contains"], ["from", "newsmail@sios", "begins_with"]]
+      end
+
+      it "different sections"
+
+      it "different sections and ^+paranthesis" do 
+        @bajs.load_rule("*^(Subject:.*yeah|To: oh boy)$", @filter)
+        @filter.rules_contents.should == [["subject", "ends_with", "yeah"], ["to", "is", "oh boy"]] 
+      end
+
+      after(:each) do @filter.glue.should == "or" end
+
+      it "different sections and start-paranthesis" 
+    end
+
     it "can add multiple rules" do
       @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter)
       @bajs.load_rule("*^Subject: yeah!", @filter)
       @filter.rules_contents.should ==
         [["to", "admin-ml.*@.*riec", "contains"], ["subject", "yeah!", "begins_with"]]
+      @filter.glue.should == "and"
     end
 
     context "split up a rule where the splitter is" do

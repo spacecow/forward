@@ -28,8 +28,19 @@ class Filter < ActiveRecord::Base
   end
   def actions_to_s; actions.map(&:to_s) end
 
+  def first_rule; rules.first end
+  def rule; first_rule end
+  def rule_section; rule.section end
   def rules_contents; rules.map(&:contents) end
-  def rules_to_file; rules.map(&:to_file).join("\n") end
+  def rules_to_file
+    if glue == "and"
+      rules.map(&:to_file).join("\n") 
+    elsif rules_section_is_unique?
+      "*#{rule.beginning_to_file}(#{rules.map(&:end_to_file).join('|')})"
+    else
+      "*#{rules.map(&:to_s).join('|')}"
+    end
+  end
   def rules_to_s; rules.map(&:to_s) end
 
   def to_file
@@ -54,6 +65,7 @@ class Filter < ActiveRecord::Base
     def forward_message?; actions.first.forward_message? end
     def move_message_to_folder?; actions.first.move_message_to_folder? end
     def one_action?; actions.count == 1 end
+    def rules_section_is_unique?; rules.map(&:section).uniq.size == 1 end
 end
 
 

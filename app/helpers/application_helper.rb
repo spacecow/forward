@@ -21,4 +21,8 @@ module ApplicationHelper
     fields = "<p>#{render('address_field', :no => 99, :value => '')}</p>"
     link_to_function(name, "add_fields(this, '#{escape_javascript(fields)}')", :class => "hidden active", :id => :add_address_field)
   end
+
+  def rule_sentence(add, rule, end_change=false)
+    t("rule_sentence_#{add}".to_sym, :section => rule.translated_section, :part => rule.translated_part_and_substance(end_change))
+  end
 end

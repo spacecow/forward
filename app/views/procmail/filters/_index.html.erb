@@ -10,7 +10,23 @@
             <%= "#{no+1}." if i==0 %>
           </span>
           <span class="w373 truncate">
-            <%= t(:rule_sentence, :no => no+1, :section => filter.rules[i].translated_section, :part => filter.rules[i].translated_part_and_substance ) if filter.rules.count > i %>
+            <% if filter.rules.count > i %>
+              <% if filter.rules.count == 1 %>
+                <%= rule_sentence("start", filter.rules[i]) %>
+              <% elsif i==0 and filter.glue == "or" %>
+                <%= rule_sentence("start_or", filter.rules[i]) %>
+              <% elsif i==0 and filter.glue == "and" %>
+                <%= rule_sentence("start_and", filter.rules[i], true) %>
+              <% elsif filter.rules.count-1 == i and filter.glue == "or" %>
+                <%= rule_sentence("end_or", filter.rules[i]) %>
+              <% elsif filter.rules.count-1 == i and filter.glue == "and" %>
+                <%= rule_sentence("end_and", filter.rules[i]) %>
+              <% elsif filter.glue == "or" %>
+                <%= rule_sentence("or", filter.rules[i]) %>
+              <% elsif filter.glue == "and" %>
+                <%= rule_sentence("and", filter.rules[i], true) %>
+              <% end %>
+            <% end %>
           </span>
           <span class="w300 truncate">
             <%= t(:action_sentence, :operation => t("actions.operations."+filter.actions[i].operation), :destination => filter.actions[i].destination ) if filter.actions.count > i %>

@@ -59,7 +59,7 @@ class Procmail::FiltersController < ApplicationController
     p @filter.actions
     
     if @filter.save
-      save_filters(session[:username], session[:password], current_user.filters)
+      save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
       update_forwards(session[:username], session[:password])
       redirect_to procmail_filters_path, :notice => created(:filter)
     elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
@@ -74,7 +74,7 @@ class Procmail::FiltersController < ApplicationController
       @filter.rules.reject!{|e| !e.valid?}
       @filter.actions.reject!{|e| !e.valid?}
       @filter.save
-      save_filters(session[:username], session[:password], current_user.filters)
+      save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
       update_forwards(session[:username], session[:password])
       flash[:notice] = "Created rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
       redirect_to procmail_filters_path
@@ -122,7 +122,7 @@ class Procmail::FiltersController < ApplicationController
         filter.destroy
         flash[:notice] = removed(:filter)
       end
-      save_filters(session[:username], session[:password], current_user.filters)
+      save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
       redirect_to procmail_filters_path
     else
       if @filter.actions.map{|e| e.valid? && !e._destroy}.reject{|e| e==false}.empty?
@@ -133,7 +133,7 @@ class Procmail::FiltersController < ApplicationController
         @filter.actions.reject!{|e| !e.valid?}
         @filter.rules.reject!{|e| !e.valid?}
         @filter.save
-        save_filters(session[:username], session[:password], current_user.filters)
+        save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
         flash[:notice] = "Updated rules: #{@filter.rules.count}, actions: #{@filter.actions.count}"
         redirect_to procmail_filters_path
       end
@@ -142,7 +142,7 @@ class Procmail::FiltersController < ApplicationController
 
   def destroy
     @filter.destroy
-    save_filters(session[:username], session[:password], current_user.filters)
+    save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
     redirect_to procmail_filters_path
   end
 

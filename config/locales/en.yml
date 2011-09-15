@@ -31,7 +31,13 @@ en:
   remove_action: "Remove Action"
   remove_rule: "Remove Rule"
   rule: "Rule"
-  rule_sentence: 'If %{section} %{part}, '
+  rule_sentence_end_and: 'and %{section} %{part}, '
+  rule_sentence_end_or: 'or %{section} %{part}, '
+  rule_sentence_and: 'and %{section} %{part}'
+  rule_sentence_or: 'or %{section} %{part}'
+  rule_sentence_start: 'If %{section} %{part}, '
+  rule_sentence_start_and: 'If %{section} %{part}'
+  rule_sentence_start_or: 'If %{section} %{part}'
   show: "Show"
   sign_up: "Sign up"
   role: "Role"

@@ -18,59 +18,76 @@ class Rule < ActiveRecord::Base
   SECTIONS = [SUBJECT, FROM, TO, CC, TO_OR_CC, SPAM_FLAG]
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
-  def translated_section 
-    I18n.t("rules.sections."+section.downcase.gsub(/\|/,'_or_'))
-  end
-  def translated_part_and_substance
-    s = I18n.t("rules.parts."+part) 
-    if s.include?('次')
-      s.gsub(/次/,"「#{substance}」")
-    else
-      %(#{s} "#{substance}")
-    end
+  def beginning_to_file
+    ret = "^"
+    ret += Rule.section_to_file(section)
+    ret += ":"
   end
   def contents; [section, substance, part] end
-  def humanized_part; part.gsub(/_/,' ') end 
-  def self.map_section(s)
-    case s
-    when "Subject"; SUBJECT
-    when "To"; TO
-    when "Cc"; CC
-    when "From"; FROM
-    when /X-Spam-Flag|X-Barracuda-Spam-Flag/; SPAM_FLAG
-    when /To|Cc/i; TO_OR_CC
-    else raise KeywordException, "Keyword '#{s}' not found."
-    end
-  end
-  def self.parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end
-  def self.sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS) end
-
-  def self.section_to_file(s)
-    case s
-    when "subject"; "Subject"
-    when "from"; "From"
-    when "to"; "To"
-    when "cc"; "Cc"
-    when "to_or_cc"; "To|Cc"
-    when "spam_flag"; "X-Spam-Flag|X-Barracuda-Spam-Flag"
-    else raise KeywordException, "Keyword placeholder '#{s}' not found."
-    end 
-  end
-
-  def to_file; ret = "*"+to_s end
-
-  def to_s
-    ret = "^"
-    ret += section.nil? ? "" : Rule.section_to_file(section)
-    ret += ":"
+  def end_to_file
+    ret = ""
     ret += ".*" if part == CONTAINS or part == ENDS_WITH
     ret += " " if part == IS or part == BEGINS_WITH
     ret += substance.nil? ? "" : substance
     ret += "$" if part == IS or part == ENDS_WITH
     ret
   end
-end
+  def humanized_part; part.gsub(/_/,' ') end 
 
+  def to_file; ret = "*"+to_s end
+  def to_s
+    ret = beginning_to_file
+    ret += end_to_file
+    ret
+  end
+
+  def translated_section 
+    I18n.t("rules.sections."+section.downcase.gsub(/\|/,'_or_'))
+  end
+  def translated_part_and_substance(end_change)
+    s = I18n.t("rules.parts."+part) 
+    if s.include?('次')
+      s.gsub!(/次/,"「#{substance}」")
+      if end_change
+        s.gsub!(/む/,"み")
+        s.gsub!(/る/,"り")
+      end
+    else
+      s = %(#{s} "#{substance}")
+    end
+    s
+  end
+
+  class << self
+    def map_section(s)
+      return "" if s.nil?
+      case s
+      when "Subject"; SUBJECT
+      when "To"; TO
+      when "Cc"; CC
+      when "From"; FROM
+      when /X-Spam-Flag|X-Barracuda-Spam-Flag/; SPAM_FLAG
+      when /To|Cc/i; TO_OR_CC
+      else raise KeywordException, "Keyword '#{s}' not found."
+      end
+    end
+
+    def parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end
+    def sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS) end
+
+    def section_to_file(s)
+      case s
+      when "subject"; "Subject"
+      when "from"; "From"
+      when "to"; "To"
+      when "cc"; "Cc"
+      when "to_or_cc"; "To|Cc"
+      when "spam_flag"; "X-Spam-Flag|X-Barracuda-Spam-Flag"
+      else raise KeywordException, "Keyword placeholder '#{s}' not found."
+      end 
+    end
+  end
+end
 
 # == Schema Information
 #

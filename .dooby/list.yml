@@ -115,3 +115,5 @@ a82894: !ruby/object:Dooby::Task
   todo: include a line in .forward :done
 313c62: !ruby/object:Dooby::Task 
   todo: read in more variables :done
+8494a6: !ruby/object:Dooby::Task 
+  todo: filter glue :done

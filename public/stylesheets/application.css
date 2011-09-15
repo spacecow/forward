@@ -827,19 +827,32 @@ div#contents_container div#main_container div#main h1:nth-child(1) {
   margin-top: 3px;
 }
 
+/* line 219, ../../app/stylesheets/application.sass */
+li.inline {
+  float: left;
+}
 /* line 221, ../../app/stylesheets/application.sass */
-fieldset.inline ol label {
+li.inline ol {
   float: left;
 }
 /* line 223, ../../app/stylesheets/application.sass */
+li.inline ol li {
+  float: left;
+}
+
+/* line 227, ../../app/stylesheets/application.sass */
+fieldset.inline ol label {
+  float: left;
+}
+/* line 229, ../../app/stylesheets/application.sass */
 fieldset.inline ol li {
   float: left;
 }
-/* line 225, ../../app/stylesheets/application.sass */
+/* line 231, ../../app/stylesheets/application.sass */
 fieldset.inline ol input {
   float: left;
 }
-/* line 227, ../../app/stylesheets/application.sass */
+/* line 233, ../../app/stylesheets/application.sass */
 fieldset.inline ol input.submit {
   margin: 0 !important;
 }

@@ -67,12 +67,44 @@ module Procmail
   end
 
   def load_rule(line,filter)
-    line           =~ /^\*\^([a-zA-Z(\-|)]+):?\s*(.+)/
-    rule           = Rule.new
-    rule.section   = Rule.map_section($1)
-    rule.substance = strip_substance($2)
-    rule.part      = load_part($2)
-    filter.rules << rule
+    data = line.match(
+      /^    #start
+      \*    #first ch is a star
+      (.*)  #anything
+      \(    #then a parenthesis
+      (.*)  #anything
+      \)    #end parenthesis
+      (.*)  #anything
+      /x)
+    if data
+      p data[2]
+    end
+    data = line.match(
+      /^               #start
+      \*               #first ch is a star
+      \^               #second is the start sign
+      ([a-zA-Z(\-|)]+) #alphabeth & (-|) characters
+      :?               #ev colon
+      \s*              #zero or more spaces
+      (.+)             #the rest, the substance
+      /x)
+    substances = split_substance(data[2])
+    filter.glue = "or" if substances.count > 1
+    substances.each do |substance|
+      rule           = Rule.new
+      rule.section   = Rule.map_section(data[1])
+      rule.substance = strip_substance(substance)
+      rule.part      = load_part(substance)
+      filter.rules << rule
+    end
+  end
+
+  def split_substance(s)
+    data = s.match(/(.*)\((.*)\)(.*)/)
+    if data.nil?
+      return s.split('|')
+    end
+    return data[2].split('|').map{|e| "#{data[1]}#{e}#{data[3]}"}
   end
 
   def load_part(s)

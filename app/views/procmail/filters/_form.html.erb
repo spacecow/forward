@@ -12,6 +12,8 @@
   <%= semantic_form_for [:procmail, @filter], :html =>{:id => :filter} do |f| %>
     <%= f.semantic_errors %>
     <h2 class="margin-left"><%= t(:rule) %></h2>
+    <%= f.input :glue, :as => :radio, :collection => [["Match all the following","and"], ["Match any of the following","or"]], :label => false, :wrapper_html => {:class => "inline margin-left small_font"} %>
+    <div class="clear"></div>
     <% @filter.rules.each_with_index do |rule,i| %>
       <%= f.inputs :for => [:rules, rule], :class => "inline margin-left compact", :id => :rules do |ref| %>
         <%= render 'rules/form', :f => ref, :i => i %>

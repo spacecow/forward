@@ -20,3 +20,4 @@ And I press "Send Message"
 Then a message should exist with subject: "A subject", body: "A message", priority: "urgent", message_type: "bug", user: that user
 And 1 messages should exist
 And I should see "Thank you. Your message has been sent." as notice flash message
+And 1 email should be delivered to jsveholm@fir.riec.tohoku.ac.jp 

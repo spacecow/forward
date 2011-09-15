@@ -11,8 +11,13 @@ describe Procmail do
     it "should raise an error when dealing with tags it does not know" do
       filter = ":0:\n*^Super-Strange-Tag:.*YES\n.Junk/"
       lambda{@bajs.load_filters(filter)}.should raise_error(KeywordException)
-      
     end
+  
+    it "should raise an error if * is missing in front of the rule", :bajs => true do
+      filter = ":0:\n^Subject:.*something\n.Junk/"
+      lambda{@bajs.load_filters(filter)}.should raise_error(RuleLoadException)
+    end
+
     it "should handle spam" do
       filter = ":0:\n*^(X-Spam-Flag|X-Barracuda-Spam-Flag):.*YES\n.Junk/"
       lambda{@bajs.load_filters(filter)}.should_not raise_error(KeywordException)
@@ -208,7 +213,7 @@ describe Procmail do
 
   context "#load_filter", :load_filter => true do
     it "splits up in rule and action" do
-      p filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
+      filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
       filter.rules.last.contents.should == ["to", "admin-ml*^@.*riec", "contains"]
       filter.actions.last.contents.should == ["move_message_to", "admin-ml"]
     end 

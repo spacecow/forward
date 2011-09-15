@@ -89,6 +89,7 @@ class Rule < ActiveRecord::Base
   end
 end
 
+
 # == Schema Information
 #
 # Table name: rules
@@ -97,8 +98,8 @@ end
 #  section    :string(255)
 #  part       :string(255)
 #  substance  :string(255)
-#  filter_id  :integer(4)
 #  created_at :datetime
 #  updated_at :datetime
+#  filter_id  :integer(4)
 #
 

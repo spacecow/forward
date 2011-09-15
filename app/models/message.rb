@@ -12,3 +12,18 @@ class Message < ActiveRecord::Base
 
 #bug, enhancement feature comment
 end
+
+# == Schema Information
+#
+# Table name: messages
+#
+#  id           :integer(4)      not null, primary key
+#  subject      :string(255)
+#  body         :text
+#  priority     :string(255)
+#  message_type :string(255)
+#  user_id      :integer(4)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+

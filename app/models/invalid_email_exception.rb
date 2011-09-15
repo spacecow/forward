@@ -1,2 +1,2 @@
-class InvalidEmailException < RuntimeError
+class InvalidEmailException < Exception
 end

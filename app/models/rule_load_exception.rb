@@ -1,2 +1,2 @@
-class RuleLoadException < RuntimeError
+class RuleLoadException < Exception
 end

@@ -4,6 +4,7 @@ describe Filter do
 end
 
 
+
 # == Schema Information
 #
 # Table name: filters
@@ -12,5 +13,6 @@ end
 #  created_at :datetime
 #  updated_at :datetime
 #  user_id    :integer(4)
+#  glue       :string(255)     default("and")
 #
 

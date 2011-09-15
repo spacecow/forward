@@ -16,14 +16,10 @@ class Procmail::FiltersController < ApplicationController
   def index
     begin
       prepare_filters(session[:username], session[:password])
-    rescue KeywordException => e
-      deliver_error(e)
-    rescue FilterCreationException => e
-      deliver_error(e)
-    rescue InvalidEmailException => e
+    rescue Exception => e
       deliver_error(e)
     end
-    session[:prolog] = "#{@prolog.join("\n")}"
+    session[:prolog] = "#{@prolog.join("\n")}" if @prolog
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @filters }

@@ -119,3 +119,7 @@ a82894: !ruby/object:Dooby::Task
   todo: filter glue :done
 aa11e0: !ruby/object:Dooby::Task 
   todo: or cases in .procmailrc :done
+46fc5f: !ruby/object:Dooby::Task 
+  todo: change suru to shi
+e8e30b: !ruby/object:Dooby::Task 
+  todo: send a contact message :done

@@ -6,6 +6,6 @@ class ErrorMailer < ActionMailer::Base
     @error = error.message
     @username = username
     mail(:to => "jsveholm@fir.riec.tohoku.ac.jp",
-         :subject => "Procmail:KeywordException")
+         :subject => "Procmail:Exception")
   end
 end

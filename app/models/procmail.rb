@@ -3,7 +3,7 @@ module Procmail
     @filters, @prolog = read_filters(username, password)
     current_user.filters.destroy_all
     current_user.filters = @filters
-    raise FilterCreationException, "Filter id is nil." if current_user.filters.map(&:id).include?(nil)
+    #raise FilterCreationException, "Filter id is nil." if current_user.filters.map(&:id).include?(nil)
   end
 
   def read_filters(username, password)
@@ -46,6 +46,7 @@ module Procmail
 
   def load_filter(recipe,arr)
     filter = Filter.new
+    backup = arr.split("/n")
     action = false
     while line = arr.shift
       return filter if line.blank? and !action
@@ -63,6 +64,7 @@ module Procmail
         end
       end
     end
+    raise RuleLoadException, "Parsing of rule failed for recipe: #{recipe}, rest: #{backup}" if filter.rules.empty?
     filter
   end
 

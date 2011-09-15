@@ -1,2 +1,2 @@
-class KeywordException < RuntimeError
+class KeywordException < Exception
 end

@@ -2,9 +2,9 @@ class ApplicationController < ActionController::Base
   include ControllerAuthentication
   rescue_from CanCan::AccessDenied do |exception|
     if current_user
-      redirect_to welcome_url, :alert => exception.message
+      redirect_to welcome_url, :alert => alert(:unauthorized_access) 
     else
-      redirect_to login_url, :alert => exception.message
+      redirect_to login_url, :alert => alert(:unauthorized_access)
     end
   end
   protect_from_forgery

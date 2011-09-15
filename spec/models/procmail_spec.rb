@@ -324,16 +324,33 @@ describe Procmail do
         @filter.rules_contents.should == [["from", "DELLNEWS", "contains"], ["from", "newsmail@sios", "begins_with"]]
       end
 
-      it "different sections"
+      context "different sections and paranthesis + ch" do 
 
-      it "different sections and ^+paranthesis" do 
-        @bajs.load_rule("*^(Subject:.*yeah|To: oh boy)$", @filter)
-        @filter.rules_contents.should == [["subject", "ends_with", "yeah"], ["to", "is", "oh boy"]] 
+        it "before&after" do
+          @bajs.load_rule("*^(Subject:.*yeah|To: oh boy)$", @filter)
+        end
+
+        it "after" do 
+          @bajs.load_rule("*(^Subject:.*yeah|^To: oh boy)$", @filter)
+        end
+
+        it "before" do 
+          @bajs.load_rule("*^(Subject:.*yeah$|To: oh boy$)", @filter)
+        end
+
+        it "that's it" do 
+          @bajs.load_rule("*(^Subject:.*yeah$|^To: oh boy$)", @filter)
+        end
+
+        it "actually, no parenthesis" do
+          @bajs.load_rule("*^Subject:.*yeah$|^To: oh boy$", @filter)
+        end
+
+        after(:each) do
+          @filter.rules_contents.should == [["subject", "yeah", "ends_with"], ["to", "oh boy", "is"]] 
+          @filter.glue.should == "or"
+        end
       end
-
-      after(:each) do @filter.glue.should == "or" end
-
-      it "different sections and start-paranthesis" 
     end
 
     it "can add multiple rules" do

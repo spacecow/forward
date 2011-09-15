@@ -14,6 +14,7 @@ describe "Rules" do
       fill_in_a_first_action
       choose "Match any of the following"
       click_button "Create"
+      Filter.last.glue.should == "or"
     end
   end
 end

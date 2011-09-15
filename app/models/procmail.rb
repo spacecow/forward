@@ -70,15 +70,36 @@ module Procmail
     data = line.match(
       /^    #start
       \*    #first ch is a star
-      (.*)  #anything
+      (\^?) #hat or nothing
       \(    #then a parenthesis
       (.*)  #anything
       \)    #end parenthesis
       (.*)  #anything
       /x)
+    # Parenthesis around both section and substance
     if data
-      p data[2]
+      rules = data[2].split('|').map{|e| "*#{data[1]}#{e}#{data[3]}"}
+      filter.glue = "or" if rules.size > 1 
+      rules.each do |rule|
+        load_single_rule(rule,filter)
+      end
+    # There's a parenthesis somewhere else
+    elsif data = line.match(/(.*)\((.*)\)(.*)/)
+      load_single_rule(line,filter)
+    else
+      rules = line.split('|') 
+      filter.glue = "or" if rules.size > 1
+      rules.each_with_index do |rule,i|
+        if i>0 
+          load_single_rule("*#{rule}",filter)
+        else
+          load_single_rule(rule,filter)
+        end
+      end
     end
+  end
+  
+  def load_single_rule(line,filter)
     data = line.match(
       /^               #start
       \*               #first ch is a star
@@ -88,8 +109,9 @@ module Procmail
       \s*              #zero or more spaces
       (.+)             #the rest, the substance
       /x)
+    raise RuleLoadException, "The line: '#{line}' doesn't match pattern" unless data
     substances = split_substance(data[2])
-    filter.glue = "or" if substances.count > 1
+    filter.glue = "or" if substances.size > 1
     substances.each do |substance|
       rule           = Rule.new
       rule.section   = Rule.map_section(data[1])

@@ -50,6 +50,7 @@ class Rule < ActiveRecord::Base
       s.gsub!(/次/,"「#{substance}」")
       if end_change
         s.gsub!(/む/,"み")
+        s.gsub!(/する/,"し")
         s.gsub!(/る/,"り")
       end
     else

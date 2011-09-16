@@ -5,6 +5,7 @@ module ApplicationHelper
   def edit_p(s); tp2(:edit,s) end
   def either_of(b,s1,s2); b ? s1 : s2 end
   def locale(key); key.split('.')[0..-2].join('.') end
+  def mess(s); t("messages.#{s}") end
   def new(s); t2(:new,s) end
   def pl(s); t(s).match(/\w/) ? t(s).pluralize : t(s) end
   def title(title)

@@ -748,111 +748,121 @@ div#contents_container div#main_container div#main {
 }
 /* line 181, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main h1 {
+  font-size: 18px;
   margin: 15px 0 10px 10px;
   font-weight: bold;
 }
-/* line 184, ../../app/stylesheets/application.sass */
+/* line 185, ../../app/stylesheets/application.sass */
 div#contents_container div#main_container div#main h1:nth-child(1) {
   margin-top: 5px;
 }
-
 /* line 187, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div#main h2 {
+  font-size: 16px;
+  font-weight: bold;
+}
+/* line 190, ../../app/stylesheets/application.sass */
+div#contents_container div#main_container div#main h3 {
+  font-size: 14px;
+}
+
+/* line 193, ../../app/stylesheets/application.sass */
 .w25 {
   width: 25px;
 }
 
-/* line 189, ../../app/stylesheets/application.sass */
+/* line 195, ../../app/stylesheets/application.sass */
 .w100 {
   width: 100px;
 }
 
-/* line 191, ../../app/stylesheets/application.sass */
+/* line 197, ../../app/stylesheets/application.sass */
 .w150 {
   width: 150px;
 }
 
-/* line 193, ../../app/stylesheets/application.sass */
+/* line 199, ../../app/stylesheets/application.sass */
 .w250 {
   width: 250px;
 }
 
-/* line 195, ../../app/stylesheets/application.sass */
+/* line 201, ../../app/stylesheets/application.sass */
 .w300 {
   width: 300px !important;
 }
 
-/* line 197, ../../app/stylesheets/application.sass */
+/* line 203, ../../app/stylesheets/application.sass */
 .w373 {
   width: 373px;
 }
 
-/* line 199, ../../app/stylesheets/application.sass */
+/* line 205, ../../app/stylesheets/application.sass */
 .w398 {
   width: 398px;
 }
 
-/* line 201, ../../app/stylesheets/application.sass */
+/* line 207, ../../app/stylesheets/application.sass */
 .w400 {
   width: 400px;
 }
 
-/* line 203, ../../app/stylesheets/application.sass */
+/* line 209, ../../app/stylesheets/application.sass */
 .margin-top {
   margin-top: 5px;
 }
 
-/* line 205, ../../app/stylesheets/application.sass */
+/* line 211, ../../app/stylesheets/application.sass */
 .truncate {
   overflow: hidden;
 }
 
-/* line 207, ../../app/stylesheets/application.sass */
+/* line 213, ../../app/stylesheets/application.sass */
 .margin-left {
   margin-left: 10px;
 }
 
-/* line 209, ../../app/stylesheets/application.sass */
+/* line 215, ../../app/stylesheets/application.sass */
 .small_font {
   font-size: 13px;
 }
 
-/* line 212, ../../app/stylesheets/application.sass */
+/* line 218, ../../app/stylesheets/application.sass */
 .small_label label {
   width: 150px;
   font-size: 12px;
   margin-top: 3px;
 }
-/* line 216, ../../app/stylesheets/application.sass */
+/* line 222, ../../app/stylesheets/application.sass */
 .small_label label input {
   margin-top: 3px;
 }
 
-/* line 219, ../../app/stylesheets/application.sass */
+/* line 225, ../../app/stylesheets/application.sass */
 li.inline {
   float: left;
 }
-/* line 221, ../../app/stylesheets/application.sass */
+/* line 227, ../../app/stylesheets/application.sass */
 li.inline ol {
   float: left;
 }
-/* line 223, ../../app/stylesheets/application.sass */
+/* line 229, ../../app/stylesheets/application.sass */
 li.inline ol li {
   float: left;
 }
 
-/* line 227, ../../app/stylesheets/application.sass */
+/* line 233, ../../app/stylesheets/application.sass */
 fieldset.inline ol label {
   float: left;
 }
-/* line 229, ../../app/stylesheets/application.sass */
+/* line 235, ../../app/stylesheets/application.sass */
 fieldset.inline ol li {
   float: left;
 }
-/* line 231, ../../app/stylesheets/application.sass */
+/* line 237, ../../app/stylesheets/application.sass */
 fieldset.inline ol input {
   float: left;
 }
-/* line 233, ../../app/stylesheets/application.sass */
+/* line 239, ../../app/stylesheets/application.sass */
 fieldset.inline ol input.submit {
   margin: 0 !important;
 }

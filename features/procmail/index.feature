@@ -97,7 +97,7 @@ And an action should exist with filter: that filter, operation: "move_message_to
 
 Scenario: Links on filter index page
 When I go to the procmail filters page
-Then I should see links "New Mail Filter" at the bottom of the page
+Then I should see links "New Filtering Rule" at the bottom of the page
 
 Scenario Outline: Links from filter index page
 When I go to the procmail filters page
@@ -105,8 +105,7 @@ And I follow "<link>" at the <section> of the page
 Then I should be on the <path> page
 Examples:
 | link                 | path                | section |
-| New Mail Filter      | new procmail filter | bottom  |
-| Flexible Information | new message         | footer  |
+| New Filtering Rule   | new procmail filter | bottom  |
 
 Scenario: Delete a filter
 Given a file ".procmailrc" exists with:

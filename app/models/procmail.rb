@@ -156,24 +156,29 @@ module Procmail
     s
   end
 
+  def action?(line); folder_forwarding?(line) or mail_forwarding?(line) end
+  def folder_forwarding?(line); line =~ /^\.(.*)\/$/ end 
+  def mail_forwarding?(line); line =~ /^!/ end
   def load_action(recipe,line,filter)
     action             = Action.new
     line = line.strip
-    if line =~ /^!/
+    if mail_forwarding?(line)
       if recipe.include?("c")
         action.operation = Action::FORWARD_COPY_TO
       else
         action.operation = Action::FORWARD_MESSAGE_TO
       end
-    else
+    elsif folder_forwarding?(line)
       if recipe.include?("c")
         action.operation = Action::COPY_MESSAGE_TO
       else
         action.operation = Action::MOVE_MESSAGE_TO
       end 
+    else
+      raise FilterLoadException, "Destination folder or rule pattern: #{line} is not written correctly."
     end
     action.destination = strip_destination(line) 
-    if action.forward_message? && !action.resembles_email?
+    if action.forward_message? && !action.destination_resembles_email?
       raise InvalidEmailException, "Destination email must be valid." 
     end
 

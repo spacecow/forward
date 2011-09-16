@@ -1,0 +1,2 @@
+class ActionLoadException < Exception
+end

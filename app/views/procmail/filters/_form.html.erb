@@ -6,13 +6,13 @@
     <%= link_to t(:logout), logout_path, :class => :right %>
   <% end %>
 
-  <h1><%= either_of(@filter.new_record?,new(:mail_filter),edit(:mail_filter)) %></h1>
+  <h1><%= either_of(@filter.new_record?,new(:filtering_rule),edit(:filtering_rule)) %></h1>
 
 
   <%= semantic_form_for [:procmail, @filter], :html =>{:id => :filter} do |f| %>
     <%= f.semantic_errors %>
-    <h2 class="margin-left"><%= t(:rule) %></h2>
-    <%= f.input :glue, :as => :radio, :collection => [["Match all the following","and"], ["Match any of the following","or"]], :label => false, :wrapper_html => {:class => "inline margin-left small_font"} %>
+    <h2 class="margin-left"><%= t(:condition) %></h2>
+    <%= f.input :glue, :as => :radio, :collection => Filter.glues, :label => false, :wrapper_html => {:class => "inline margin-left small_font"} %>
     <div class="clear"></div>
     <% @filter.rules.each_with_index do |rule,i| %>
       <%= f.inputs :for => [:rules, rule], :class => "inline margin-left compact", :id => :rules do |ref| %>
@@ -23,6 +23,7 @@
     <div class="clear"></div>
     <div class="hr"></div>
     <h2 class="margin-left"><%= t(:action) %></h2>
+    <h3 class="margin-left"><%= mess(:perform_these_actions) %></h3>
     <% @filter.actions.each_with_index do |action,i| %>
       <%= f.inputs :for => [:actions, action], :class => "inline margin-left compact", :id => :actions do |ref| %>
         <%= render 'actions/form', :f => ref, :i => i %>

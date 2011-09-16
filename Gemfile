@@ -10,6 +10,7 @@ gem 'cancan'
 gem "escape_utils"
 gem 'rake' #, '0.8.7'
 gem 'annotate'
+gem 'pry', :group => :development
 
 group :development do
   gem 'jquery-rails'
@@ -30,6 +31,7 @@ group :test do
   gem 'gherkin'
   gem 'mocha'
   gem 'guard'
-  gem 'guard-cucumber'
+  gem 'guard-rspec'
+  #gem 'guard-cucumber'
 end
 gem "bcrypt-ruby", :require => "bcrypt"

@@ -52,8 +52,7 @@ class Procmail::FiltersController < ApplicationController
       render :edit and return
     end
 
-    p @filter.actions
-    
+    @filter.actions.inspect
     if @filter.save
       save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
       update_forwards(session[:username], session[:password])
@@ -111,7 +110,7 @@ class Procmail::FiltersController < ApplicationController
       render :edit and return
     end
     
-    p @filter.actions
+    @filter.actions.inspect
     if @filter.update_attributes(params[:filter])
       filter = Filter.find(params[:id])
       if filter.rules.empty? || filter.actions.empty? 
@@ -121,9 +120,9 @@ class Procmail::FiltersController < ApplicationController
       save_filters(session[:username], session[:password], session[:prolog], current_user.filters)
       redirect_to procmail_filters_path
     else
-      if @filter.actions.map{|e| e.valid? && !e._destroy}.reject{|e| e==false}.empty?
+      if @filter.actions.map(&:valid?).reject{|e| e==false}.empty?
         render :edit
-      elsif @filter.rules.map{|e| e.valid? && !e._destroy}.reject{|e| e==false}.empty?
+      elsif @filter.rules.map(&:valid?).reject{|e| e==false}.empty?
         render :edit
       else
         @filter.actions.reject!{|e| !e.valid?}

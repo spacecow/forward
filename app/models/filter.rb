@@ -12,6 +12,10 @@ class Filter < ActiveRecord::Base
   validate :at_least_one_action_must_exist
   validate :at_least_one_rule_must_exist
 
+  MATCH_ALL = "match_all"
+  MATCH_ANY = "match_any"
+  GLUES = [MATCH_ALL, MATCH_ANY]
+
   def contents; [rules.first.contents, actions.first.contents] end
 
   def actions_contents; actions.map(&:contents) end
@@ -48,8 +52,12 @@ class Filter < ActiveRecord::Base
     ret += "c" if one_action? && copy_message?
     ret += ":" if one_action? && move_message_to_folder?
     ret += "\n"+rules_to_file+"\n"
-    ret += actions_to_file
+    ret += actions_to_file unless actions.empty?
     ret
+  end
+
+  class << self
+    def glues; GLUES.map{|e| I18n.t("filters.glues.#{e}")}.zip(["and","or"]) end
   end
 
   private

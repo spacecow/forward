@@ -10,12 +10,6 @@ describe UsersController do
     response.should redirect_to(login_url)
   end
 
-  it "edit action should render edit template" do
-    @controller.stubs(:current_user).returns(User.first)
-    get :edit, :id => "ignored"
-    response.should render_template(:edit)
-  end
-
   it "update action should redirect when not logged in" do
     put :update, :id => "ignored"
     response.should redirect_to(login_url)

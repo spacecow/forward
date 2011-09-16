@@ -8,12 +8,6 @@ class User < ActiveRecord::Base
   before_create :set_role
   before_save :prepare_password
 
-  validates_presence_of :username
-  validates_uniqueness_of :username
-  validates_presence_of :password, :on => :create
-  validates_confirmation_of :password
-  validates_length_of :password, :minimum => 4, :allow_blank => true
-
   ROLES = %w(god admin member)
 
   def self.authenticate(login, pass)

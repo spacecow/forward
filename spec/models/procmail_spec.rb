@@ -15,7 +15,20 @@ describe Procmail do
   
     it "should raise an error if * is missing in front of the rule", :bajs => true do
       filter = ":0:\n^Subject:.*something\n.Junk/"
-      lambda{@bajs.load_filters(filter)}.should raise_error(RuleLoadException)
+      lambda{@bajs.load_filters(filter)}.should raise_error(FilterLoadException)
+    end
+
+    context "should raise an error if destination" do
+      it "doesn't start with a dot" do
+        @filter = ":0:\n^Subject:.*something\nJunk/"
+      end
+      it "doesn't end with a backslash" do
+        @filter = ":0:\n^Subject:.*something\n.Junk"
+      end
+
+      after(:each) do
+        lambda{@bajs.load_filters(@filter)}.should raise_error(FilterLoadException)
+      end
     end
 
     it "should handle spam" do
@@ -75,7 +88,7 @@ describe Procmail do
       it "does not need a lock if it is forwarding" do
         @filter.actions.destroy_all
         @filter.actions << Action.create(:operation => "forward_message_to", :destination => "example@gmail.com")
-        @filter.to_file.should eq ":0\n*^Subject:.*yeah\n!example@gmail.com" 
+        @filter.to_file.should eq ":0\n*^Subject:.*yeah\n!example@gmail\.com" 
       end
 
       it "has 3 lines for 1 rule & 1 action" do
@@ -213,13 +226,13 @@ describe Procmail do
 
   context "#load_filter", :load_filter => true do
     it "splits up in rule and action" do
-      filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml"])
+      filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml/"])
       filter.rules.last.contents.should == ["to", "admin-ml*^@.*riec", "contains"]
       filter.actions.last.contents.should == ["move_message_to", "admin-ml"]
     end 
 
     it "can load two actions" do
-      filter = @bajs.load_filter(":0", ["*^To: test@example.com", "{", "\t:0c:", "\t.temp/", "\n", "\t:0c:", "\t.temporary", "\}"])
+      filter = @bajs.load_filter(":0", ["*^To: test@example.com", "{", "\t:0c:", "\t.temp/", "\n", "\t:0c:", "\t.temporary/", "\}"])
       filter.rules_contents.should == [["to", "test@example.com", "begins_with"]]
       filter.actions_contents.should == [["copy_message_to", "temp"],["copy_message_to", "temporary"]]
     end
@@ -243,14 +256,19 @@ describe Procmail do
       @filter.actions.last.contents.should == ["move_message_to", ""]
     end
 
-    context "creates a destination folder with dot and slash for" do
-      it "dot, non-slash" do @bajs.load_action(":0:",".admin-ml", @filter) end
-      it "non-dot, slash" do @bajs.load_action(":0:","admin-ml/", @filter) end
-      it "non-dot, non-slash" do @bajs.load_action(":0:","admin-ml", @filter) end
-      it "dot, slash" do @bajs.load_action(":0:",".admin-ml/", @filter) end
+    context "raises an error if destination folder contains" do
+      it "dot, non-slash" do @dest = ".admin-ml" end
+      it "non-dot, slash" do @dest = "admin-ml/" end
+      it "non-dot, non-slash" do @dest = "admin-ml" end
+
       after(:each) do
-        @filter.actions.last.contents.should == ["move_message_to", "admin-ml"]
+        lambda{@bajs.load_action(":0:",@dest,@filter)}.should raise_error(FilterLoadException)
       end
+    end
+
+    it "creates a destination folder with dot and slash" do
+      @bajs.load_action(":0:",".admin-ml/", @filter)
+      @filter.actions.last.contents.should == ["move_message_to", "admin-ml"]
     end
 
     context "Move Message to, for:" do
@@ -264,7 +282,7 @@ describe Procmail do
 
     context "Copy Message to, for:" do
       it ":0c" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
-      it ":0c:" do @bajs.load_action(":0c", ".admin-ml", @filter) end
+      it ":0c:" do @bajs.load_action(":0c", ".admin-ml/", @filter) end
       after(:each) do
         @filter.actions.last.contents.should == ["copy_message_to", "admin-ml"]
       end

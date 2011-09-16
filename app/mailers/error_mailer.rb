@@ -4,6 +4,7 @@ class ErrorMailer < ActionMailer::Base
   def filter_error(username, error)
     @class = error.class
     @error = error.message
+    @trace = error.backtrace
     @username = username
     mail(:to => "jsveholm@fir.riec.tohoku.ac.jp",
          :subject => "Procmail:Exception")

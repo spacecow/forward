@@ -4,10 +4,10 @@ describe "Rules" do
   describe "POST /rules" do
     before(:each) do
       login_with("test","correct")
+      visit new_procmail_filter_path
     end
 
     it "create OR-rules" do
-      visit new_procmail_filter_path
       fill_in_a_first_rule
       click_button "Add Rule"
       fill_in_a_second_rule 
@@ -16,5 +16,6 @@ describe "Rules" do
       click_button "Create"
       Filter.last.glue.should == "or"
     end
+
   end
 end

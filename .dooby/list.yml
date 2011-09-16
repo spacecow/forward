@@ -65,8 +65,6 @@ e8d6c8: !ruby/object:Dooby::Task
   todo: route testing :done
 793b19: !ruby/object:Dooby::Task 
   todo: english/japanese :done
-"777537": !ruby/object:Dooby::Task 
-  todo: escape dots
 8ba580: !ruby/object:Dooby::Task 
   todo: investigate TO/FROM
 2c3101: !ruby/object:Dooby::Task 
@@ -123,3 +121,13 @@ e8e30b: !ruby/object:Dooby::Task
   todo: send a contact message :done
 2bdd99: !ruby/object:Dooby::Task 
   todo: change suru to shi :done
+4be6c3: !ruby/object:Dooby::Task 
+  todo: "exception: filter id not found"
+524b84: !ruby/object:Dooby::Task 
+  todo: switch between language and page not found
+6a50b8: !ruby/object:Dooby::Task 
+  todo: escape dots :done
+b3e5f3: !ruby/object:Dooby::Task 
+  todo: space between * and hat seems to be ok
+e68cef: !ruby/object:Dooby::Task 
+  todo: escape dots and backslashes in directories :done

@@ -4,18 +4,19 @@ en:
   address: "Address %{no}"
   admin: "Admin"
   cancel: "Cancel"
+  condition: "Condition"
   create: "Create"
   del: "Del"
   delete: "Delete"
   edit: "Edit"
   english: "English"
+  filtering_rule: "Filtering Rule"
   flexible_information_system_research_center: "Flexible Information System Research Center"
   forwarding_address: "Address"
   japanese: "日本語"
   locale: "Locale"
   login: "Login"
   logout: "Logout"
-  mail_filter: "Mail Filter"
   mail_filtering: "Mail-filtering"
   mail_filter_settings_for: "Mail Filter Settings for %{user}"
   mail_forwarding: "Mail-forwarding"
@@ -69,6 +70,7 @@ en:
   messages:
     not_you?: "Not you?"
     or: "%{obj1} or %{obj2}"
+    perform_these_actions: "Perform these actions:"
     sure?: "Are you sure?"
     welcome: "Welcome %{user}."
     priorities:
@@ -106,6 +108,10 @@ en:
       type: "Type"
       username: "Username"
       value: "Value"
+  filters:
+    glues:
+      match_all: "Match all the following"
+      match_any: "Match any of the following"
   rules:
     parts:
       begins_with: "begins with"

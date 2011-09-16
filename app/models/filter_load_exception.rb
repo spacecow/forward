@@ -1,0 +1,2 @@
+class FilterLoadException < Exception
+end

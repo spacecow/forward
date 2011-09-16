@@ -26,8 +26,16 @@ describe "Rules" do
     end
   end
 
-  describe "POST /rules" do
+  describe "delete rules" do
+    describe "saved" do
+      filter = Filter.create
+      Rule.create(:section => "subject", :part => "contains", :substance => "yeah", :filter_id => filter.id)
+      Action.create(:operation => "Move Message to", :destination => "temp", :filter_id => filter.id)
+      #visit edit_procmail_filter_path(filter)
+    end
+  end
 
+  describe "POST /rules" do
     it "create OR-rules" do
       fill_in_a_first_rule
       click_button "Add Rule"

@@ -41,12 +41,6 @@ describe Action do
         @action.destination = "example"
         @action.should_not be_valid
       end
-        
-      it "saves escaped dots as dots in an address" do
-        @action.destination = 'example@gmail\.com'
-        @action.should be_valid
-        @action.destination.should == "example@gmail.com"
-      end    
     end
   end
 end

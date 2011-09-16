@@ -126,9 +126,9 @@ module Procmail
   def split_substance(s)
     data = s.match(/(.*)\((.*)\)(.*)/)
     if data.nil?
-      return s.split('|')
+      return s.split('|').map{|e| unescape_dots(e)}
     end
-    return data[2].split('|').map{|e| "#{data[1]}#{e}#{data[3]}"}
+    return data[2].split('|').map{|e| unescape_dots("#{data[1]}#{e}#{data[3]}")}
   end
 
   def load_part(s)
@@ -207,4 +207,11 @@ module Procmail
     else;                                "."+s+"/"
     end
   end
+
+  private
+
+    def unescape_dots(s)
+      raise RuleLoadException, "Found unescaped dots." if s.match(/[^\\]\.[^*]/)
+      s.gsub(/\\\./,'.')
+    end
 end

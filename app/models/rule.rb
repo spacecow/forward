@@ -28,11 +28,15 @@ class Rule < ActiveRecord::Base
     ret = ""
     ret += ".*" if part == CONTAINS or part == ENDS_WITH
     ret += " " if part == IS or part == BEGINS_WITH
-    ret += substance.nil? ? "" : substance
+    ret += substance.nil? ? "" : escape_dots(substance)
     ret += "$" if part == IS or part == ENDS_WITH
     ret
   end
   def humanized_part; part.gsub(/_/,' ') end 
+
+  def substance=(s)
+    self[:substance] = s.gsub(/\\\./,'.')
+  end
 
   def to_file; ret = "*"+to_s end
   def to_s
@@ -88,6 +92,12 @@ class Rule < ActiveRecord::Base
       end 
     end
   end
+
+  private
+
+    def escape_dots(s)
+      s.gsub(/(\.[^*])/,"APA"+'\1').gsub(/APA/,'\\')
+    end
 end
 
 

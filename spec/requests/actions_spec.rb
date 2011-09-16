@@ -12,20 +12,11 @@ describe "Actions" do
         select "Forward Message to", :from => select_field_id("operation", 0)
       end
 
-      context "valid" do
-        it "accepts a valid email" do
-          fill_in input_field_id("destination", 0), :with => 'example@gmail.com'
-        end
-
-        it "saves escaped dots as dots in an address" do
-          fill_in input_field_id("destination", 0), :with => 'example@gmail\.com'
-        end    
-    
-        after(:each) do
-          click_button "Create"
-          error_field("destination", 0).should be_nil
-          input_field_value("destination", 0).should == "example@gmail.com"
-        end
+      it "accepts a valid email" do
+        fill_in input_field_id("destination", 0), :with => 'example@gmail.com'
+        click_button "Create"
+        error_field("destination", 0).should be_nil
+        input_field_value("destination", 0).should == "example@gmail.com"
       end
 
       it "does not accept an invalid email" do

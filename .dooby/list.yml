@@ -131,3 +131,9 @@ b3e5f3: !ruby/object:Dooby::Task
   todo: space between * and hat seems to be ok
 e68cef: !ruby/object:Dooby::Task 
   todo: escape dots and backslashes in directories :done
+aec20c: !ruby/object:Dooby::Task 
+  todo: change error message to include error line
+73c82f: !ruby/object:Dooby::Task 
+  todo: deletion of rule doesnt save an edited action
+76303b: !ruby/object:Dooby::Task 
+  todo: dots in regex :done

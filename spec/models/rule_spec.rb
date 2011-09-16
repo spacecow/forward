@@ -1,6 +1,28 @@
 require 'spec_helper'
 
 describe Rule do
+  context "#substance" do
+    context "escapes dots" do
+      before(:each) do
+        @rule = Rule.new(:section => Rule::SUBJECT, :part => Rule::CONTAINS, :substance => "J.R.")
+      end
+
+      it "not before save" do
+        @rule.substance.should == "J.R."
+      end
+
+      it "not after save" do
+        @rule.save
+        @rule.substance.should == 'J.R.'        
+      end
+    end
+
+    it "unescape dots a user has esacped" do
+      rule = Rule.new(:section => Rule::SUBJECT, :part => Rule::CONTAINS, :substance => 'J\.R\.')
+      rule.substance.should == "J.R." 
+    end
+  end
+
   context "#map_section for", :map_section => true do
     it "subject" do Rule.map_section("Subject").should == "subject" end     
     it "to" do Rule.map_section("To").should == "to" end

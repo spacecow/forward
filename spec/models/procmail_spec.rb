@@ -53,6 +53,11 @@ describe Procmail do
     end
 
     context "#rules_to_file", :rules_to_file => true do
+      it "escapes dots in substance" do
+        Rule.create(:section => "to", :part => "is", :substance => "yeah.com", :filter_id => @filter.id)
+        @filter.rules_to_file.should == "*^Subject:.*yeah\n*^To: yeah\\.com$"
+      end
+
       it "has 1 lines for 1 rule" do
         @filter.rules_to_file.should eq "*^Subject:.*yeah"
       end
@@ -179,8 +184,8 @@ describe Procmail do
     end
 
     it "ends with" do 
-      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec$\n.admin-ml/")
-      arr.first.rules_to_s.should == ["^To:.*admin-ml*^@.*riec$"]
+      arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml.*@.*riec$\n.admin-ml/")
+      arr.first.rules_to_s.should == ["^To:.*admin-ml.*@.*riec$"]
     end
   end
   
@@ -232,7 +237,7 @@ describe Procmail do
     end 
 
     it "can load two actions" do
-      filter = @bajs.load_filter(":0", ["*^To: test@example.com", "{", "\t:0c:", "\t.temp/", "\n", "\t:0c:", "\t.temporary/", "\}"])
+      filter = @bajs.load_filter(":0", ['*^To: test@example\.com', "{", "\t:0c:", "\t.temp/", "\n", "\t:0c:", "\t.temporary/", "\}"])
       filter.rules_contents.should == [["to", "test@example.com", "begins_with"]]
       filter.actions_contents.should == [["copy_message_to", "temp"],["copy_message_to", "temporary"]]
     end
@@ -335,6 +340,29 @@ describe Procmail do
 
   context "#load_rule", :load_rule => true do
     before(:each){ @filter = Filter.new }
+
+    context "dots in substance" do
+      it "unescapes dots" do
+        @bajs.load_rule('*^To:.*admin-ml.*@.*riec\.com', @filter)
+        @filter.rules_contents.should == [["to", 'admin-ml.*@.*riec.com', "contains"]]
+      end
+
+      context "raises an error on unescaped dots" do
+        it "a.b" do @pat = '*^TO.*a.b' end
+        after(:each) do
+          lambda{@bajs.load_rule(@pat,@filter)}.should raise_error(RuleLoadException)
+        end
+      end
+  
+      context "does not raise an error on escaped dots" do
+        it "a\.*b" do @pat = '*^TO.*a\.*b' end
+        it "a\.b" do @pat = '*^TO.*a\.b' end
+        it "a.*b" do @pat = '*^TO.*a.*b' end
+        after(:each) do
+          lambda{@bajs.load_rule(@pat,@filter)}.should_not raise_error(RuleLoadException)
+        end
+      end
+    end
 
     it "splits up in section, substance and part" do
       @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter)

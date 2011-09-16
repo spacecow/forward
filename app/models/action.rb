@@ -60,7 +60,6 @@ class Action < ActiveRecord::Base
   private
 
     def valid_destination_email
-      destination.gsub!('\.','.')
       errors.add(:destination, I18n.t("activerecord.errors.messages.invalid_email")) if forward_message? && !destination_resembles_email?
 
     end

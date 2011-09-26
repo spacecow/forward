@@ -3,9 +3,11 @@ class Procmail::FiltersController < ApplicationController
   include Procmail
 
   before_filter :build_user_filter_with_params, :only => :create
+  before_filter :check_existence_of_filter, :only => [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
   def show
+    redirect_to edit_procmail_filter_path(@filter)
   end
 
   def deliver_error(e)
@@ -14,6 +16,7 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def index
+    redirect_to new_procmail_filter_path and return if params[:filter]
     begin
       prepare_filters(session[:username], session[:password])
     rescue Exception => e
@@ -159,4 +162,8 @@ class Procmail::FiltersController < ApplicationController
     def build_non_saved_actions; build_non_saved_associations(:actions) end
     def build_non_saved_rules; build_non_saved_associations(:rules) end
     def build_user_filter_with_params; @filter = current_user.filters.build(params[:filter]) if current_user end
+
+    def check_existence_of_filter
+      redirect_to procmail_filters_path and return unless Filter.exists?(params[:id])
+    end
 end

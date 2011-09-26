@@ -17,9 +17,19 @@ describe Procmail::FiltersController do
   describe "a member is logged in" do
     before(:each) do
       @user = Factory(:user, :roles_mask => 4)
+      #login_with_user(@user)
       session[:username] = @user.username
     end
-      
+
+    controller_actions.each do |action,req|
+      if %w(show edit update destroy).include? action
+        it "should list the filters if id is wrong for #{action}" do
+          send("#{req}", "#{action}", :id => 666) 
+          response.redirect_url.should eq procmail_filters_url 
+        end
+      end
+    end
+
     controller_actions.each do |action,req|
       if %w(index new create).include? action
         it "should reach the #{action} page" do

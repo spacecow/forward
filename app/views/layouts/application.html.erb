@@ -22,9 +22,9 @@
     <div id="site_nav">
       <div id="language">
         <% if english? %>
-          <%= link_to "日本語", :language => 'ja', :address => @input %>
+          <%= link_to "日本語", :language => 'ja', :address => @input, :filter => @filter.to_s %>
         <% else %>
-          <%= link_to "English", :language => 'en', :address => @input %>
+          <%= link_to "English", :language => 'en', :address => @input, :filter => @filter.to_s %>
         <% end %>
       </div>
       <% unless yield(:no_navigation) == "true" %>

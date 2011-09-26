@@ -9,7 +9,7 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def deliver_error(e)
-    @error = "You have encounted an error.<br>The administrator has been informed.<br>Please wait while the problem is being resolved.<br><br>We will contact you shortly." 
+    @error = "You have encounted an error.<br><br>#{e}<br><br>The administrator has been informed.<br>Please wait while the problem is being resolved."
     ErrorMailer.filter_error(session[:username],e).deliver
   end
 

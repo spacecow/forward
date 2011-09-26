@@ -175,7 +175,7 @@ module Procmail
         action.operation = Action::MOVE_MESSAGE_TO
       end 
     else
-      raise FilterLoadException, "Destination folder or rule pattern: #{line} is not written correctly."
+      raise FilterLoadException, "Destination folder or rule pattern: \"#{line}\" is not written correctly."
     end
     action.destination = strip_destination(line) 
     if action.forward_message? && !action.destination_resembles_email?

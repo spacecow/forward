@@ -85,10 +85,10 @@ class Procmail::FiltersController < ApplicationController
 
   def update
     redirect_to procmail_filters_path and return if params[:cancel] 
+    @filter.actions.inspect
+    @filter.attributes = params[:filter]
     if params[:rule_plus] or params[:action_plus]
-      build_non_saved_rules
       build_added_rule
-      build_non_saved_actions
       build_added_action
       render :edit and return
     end
@@ -98,20 +98,20 @@ class Procmail::FiltersController < ApplicationController
       delete_index = delete_button.split('_')[-1]
       if delete_attr == "rule"
         delete_rule = params[:filter][:rules_attributes].delete(delete_index)
+        @filter.rules.delete_at(delete_index.to_i)
         Rule.find(delete_rule[:id].to_i).destroy if delete_rule[:id]
       else
         delete_action = params[:filter][:actions_attributes].delete(delete_index)
+        @filter.actions.delete_at(delete_index.to_i)
         Action.find(delete_action[:id].to_i).destroy if delete_action[:id]
       end
-      build_non_saved_rules
-      build_non_saved_actions
       @filter.rules.build if @filter.rules.empty?
       @filter.actions.build if @filter.actions.empty?
       render :edit and return
     end
     
-    @filter.actions.inspect
-    if @filter.update_attributes(params[:filter])
+    if @filter.save 
+      #@filter.update_attributes(params[:filter])
       filter = Filter.find(params[:id])
       if filter.rules.empty? || filter.actions.empty? 
         filter.destroy
@@ -148,13 +148,15 @@ class Procmail::FiltersController < ApplicationController
     def build_non_saved_associations(assoc)
       if params["filter"] && params["filter"]["#{assoc}_attributes"] 
         params["filter"]["#{assoc}_attributes"].each do |key,value|
-          value.delete("_destroy") if value[:id].nil?
-          @filter.send(assoc).build(value) if value[:id].nil?
+          if value[:id].nil?
+            @filter.send(assoc).build(value)
+          else
+            @filter.send(assoc).select{|e| e.id==key.to_i}
+          end
         end
       end
     end
     def build_non_saved_actions; build_non_saved_associations(:actions) end
     def build_non_saved_rules; build_non_saved_associations(:rules) end
     def build_user_filter_with_params; @filter = current_user.filters.build(params[:filter]) if current_user end
-
 end

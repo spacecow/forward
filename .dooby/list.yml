@@ -135,5 +135,5 @@ aec20c: !ruby/object:Dooby::Task
   todo: change error message to include error line
 76303b: !ruby/object:Dooby::Task 
   todo: dots in regex :done
-73c82f: !ruby/object:Dooby::Task 
-  todo: deletion of rule doesnt save an edited action
+94f9c3: !ruby/object:Dooby::Task 
+  todo: deletion of rule doesnt save an edited action :done

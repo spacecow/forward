@@ -97,6 +97,8 @@ def fill_in_a_first_action; fill_in_an_action("Move Message to","temp",0) end
 
 # User
 
+def login_with_user(user); login_with(user.username, user.password) end
+
 def login_with(username, password)
   visit login_path
   fill_in "Username", :with => username

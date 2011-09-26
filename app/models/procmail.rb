@@ -105,6 +105,7 @@ module Procmail
     data = line.match(
       /^               #start
       \*               #first ch is a star
+      \s?              #ev. space
       \^               #second is the start sign
       ([a-zA-Z(\-|)]+) #alphabeth & (-|) characters
       :?               #ev colon

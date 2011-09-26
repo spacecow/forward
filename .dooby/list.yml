@@ -127,8 +127,6 @@ e8e30b: !ruby/object:Dooby::Task
   todo: switch between language and page not found
 6a50b8: !ruby/object:Dooby::Task 
   todo: escape dots :done
-b3e5f3: !ruby/object:Dooby::Task 
-  todo: space between * and hat seems to be ok
 e68cef: !ruby/object:Dooby::Task 
   todo: escape dots and backslashes in directories :done
 76303b: !ruby/object:Dooby::Task 
@@ -137,3 +135,5 @@ e68cef: !ruby/object:Dooby::Task
   todo: deletion of rule doesnt save an edited action :done
 1b80bf: !ruby/object:Dooby::Task 
   todo: change error message to include error line :done
+7d9f92: !ruby/object:Dooby::Task 
+  todo: space between * and hat seems to be ok :done

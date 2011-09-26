@@ -341,6 +341,11 @@ describe Procmail do
   context "#load_rule", :load_rule => true do
     before(:each){ @filter = Filter.new }
 
+    it "can have a space in between hat and star" do
+      @bajs.load_rule('* ^To:.*admin-ml.*@.*riec', @filter)
+      @filter.rules_contents.should == [["to", 'admin-ml.*@.*riec', "contains"]]
+    end
+
     context "dots in substance" do
       it "unescapes dots" do
         @bajs.load_rule('*^To:.*admin-ml.*@.*riec\.com', @filter)
@@ -369,7 +374,7 @@ describe Procmail do
       @filter.rules_contents.should == [["to", "admin-ml.*@.*riec", "contains"]]
     end
 
-    context "can load OR-rules with", :or_rule => true do
+    context "can load OR-rules with" do
       it "same section" do
         @bajs.load_rule("*^From:(.*DELLNEWS.*|newsmail@sios.*)", @filter)
         @filter.rules_contents.should == [["from", "DELLNEWS", "contains"], ["from", "newsmail@sios", "begins_with"]]

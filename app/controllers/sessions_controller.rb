@@ -1,4 +1,8 @@
+#require 'rpam'
+
 class SessionsController < ApplicationController
+  #include Rpam
+
   def new
   end
 

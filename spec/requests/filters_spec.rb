@@ -7,23 +7,30 @@ describe "Filters" do
     login_with_user(@user)
   end
 
-  context "switching language on the error page should let you stay" do
-
-    it "for a new filter" do
-      visit new_procmail_filter_path
-      click_button "Create"
+  context "switching language on ", :focus => true do
+    it "the index page should let you stay" do
+      visit procmail_filters_path
+      click_link "日本語"
+      page.current_path.should eq procmail_filters_path
     end
 
-    it "for a saved filter" do
-      filter = create_a_first_filter(@user)
-      visit edit_procmail_filter_path(filter)
-      fill_in input_field_id("substance",0), :with => ""
-      click_button "Update"
-    end
+    context "the error page should let you stay" do
+      it "for a new filter" do
+        visit new_procmail_filter_path
+        click_button "Create"
+      end
 
-    after(:each) do
-      click_link "日本語" 
-      find(:css, "form#filter") 
+      it "for a saved filter" do
+        filter = create_a_first_filter(@user)
+        visit edit_procmail_filter_path(filter)
+        fill_in input_field_id("substance",0), :with => ""
+        click_button "Update"
+      end
+
+      after(:each) do
+        click_link "日本語" 
+        find(:css, "form#filter") 
+      end
     end
   end
 end

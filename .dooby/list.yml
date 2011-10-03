@@ -137,3 +137,5 @@ e68cef: !ruby/object:Dooby::Task
   todo: switch between language and page not found :done
 896d95: !ruby/object:Dooby::Task 
   todo: "exception: filter id not found :done"
+e6ad1f: !ruby/object:Dooby::Task 
+  todo: English - Japanese switch :done

@@ -16,7 +16,7 @@ class Procmail::FiltersController < ApplicationController
   end
 
   def index
-    redirect_to new_procmail_filter_path and return if params[:filter]
+    redirect_to new_procmail_filter_path and return if params[:filter].present?
     begin
       prepare_filters(session[:username], session[:password])
     rescue Exception => e

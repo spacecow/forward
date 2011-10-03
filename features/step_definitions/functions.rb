@@ -1,1 +1,0 @@
-/home/johan/ruby/rails/nifty-generators/lib/generators/nifty/authentication/templates/tests/rspec/functions.rb

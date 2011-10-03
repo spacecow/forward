@@ -212,7 +212,7 @@ module Procmail
   private
 
     def unescape_dots(s)
-      raise RuleLoadException, "Found unescaped dots." if s.match(/[^\\]\.[^*]/)
+      raise RuleLoadException, "Found unescaped dots in \"#{s}\"." if s.match(/[^\\]\.[^*]/)
       s.gsub(/\\\./,'.')
     end
 end

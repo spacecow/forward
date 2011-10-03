@@ -6,7 +6,8 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :application, "forward"
-set :deploy_to, "/home/www/apps/#{application}"
+#set :deploy_to, "/home/www/apps/#{application}"
+set :deploy_to, "/home/staff/jsveholm/apps/#{application}"
 set :user, "jsveholm"
 set :admin_runner, "jsveholm"
   

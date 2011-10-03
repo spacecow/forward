@@ -121,8 +121,6 @@ e8e30b: !ruby/object:Dooby::Task
   todo: send a contact message :done
 2bdd99: !ruby/object:Dooby::Task 
   todo: change suru to shi :done
-4be6c3: !ruby/object:Dooby::Task 
-  todo: "exception: filter id not found"
 6a50b8: !ruby/object:Dooby::Task 
   todo: escape dots :done
 e68cef: !ruby/object:Dooby::Task 
@@ -137,3 +135,5 @@ e68cef: !ruby/object:Dooby::Task
   todo: space between * and hat seems to be ok :done
 8dc4d2: !ruby/object:Dooby::Task 
   todo: switch between language and page not found :done
+896d95: !ruby/object:Dooby::Task 
+  todo: "exception: filter id not found :done"

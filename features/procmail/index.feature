@@ -77,7 +77,7 @@ MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
 
 :0
-*^To:.*test@example.com$
+*^To:.*test@example\.com$
 {
   :0:
   .temporary/
@@ -85,6 +85,7 @@ DEFAULT=$MAILDIR
   :0c
   !testier@example.com
 }
+
 """
 When I go to the procmail filters page
 Then I should see the following filters:

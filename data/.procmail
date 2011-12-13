@@ -9,7 +9,7 @@ LOGFILE=$HOME/logs/procmail.log
 .Junk/
 
 :0 :
-*^From:(.*DELLNEWS.*|newsmail@sios.*|mailnews@sourcenext.*|.*@justsystems.*|Information@symantec.*|vbclub@trendmicro.*|hb2@.*|marcom@cybozu.*|adobedemail.*|.*news.*recruit.co.jp.*)
+*^From:(.*DELLNEWS.*|newsmail@sios.*|mailnews@sourcenext.*|.*@justsystems.*|Information@symantec.*|vbclub@trendmicro.*|hb2@.*|marcom@cybozu.*|adobedemail.*|.*news.*recruit\.co\.jp.*)
 .AD/
 
 :0 :
@@ -85,7 +85,7 @@ LOGFILE=$HOME/logs/procmail.log
 .wlan-admin/
 
 :0 :
-*^From:.*(news2@mcafee.com|mailservice@trendmicro.co.jp).*
+*^From:.*(news2@mcafee\.com|mailservice@trendmicro\.co\.jp).*
 .security/
 
 :0 :
@@ -146,7 +146,7 @@ LOGFILE=$HOME/logs/procmail.log
 
 :0 :
 *^(To|CC):.*hp_request@.*riec.*
-HP-request/
+.HP-request/
 
 :0 :
 *^From:.*dev-null@.*riec.*
@@ -165,5 +165,5 @@ HP-request/
 .FIR/
 
 :0 :
-*^(To|CC):.*fir-staff@ml\.riec..*
+*^(To|CC):.*fir-staff@ml\.riec\..*
 .fir-staff/

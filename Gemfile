@@ -34,5 +34,6 @@ group :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   #gem 'guard-cucumber'
+  gem 'libnotify'
 end
 gem "bcrypt-ruby", :require => "bcrypt"

@@ -46,8 +46,8 @@ describe Rule do
     it "from" do Rule.section_to_file("from").should == "From" end
     it "to" do Rule.section_to_file("to").should == "To" end
     it "cc" do Rule.section_to_file("cc").should == "Cc" end
-    it "to_or_cc" do Rule.section_to_file("to_or_cc").should == "To|Cc" end
-    it "spam_flag" do Rule.section_to_file("spam_flag").should == "X-Spam-Flag|X-Barracuda-Spam-Flag" end
+    it "to_or_cc" do Rule.section_to_file("to_or_cc").should == "(To|Cc)" end
+    it "spam_flag" do Rule.section_to_file("spam_flag").should == "(X-Spam-Flag|X-Barracuda-Spam-Flag)" end
   end
 end
 

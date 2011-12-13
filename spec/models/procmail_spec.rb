@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper' 
 
 class Bajs 
@@ -34,6 +35,21 @@ describe Procmail do
     it "should handle spam" do
       filter = ":0:\n*^(X-Spam-Flag|X-Barracuda-Spam-Flag):.*YES\n.Junk/"
       lambda{@bajs.load_filters(filter)}.should_not raise_error(KeywordException)
+    end
+  end
+
+  context "#rule_to_file", :focus => true do
+    it "saves japanese" do
+      rule = Rule.create(:section => "subject", :part => "is", :substance => "楽しい")
+      rule.to_file.should eq "* SUB ?? ^楽しい$"
+    end
+  end
+
+  context "#save_filters" do
+    it "writes a default prolog" do
+      @bajs.save_filters("test","correct","",[])
+      arr, prolog = @bajs.read_filters("test","correct") 
+      prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh"] 
     end
   end
 
@@ -378,6 +394,12 @@ describe Procmail do
       it "same section" do
         @bajs.load_rule("*^From:(.*DELLNEWS.*|newsmail@sios.*)", @filter)
         @filter.rules_contents.should == [["from", "DELLNEWS", "contains"], ["from", "newsmail@sios", "begins_with"]]
+      end
+
+      it "To|Cc" do
+        @bajs.load_rule("*^(To|Cc):.*(kazuto|johokiki-fri2)@.*miyakyo-u.*", @filter)
+        @filter.rules_contents.should == [["to_or_cc", "kazuto@.*miyakyo-u", "contains"], ["to_or_cc", "johokiki-fri2@.*miyakyo-u", "contains"]] 
+        @filter.glue.should == "or"
       end
 
       context "different sections and paranthesis + ch" do 

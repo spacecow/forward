@@ -19,9 +19,13 @@ class Rule < ActiveRecord::Base
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def beginning_to_file
-    ret = "^"
-    ret += Rule.section_to_file(section)
-    ret += ":"
+    if substance_is_english?
+      ret = "^"
+      ret += Rule.section_to_file(section)
+      ret += ":"
+    else
+      "bajs"
+    end
   end
   def contents; [section, substance, part] end
   def end_to_file
@@ -86,8 +90,8 @@ class Rule < ActiveRecord::Base
       when "from"; "From"
       when "to"; "To"
       when "cc"; "Cc"
-      when "to_or_cc"; "To|Cc"
-      when "spam_flag"; "X-Spam-Flag|X-Barracuda-Spam-Flag"
+      when "to_or_cc"; "(To|Cc)"
+      when "spam_flag"; "(X-Spam-Flag|X-Barracuda-Spam-Flag)"
       else raise KeywordException, "Keyword placeholder '#{s}' not found."
       end 
     end
@@ -97,6 +101,9 @@ class Rule < ActiveRecord::Base
 
     def escape_dots(s)
       s.gsub(/(\.[^*])/,"APA"+'\1').gsub(/APA/,'\\')
+    end
+
+    def substance_is_english?
     end
 end
 

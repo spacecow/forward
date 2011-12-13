@@ -19,7 +19,8 @@ module Procmail
       pipe.write "#{password}\n"
       if prolog.blank?
         pipe.write "MAILDIR=$HOME/Maildir/\n"
-        pipe.write "DEFAULT=$MAILDIR\n\n"
+        pipe.write "DEFAULT=$MAILDIR\n"
+        pipe.write "SHELL=/bin/sh\n\n"
       else
         pipe.write "#{prolog}\n"
       end
@@ -74,12 +75,15 @@ module Procmail
       \*    #first ch is a star
       (\^?) #hat or nothing
       \(    #then a parenthesis
-      (.*)  #anything
+      (.*?)  #anything
       \)    #end parenthesis
       (.*)  #anything
       /x)
+    # Parenthesis is around the section
+    if data && data[3][0] == ":"
+      load_single_rule(line,filter)
     # Parenthesis around both section and substance
-    if data
+    elsif data
       rules = data[2].split('|').map{|e| "*#{data[1]}#{e}#{data[3]}"}
       filter.glue = "or" if rules.size > 1 
       rules.each do |rule|

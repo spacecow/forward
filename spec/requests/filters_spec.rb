@@ -7,7 +7,7 @@ describe "Filters" do
     login_with_user(@user)
   end
 
-  context "switching language on ", :focus => true do
+  context "switching language on " do
     it "the index page should let you stay" do
       visit procmail_filters_path
       click_link "日本語"

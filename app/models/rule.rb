@@ -24,7 +24,7 @@ class Rule < ActiveRecord::Base
       ret += Rule.section_to_file(section)
       ret += ":"
     else
-      "bajs"
+      " SUB ?? " 
     end
   end
   def contents; [section, substance, part] end

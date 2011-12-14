@@ -25,7 +25,7 @@ group :test do
   gem 'cucumber'
   gem 'capybara' #, :git => 'https://github.com/jnicklas/capybara.git'
   gem 'database_cleaner'
-  gem 'pickle', :path => '/home/johan/ruby/rails/pickle' #"0.4.7", :git => 'https://github.com/spacecow/pickle.git'
+  gem 'pickle', :path => '~/ruby/rails/pickle' #"0.4.7", :git => 'https://github.com/spacecow/pickle.git'
   gem 'launchy'
   gem 'factory_girl_rails'
   gem 'gherkin'

@@ -1,14 +1,14 @@
 PATH
-  remote: /home/johan/ruby/rails/pickle
+  remote: ~/ruby/rails/nifty-generators
+  specs:
+    nifty-generators (0.4.5)
+
+PATH
+  remote: ~/ruby/rails/pickle
   specs:
     pickle (0.4.7)
       cucumber (>= 0.8)
       rake
-
-PATH
-  remote: ~/ruby/rails/nifty-generators
-  specs:
-    nifty-generators (0.4.5)
 
 GEM
   remote: http://rubygems.org/

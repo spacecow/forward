@@ -39,9 +39,22 @@ describe Procmail do
   end
 
   context "#rule_to_file", :focus => true do
-    it "saves japanese" do
+    it "saves single japanese subject" do
       rule = Rule.create(:section => "subject", :part => "is", :substance => "楽しい")
       rule.to_file.should eq "* SUB ?? ^楽しい$"
+    end
+
+    it "saves double japanese subject" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::BEGINS_WITH, :substance => "楽しい")
+      filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::IS, :substance => "面白い")
+      filter.rules_to_file.should eq "* SUB ?? (^楽しい|^面白い$)"
+    end
+
+    it "saves single english" do
+      rule = Rule.create(:section => "subject", :part => "is", :substance => "fnwo291- 320-[]w@f")
+      rule.to_file.should eq "*^Subject: fnwo291- 320-[]w@f$"
+      
     end
   end
 
@@ -49,7 +62,7 @@ describe Procmail do
     it "writes a default prolog" do
       @bajs.save_filters("test","correct","",[])
       arr, prolog = @bajs.read_filters("test","correct") 
-      prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh"] 
+      prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh","",":0:conversion","*^Subject:\/.*","SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d"] 
     end
   end
 
@@ -246,6 +259,17 @@ describe Procmail do
   end
 
   context "#load_filter", :load_filter => true do
+    it "can read japanese" do
+      filter = @bajs.load_filter(":0:",["* SUB ?? .*楽しい.*",".japanese/"])
+      filter.rule_contents.should eq ["subject","楽しい","contains"]
+    end
+
+    it "can read two or-rules in japanese" do
+      filter = @bajs.load_filter(":0:",["* SUB ?? (楽しい|^面白い$)",".japanese/"])
+      filter.first_rules_contents.should eq ["subject","楽しい","contains"]
+      filter.last_rules_contents.should eq ["subject","面白い","is"]
+    end
+
     it "splits up in rule and action" do
       filter = @bajs.load_filter(":0:",["*^To:.*admin-ml*^@.*riec.*", ".admin-ml/"])
       filter.rules.last.contents.should == ["to", "admin-ml*^@.*riec", "contains"]
@@ -256,6 +280,10 @@ describe Procmail do
       filter = @bajs.load_filter(":0", ['*^To: test@example\.com', "{", "\t:0c:", "\t.temp/", "\n", "\t:0c:", "\t.temporary/", "\}"])
       filter.rules_contents.should == [["to", "test@example.com", "begins_with"]]
       filter.actions_contents.should == [["copy_message_to", "temp"],["copy_message_to", "temporary"]]
+    end
+
+    it "can load two rules" do
+      filter = @bajs.load_filter(":0:",["*^Subject:(.yeah| bull$)"])
     end
   end
     
@@ -452,26 +480,61 @@ describe Procmail do
     end
 
     context "#load_part to" do
-      it "contains with star" do
-        @bajs.load_part(".*admin-ml*^@.*riec.*").should == "contains"
-      end
-      it "contains" do
-        @bajs.load_part(".*admin-ml*^@.*riec").should == "contains"
+      context "in japanese" do
+        it "contains with stars" do
+          @bajs.load_part(".*楽しい.*").should == Rule::CONTAINS 
+        end
+        it "contains with beginning star" do
+          @bajs.load_part(".*楽しい").should == Rule::CONTAINS 
+        end
+        it "contains with end star" do
+          @bajs.load_part("楽しい.*").should == Rule::CONTAINS 
+        end
+        it "contains with no star" do
+          @bajs.load_part("楽しい").should == Rule::CONTAINS 
+        end
+
+        it "ends with, with star" do
+          @bajs.load_part(".*楽しい$").should == Rule::ENDS_WITH
+        end
+        it "ends with, without star" do
+          @bajs.load_part("楽しい$").should == Rule::ENDS_WITH
+        end
+
+        it "begins with, with star" do
+          @bajs.load_part("^楽しい.*").should == Rule::BEGINS_WITH
+        end
+        it "begins with, without star" do
+          @bajs.load_part("^楽しい").should == Rule::BEGINS_WITH
+        end
+
+        it "is" do
+          @bajs.load_part("^楽しい$").should == Rule::IS
+        end
       end
 
-      it "is" do
-        @bajs.load_part("admin-ml*^@.*riec$").should == "is"
-      end
+      context "in english" do
+        it "contains with star" do
+          @bajs.load_part(".*admin-ml*^@.*riec.*").should == "contains"
+        end
+        it "contains" do
+          @bajs.load_part(".*admin-ml*^@.*riec").should == "contains"
+        end
 
-      it "begins with, with star" do
-        @bajs.load_part("admin-ml*^@.*riec.*").should == "begins_with"
-      end
-      it "begins with" do
-        @bajs.load_part("admin-ml*^@.*riec").should == "begins_with"
-      end
-        
-      it "ends with" do
-        @bajs.load_part(".*admin-ml*^@.*riec$").should == "ends_with"
+        it "is" do
+          @bajs.load_part("admin-ml*^@.*riec$").should == "is"
+        end
+
+        it "begins with, with star" do
+          @bajs.load_part("admin-ml*^@.*riec.*").should == "begins_with"
+        end
+        it "begins with" do
+          @bajs.load_part("admin-ml*^@.*riec").should == "begins_with"
+        end
+          
+        it "ends with" do
+          @bajs.load_part(".*admin-ml*^@.*riec$").should == "ends_with"
+        end
       end
     end
 

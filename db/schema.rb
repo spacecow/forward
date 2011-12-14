@@ -48,9 +48,9 @@ ActiveRecord::Schema.define(:version => 20110914073447) do
     t.string   "section"
     t.string   "part"
     t.string   "substance"
+    t.integer  "filter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "filter_id"
   end
 
   create_table "translations", :force => true do |t|

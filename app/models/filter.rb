@@ -33,14 +33,21 @@ class Filter < ActiveRecord::Base
   def actions_to_s; actions.map(&:to_s) end
 
   def first_rule; rules.first end
-  def rule; first_rule end
+  def first_rules_contents; first_rule.contents end
+  def last_rules_contents; last_rule.contents end
+  def last_rule; rules.last end 
+  def rule
+    raise Exception, "More than one rule." if first_rule != last_rule
+    first_rule
+  end
+  def rule_contents; rule.contents end
   def rule_section; rule.section end
   def rules_contents; rules.map(&:contents) end
   def rules_to_file
     if glue == "and"
       rules.map(&:to_file).join("\n") 
     elsif rules_section_is_unique?
-      "*#{rule.beginning_to_file}(#{rules.map(&:end_to_file).join('|')})"
+      "*#{first_rule.beginning_to_file}(#{rules.map(&:end_to_file).join('|')})"
     else
       "*#{rules.map(&:to_s).join('|')}"
     end

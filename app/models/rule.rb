@@ -19,19 +19,31 @@ class Rule < ActiveRecord::Base
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def beginning_to_file
-    if substance_is_english?
+    if section == SUBJECT && !substance_is_english?
+      return " SUB ?? "
+    else
       ret = "^"
       ret += Rule.section_to_file(section)
       ret += ":"
-    else
-      " SUB ?? " 
     end
   end
   def contents; [section, substance, part] end
   def end_to_file
     ret = ""
-    ret += ".*" if part == CONTAINS or part == ENDS_WITH
-    ret += " " if part == IS or part == BEGINS_WITH
+    if part == CONTAINS or part == ENDS_WITH
+      if section == SUBJECT && !substance_is_english?
+        ret += ""
+      else
+        ret += ".*"
+      end
+    end
+    if part == IS or part == BEGINS_WITH
+      if section == SUBJECT && !substance_is_english?
+        ret += "^"
+      else 
+        ret += " " 
+      end
+    end
     ret += substance.nil? ? "" : escape_dots(substance)
     ret += "$" if part == IS or part == ENDS_WITH
     ret
@@ -72,6 +84,7 @@ class Rule < ActiveRecord::Base
       return "" if s.nil?
       case s
       when "Subject"; SUBJECT
+      when "SUB"; SUBJECT
       when "To"; TO
       when "Cc"; CC
       when "From"; FROM
@@ -103,8 +116,7 @@ class Rule < ActiveRecord::Base
       s.gsub(/(\.[^*])/,"APA"+'\1').gsub(/APA/,'\\')
     end
 
-    def substance_is_english?
-    end
+    def substance_is_english?; substance.match(/^[\x00-\x7F]*$/) end
 end
 
 

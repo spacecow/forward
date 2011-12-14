@@ -1,6 +1,85 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Rule do
+  describe "#beginning_to_file" do
+    context "in english for" do
+      it "subject" do
+        rule = Factory(:rule,:section => "subject")
+        rule.beginning_to_file.should eq "^Subject:"
+      end
+      it "from" do
+        rule = Factory(:rule,:section => "from")
+        rule.beginning_to_file.should eq "^From:"
+      end
+    end
+
+    context "in japanese for" do
+      it "subject" do
+        rule = Factory(:rule,:section => "subject",:substance => "楽しい")
+        rule.beginning_to_file.should eq " SUB ?? "
+      end
+      it "from" do
+        rule = Factory(:rule,:section => "from",:substance => "鞍馬天狗")
+        rule.beginning_to_file.should eq "^From:"
+      end
+    end
+  end
+
+  describe "#end_to_file, subject" do
+    context "in english for" do
+      before(:each) do
+        @rule = Factory(:rule,:substance => "spam",:section => Rule::SUBJECT)
+      end
+
+      it "contains" do
+        @rule.part = Rule::CONTAINS
+        @rule.end_to_file.should eq ".*spam" 
+      end
+
+      it "is" do
+        @rule.part = Rule::IS
+        @rule.end_to_file.should eq " spam$" 
+      end
+
+      it "begins with" do
+        @rule.part = Rule::BEGINS_WITH
+        @rule.end_to_file.should eq " spam" 
+      end
+
+      it "ends with" do
+        @rule.part = Rule::ENDS_WITH
+        @rule.end_to_file.should eq ".*spam$" 
+      end
+    end
+
+    context "in japanese for" do
+      before(:each) do
+        @rule = Factory(:rule,:substance => "楽しい",:section => Rule::SUBJECT)
+      end
+
+      it "contains" do
+        @rule.part = Rule::CONTAINS
+        @rule.end_to_file.should eq "楽しい"
+      end
+
+      it "is" do
+        @rule.part = Rule::IS
+        @rule.end_to_file.should eq "^楽しい$"
+      end 
+
+      it "begins with" do
+        @rule.part = Rule::BEGINS_WITH
+        @rule.end_to_file.should eq "^楽しい"
+      end 
+
+      it "ends with" do
+        @rule.part = Rule::ENDS_WITH
+        @rule.end_to_file.should eq "楽しい$"
+      end 
+    end
+  end
+
   context "#substance" do
     context "escapes dots" do
       before(:each) do
@@ -25,6 +104,7 @@ describe Rule do
 
   context "#map_section for", :map_section => true do
     it "subject" do Rule.map_section("Subject").should == "subject" end     
+    it "SUB" do Rule.map_section("SUB").should == "subject" end
     it "to" do Rule.map_section("To").should == "to" end
     it "cc" do Rule.map_section("Cc").should == "cc" end
     it "from" do Rule.map_section("From").should == "from" end

@@ -150,22 +150,27 @@ module Procmail
   end
 
   def load_part(s)
-    if s =~ /^\.\*/
-      if s =~ /(.*)\.\*$/
+    if s =~ /^\.\*/    #beginning star
+      if s =~ /\.\*$/  #ending star
         Rule::CONTAINS 
-      elsif s =~ /(.*)\$$/
+      elsif s =~ /\$$/ #ending dollar
         Rule::ENDS_WITH
       else
         Rule::CONTAINS
       end
-    elsif s =~ /(.*)\.\*$/
-      Rule::BEGINS_WITH
-    elsif s =~ /(.*)\$$/
-      Rule::IS
+    elsif s =~ /^\^/   #beginning top
+      raise Exception,"Regex should not contain ^" if english?(s)
+      s =~ /\$$/ ? Rule::IS : Rule::BEGINS_WITH  
+    elsif s =~ /\.\*$/ #ending star 
+      english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS
+    elsif s =~ /\$$/   #ending dollar
+      english?(s) ? Rule::IS : Rule::ENDS_WITH
     else
-      Rule::BEGINS_WITH
+      english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS
     end
   end
+
+  def english?(s); s.match(/^[\x00-\x7F]*$/) end
 
   def strip_substance(s)
     s = s[2..-1] if s =~ /^\.\*(.*)/

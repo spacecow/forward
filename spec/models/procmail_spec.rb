@@ -470,14 +470,37 @@ describe Procmail do
       end
     end
 
-    context "#load_part to", :focus => true do
+    context "#load_part to" do
       context "in japanese" do
         it "contains with stars" do
           @bajs.load_part(".*楽しい.*").should == Rule::CONTAINS 
         end
-
         it "contains with beginning star" do
           @bajs.load_part(".*楽しい").should == Rule::CONTAINS 
+        end
+        it "contains with end star" do
+          @bajs.load_part("楽しい.*").should == Rule::CONTAINS 
+        end
+        it "contains with no star" do
+          @bajs.load_part("楽しい").should == Rule::CONTAINS 
+        end
+
+        it "ends with, with star" do
+          @bajs.load_part(".*楽しい$").should == Rule::ENDS_WITH
+        end
+        it "ends with, without star" do
+          @bajs.load_part("楽しい$").should == Rule::ENDS_WITH
+        end
+
+        it "begins with, with star" do
+          @bajs.load_part("^楽しい.*").should == Rule::BEGINS_WITH
+        end
+        it "begins with, without star" do
+          @bajs.load_part("^楽しい").should == Rule::BEGINS_WITH
+        end
+
+        it "is" do
+          @bajs.load_part("^楽しい$").should == Rule::IS
         end
       end
 

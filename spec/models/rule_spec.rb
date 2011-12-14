@@ -25,6 +25,7 @@ describe Rule do
 
   context "#map_section for", :map_section => true do
     it "subject" do Rule.map_section("Subject").should == "subject" end     
+    it "SUB" do Rule.map_section("SUB").should == "subject" end
     it "to" do Rule.map_section("To").should == "to" end
     it "cc" do Rule.map_section("Cc").should == "cc" end
     it "from" do Rule.map_section("From").should == "from" end

@@ -21,6 +21,9 @@ module Procmail
         pipe.write "MAILDIR=$HOME/Maildir/\n"
         pipe.write "DEFAULT=$MAILDIR\n"
         pipe.write "SHELL=/bin/sh\n\n"
+        pipe.write ":0:conversion\n"
+        pipe.write "*^Subject:\/.*\n"
+        pipe.write "SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       else
         pipe.write "#{prolog}\n"
       end
@@ -36,7 +39,8 @@ module Procmail
     prolog = []
     rule_definition = false
     while line = arr.shift
-      if line =~ /^:0/
+      if line =~ /^:0:conversion/
+      elsif line =~ /^:0/
         rule_definition = true
         filters << load_filter(line,arr)
       end
@@ -106,6 +110,7 @@ module Procmail
   end
   
   def load_single_rule(line,filter)
+    p line
     data = line.match(
       /^               #start
       \*               #first ch is a star
@@ -116,6 +121,14 @@ module Procmail
       \s*              #zero or more spaces
       (.+)             #the rest, the substance
       /x)
+    data = line.match(
+      /^
+      \*               #first ch is a star
+      \s?              #ev. space
+      (SUB)            #subject
+      \s\?\?\s         #space with question marks
+      (.+)             #substance
+      /x) unless data
     raise RuleLoadException, "The line: '#{line}' doesn't match pattern" unless data
     substances = split_substance(data[2])
     filter.glue = "or" if substances.size > 1
@@ -137,7 +150,7 @@ module Procmail
   end
 
   def load_part(s)
-    if s =~ /^\.\*(.*)/
+    if s =~ /^\.\*/
       if s =~ /(.*)\.\*$/
         Rule::CONTAINS 
       elsif s =~ /(.*)\$$/

@@ -32,14 +32,14 @@ class Rule < ActiveRecord::Base
   def end_to_file
     ret = ""
     if part == CONTAINS or part == ENDS_WITH
-      if [SUBJECT,TO,FROM].include?(section) && !substance_is_english?
+      if JAPANESE_SECTIONS.include?(section) && !substance_is_english?
         ret += ""
       else
         ret += ".*"
       end
     end
     if part == IS or part == BEGINS_WITH
-      if [SUBJECT,TO,FROM].include?(section) && !substance_is_english?
+      if JAPANESE_SECTIONS.include?(section) && !substance_is_english?
         ret += "^"
       else 
         ret += " " 
@@ -54,6 +54,7 @@ class Rule < ActiveRecord::Base
   def japanese_section?(sec)
     section == sec && !substance_is_english?
   end
+  def japanese_cc?; japanese_section?(CC) end
   def japanese_sender?; japanese_section?(FROM) end
   def japanese_subject?; japanese_section?(SUBJECT) end
   def japanese_recipient?; japanese_section?(TO) end
@@ -88,7 +89,6 @@ class Rule < ActiveRecord::Base
   end
 
   class << self
-    def japanese_sections; [SUBJECT,TO,FROM] end
     def map_section(s)
       return "" if s.nil?
       case s
@@ -135,9 +135,11 @@ class Rule < ActiveRecord::Base
     end
     def section_to_file_in_japanese
       case section
-        when "subject"; "SUB"
-        when "to";      "REC"
-        when "from";    "SEN"
+        when "subject";  "SUB"
+        when "to";       "REC"
+        when "from";     "SEN"
+        when "cc";       "CCC"
+        when "to_or_cc"; "TOC"
         else raise KeywordException, "Keyword placeholder '#{section}' not found."
       end
     end

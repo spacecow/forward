@@ -31,6 +31,14 @@ describe Rule do
         rule = Factory(:rule,:section => "to",:substance => "宛先")
         rule.beginning_to_file.should eq " REC ?? "
       end
+      it "cc" do
+        rule = Factory(:rule,:section => "cc",:substance => "宛先")
+        rule.beginning_to_file.should eq " CCC ?? "
+      end
+      it "to_or_cc" do
+        rule = Factory(:rule,:section => "to_or_cc",:substance => "宛先")
+        rule.beginning_to_file.should eq " TOC ?? "
+      end
     end
   end
 
@@ -71,7 +79,7 @@ describe Rule do
           @rule.part = Rule::CONTAINS
         end
 
-        Rule.japanese_sections.each do |section|
+        Rule::JAPANESE_SECTIONS.each do |section|
           it section do
             @rule.section = section
           end
@@ -87,7 +95,7 @@ describe Rule do
           @rule.part = Rule::IS
         end
     
-        Rule.japanese_sections.each do |section|
+        Rule::JAPANESE_SECTIONS.each do |section|
           it section do
             @rule.section = section 
           end
@@ -103,7 +111,7 @@ describe Rule do
           @rule.part = Rule::BEGINS_WITH
         end
 
-        Rule.japanese_sections.each do |section|
+        Rule::JAPANESE_SECTIONS.each do |section|
           it section do
             @rule.section = section
           end
@@ -119,7 +127,7 @@ describe Rule do
           @rule.part = Rule::ENDS_WITH
         end
 
-        Rule.japanese_sections.each do |section|
+        Rule::JAPANESE_SECTIONS.each do |section|
           it section do
             @rule.section = section
           end

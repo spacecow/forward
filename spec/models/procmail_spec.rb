@@ -51,6 +51,14 @@ describe Procmail do
       rule = Rule.create(:section => "to", :part => "begins_with", :substance => "楽しい")
       rule.to_file.should eq "* REC ?? ^楽しい"
     end
+    it "saves single japanese cc" do
+      rule = Rule.create(:section => "cc", :part => "contains", :substance => "楽しい")
+      rule.to_file.should eq "* CCC ?? 楽しい"
+    end
+    it "saves single japanese to_or_cc" do
+      rule = Rule.create(:section => "to_or_cc", :part => "contains", :substance => "楽しい")
+      rule.to_file.should eq "* TOC ?? 楽しい"
+    end
 
     it "saves double japanese subject" do
       filter = Factory(:filter, :glue => "or")
@@ -73,6 +81,20 @@ describe Procmail do
       filter.rules_to_file.should eq "* SEN ?? (^鞍馬|^天狗$)"
     end
 
+    it "saves double japanese ccs" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::CC, :part => Rule::BEGINS_WITH, :substance => "鞍馬")
+      filter.rules << Factory(:rule,:section => Rule::CC, :part => Rule::IS, :substance => "天狗")
+      filter.rules_to_file.should eq "* CCC ?? (^鞍馬|^天狗$)"
+    end
+
+    it "saves double japanese to_or_ccs" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::TO_OR_CC, :part => Rule::BEGINS_WITH, :substance => "鞍馬")
+      filter.rules << Factory(:rule,:section => Rule::TO_OR_CC, :part => Rule::IS, :substance => "天狗")
+      filter.rules_to_file.should eq "* TOC ?? (^鞍馬|^天狗$)"
+    end
+
     it "saves single english" do
       rule = Rule.create(:section => "subject", :part => "is", :substance => "fnwo291- 320-[]w@f")
       rule.to_file.should eq "*^Subject: fnwo291- 320-[]w@f$"
@@ -81,7 +103,7 @@ describe Procmail do
   end
 
   describe "#save_filters" do
-    context "writes a", :focus => true do
+    context "writes a" do
       it "a default prolog" do
         @bajs.save_filters("test","correct","",[])
         arr, prolog = @bajs.read_filters("test","correct") 

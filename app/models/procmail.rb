@@ -39,6 +39,16 @@ module Procmail
         pipe.write "*^From:\/.*\n"
         pipe.write "SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
+      if filters.map(&:japanese_cc?).include?(true)
+        pipe.write ":0:conversion_cc\n"
+        pipe.write "*^Cc:\/.*\n"
+        pipe.write "CCC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+      end
+      if filters.map(&:japanese_to_or_cc?).include?(true)
+        pipe.write ":0:conversion_to_or_cc\n"
+        pipe.write "*^(To|Cc):\/.*\n"
+        pipe.write "TOC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+      end
       pipe.write filters.map(&:to_file).join("\n\n")
       pipe.write "\n"
       pipe.close_write
@@ -143,11 +153,11 @@ module Procmail
       /x)
     data = line.match(
       /^
-      \*               #first ch is a star
-      \s?              #ev. space
-      (SUB|REC|SEN)    #subject,recipient or sender
-      \s\?\?\s         #space with question marks
-      (.+)             #substance
+      \*                    #first ch is a star
+      \s?                   #ev. space
+      (SUB|REC|SEN|CCC|TOC) #subject,recipient or sender
+      \s\?\?\s              #space with question marks
+      (.+)                  #substance
       /x) unless data
     raise RuleLoadException, "The line: '#{line}' doesn't match pattern" unless data
     substances = split_substance(data[2])

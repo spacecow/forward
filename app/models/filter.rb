@@ -38,6 +38,7 @@ class Filter < ActiveRecord::Base
   def section?(section)
     rules.map(&section).include?(true)
   end
+  def japanese_cc?; section?(:japanese_cc?) end
   def japanese_sender?; section?(:japanese_sender?) end
   def japanese_subject?; section?(:japanese_subject?) end
   def japanese_recipient?; section?(:japanese_recipient?) end

@@ -21,9 +21,15 @@ module Procmail
         pipe.write "MAILDIR=$HOME/Maildir/\n"
         pipe.write "DEFAULT=$MAILDIR\n"
         pipe.write "SHELL=/bin/sh\n\n"
-        pipe.write ":0:conversion\n"
+        pipe.write ":0:conversion_subject\n"
         pipe.write "*^Subject:\/.*\n"
         pipe.write "SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+        pipe.write ":0:conversion_recipient\n"
+        pipe.write "*^To:\/.*\n"
+        pipe.write "REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+        pipe.write ":0:conversion_sender\n"
+        pipe.write "*^From:\/.*\n"
+        pipe.write "SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       else
         pipe.write "#{prolog}\n"
       end
@@ -124,7 +130,7 @@ module Procmail
       /^
       \*               #first ch is a star
       \s?              #ev. space
-      (SUB)            #subject
+      (SUB|REC|SEN)    #subject,recipient or sender
       \s\?\?\s         #space with question marks
       (.+)             #substance
       /x) unless data
@@ -158,18 +164,18 @@ module Procmail
         Rule::CONTAINS
       end
     elsif s =~ /^\^/   #beginning top
-      raise Exception,"Regex should not contain ^" if english?(s)
+      raise Exception,"Regex should not contain ^" if is_english?(s)
       s =~ /\$$/ ? Rule::IS : Rule::BEGINS_WITH  
     elsif s =~ /\.\*$/ #ending star 
-      english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS
+      is_english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS
     elsif s =~ /\$$/   #ending dollar
-      english?(s) ? Rule::IS : Rule::ENDS_WITH
+      is_english?(s) ? Rule::IS : Rule::ENDS_WITH
     else
-      english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS
+      is_english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS
     end
   end
 
-  def english?(s); s.match(/^[\x00-\x7F]*$/) end
+  def is_english?(s); s.match(/^[\x00-\x7F]*$/) end
 
   def strip_substance(s)
     s = s[2..-1] if s =~ /^\.\*/ #beginning star

@@ -12,6 +12,10 @@ describe Rule do
         rule = Factory(:rule,:section => "from")
         rule.beginning_to_file.should eq "^From:"
       end
+      it "to" do
+        rule = Factory(:rule,:section => "to")
+        rule.beginning_to_file.should eq "^To:"
+      end
     end
 
     context "in japanese for" do
@@ -20,8 +24,12 @@ describe Rule do
         rule.beginning_to_file.should eq " SUB ?? "
       end
       it "from" do
-        rule = Factory(:rule,:section => "from",:substance => "鞍馬天狗")
-        rule.beginning_to_file.should eq "^From:"
+        rule = Factory(:rule,:section => "from",:substance => "差出人")
+        rule.beginning_to_file.should eq " SEN ?? "
+      end
+      it "to" do
+        rule = Factory(:rule,:section => "to",:substance => "宛先")
+        rule.beginning_to_file.should eq " REC ?? "
       end
     end
   end
@@ -55,27 +63,71 @@ describe Rule do
 
     context "in japanese for" do
       before(:each) do
-        @rule = Factory(:rule,:substance => "楽しい",:section => Rule::SUBJECT)
+        @rule = Factory(:rule,:substance => "楽しい")
       end
 
-      it "contains" do
-        @rule.part = Rule::CONTAINS
-        @rule.end_to_file.should eq "楽しい"
+      context "contains in" do
+        before(:each) do
+          @rule.part = Rule::CONTAINS
+        end
+
+        Rule.japanese_sections.each do |section|
+          it section do
+            @rule.section = section
+          end
+        end
+    
+        after(:each) do
+          @rule.end_to_file.should eq "楽しい"
+        end
       end
 
-      it "is" do
-        @rule.part = Rule::IS
-        @rule.end_to_file.should eq "^楽しい$"
+      context "is in" do
+        before(:each) do
+          @rule.part = Rule::IS
+        end
+    
+        Rule.japanese_sections.each do |section|
+          it section do
+            @rule.section = section 
+          end
+        end
+
+        after(:each) do
+          @rule.end_to_file.should eq "^楽しい$"
+        end
       end 
 
-      it "begins with" do
-        @rule.part = Rule::BEGINS_WITH
-        @rule.end_to_file.should eq "^楽しい"
-      end 
+      context "begins with in" do
+        before(:each) do
+          @rule.part = Rule::BEGINS_WITH
+        end
 
-      it "ends with" do
-        @rule.part = Rule::ENDS_WITH
-        @rule.end_to_file.should eq "楽しい$"
+        Rule.japanese_sections.each do |section|
+          it section do
+            @rule.section = section
+          end
+        end
+
+        after(:each) do
+          @rule.end_to_file.should eq "^楽しい"
+        end
+      end
+
+      context "ends with in" do
+        before(:each) do
+          @rule.part = Rule::ENDS_WITH
+        end
+
+        Rule.japanese_sections.each do |section|
+          it section do
+            @rule.section = section
+          end
+        end
+
+        after(:each) do
+          @rule.end_to_file.should eq "楽しい$"
+        end
       end 
     end
   end
@@ -122,12 +174,34 @@ describe Rule do
   end
 
   context "#section_to_file for", :section_to_file => true do
-    it "subject" do Rule.section_to_file("subject").should == "Subject" end
-    it "from" do Rule.section_to_file("from").should == "From" end
-    it "to" do Rule.section_to_file("to").should == "To" end
-    it "cc" do Rule.section_to_file("cc").should == "Cc" end
-    it "to_or_cc" do Rule.section_to_file("to_or_cc").should == "(To|Cc)" end
-    it "spam_flag" do Rule.section_to_file("spam_flag").should == "(X-Spam-Flag|X-Barracuda-Spam-Flag)" end
+    before(:each) do
+      @rule = Factory(:rule,:substance=>"english")
+    end
+
+    it "subject" do
+      @rule.section = Rule::SUBJECT
+      @rule.send("section_to_file").should == "Subject"
+    end
+    it "from" do
+      @rule.section = Rule::FROM
+      @rule.send("section_to_file").should == "From"
+    end
+    it "to" do
+      @rule.section = Rule::TO
+      @rule.send("section_to_file").should == "To"
+    end
+    it "cc" do
+      @rule.section = Rule::CC
+      @rule.send("section_to_file").should == "Cc"
+    end
+    it "to_or_cc" do
+      @rule.section = Rule::TO_OR_CC
+      @rule.send("section_to_file").should == "(To|Cc)"
+    end
+    it "spam_flag" do
+      @rule.section = Rule::SPAM_FLAG
+      @rule.send("section_to_file").should == "(X-Spam-Flag|X-Barracuda-Spam-Flag)"
+    end
   end
 end
 

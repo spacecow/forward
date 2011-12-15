@@ -38,10 +38,18 @@ describe Procmail do
     end
   end
 
-  context "#rule_to_file", :focus => true do
+  context "#rule_to_file" do
     it "saves single japanese subject" do
       rule = Rule.create(:section => "subject", :part => "is", :substance => "楽しい")
       rule.to_file.should eq "* SUB ?? ^楽しい$"
+    end
+    it "saves single japanese recipient" do
+      rule = Rule.create(:section => "from", :part => "ends_with", :substance => "楽しい")
+      rule.to_file.should eq "* SEN ?? 楽しい$"
+    end
+    it "saves single japanese sender" do
+      rule = Rule.create(:section => "to", :part => "begins_with", :substance => "楽しい")
+      rule.to_file.should eq "* REC ?? ^楽しい"
     end
 
     it "saves double japanese subject" do
@@ -49,6 +57,20 @@ describe Procmail do
       filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::BEGINS_WITH, :substance => "楽しい")
       filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::IS, :substance => "面白い")
       filter.rules_to_file.should eq "* SUB ?? (^楽しい|^面白い$)"
+    end
+
+    it "saves double japanese recipients" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::TO, :part => Rule::BEGINS_WITH, :substance => "鞍馬")
+      filter.rules << Factory(:rule,:section => Rule::TO, :part => Rule::IS, :substance => "天狗")
+      filter.rules_to_file.should eq "* REC ?? (^鞍馬|^天狗$)"
+    end
+
+    it "saves double japanese senders" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::FROM, :part => Rule::BEGINS_WITH, :substance => "鞍馬")
+      filter.rules << Factory(:rule,:section => Rule::FROM, :part => Rule::IS, :substance => "天狗")
+      filter.rules_to_file.should eq "* SEN ?? (^鞍馬|^天狗$)"
     end
 
     it "saves single english" do
@@ -62,7 +84,7 @@ describe Procmail do
     it "writes a default prolog" do
       @bajs.save_filters("test","correct","",[])
       arr, prolog = @bajs.read_filters("test","correct") 
-      prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh","",":0:conversion","*^Subject:\/.*","SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d"] 
+      prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh","",":0:conversion_subject","*^Subject:\/.*","SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d","",":0:conversion_recipient","*^To:\/.*","REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d","",":0:conversion_sender","*^From:\/.*","SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d"]
     end
   end
 
@@ -258,10 +280,20 @@ describe Procmail do
     end
   end
 
-  context "#load_filter", :load_filter => true do
-    it "can read japanese" do
-      filter = @bajs.load_filter(":0:",["* SUB ?? .*楽しい.*",".japanese/"])
-      filter.rule_contents.should eq ["subject","楽しい","contains"]
+  describe "#load_filter", :load_filter => true do
+    context "can read japanese" do
+      it "subject" do
+        filter = @bajs.load_filter(":0:",["* SUB ?? .*楽しい.*",".japanese/"])
+        filter.rule_contents.should eq ["subject","楽しい","contains"]
+      end
+      it "recipient" do
+        filter = @bajs.load_filter(":0:",["* REC ?? 宛先",".japanese/"])
+        filter.rule_contents.should eq ["to","宛先","contains"]
+      end
+      it "sender" do
+        filter = @bajs.load_filter(":0:",["* SEN ?? ^差出人",".japanese/"])
+        filter.rule_contents.should eq ["from","差出人","begins_with"]
+      end
     end
 
     it "can read two or-rules in japanese" do

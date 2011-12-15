@@ -147,3 +147,7 @@ e6ad1f: !ruby/object:Dooby::Task
   todo: converting with SUB :done
 7d928d: !ruby/object:Dooby::Task 
   todo: SUB and load part :done
+b5463a: !ruby/object:Dooby::Task 
+  todo: only save SUB etc. if they are used
+3244f4: !ruby/object:Dooby::Task 
+  todo: REC and SEN :done

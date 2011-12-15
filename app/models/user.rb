@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     BCrypt::Engine.hash_secret(pass, password_salt)
   end
 
-  def role?( role ); roles.include? role.to_s end
+  def role?(role); roles.include? role.to_s end
   def roles; ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? } end
   def roles=(r); self.roles_mask = (r & ROLES).map{|e| 2**ROLES.index(e)}.sum end
   def to_s; username end

@@ -19,11 +19,11 @@ class Rule < ActiveRecord::Base
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def beginning_to_file
-    if section == SUBJECT && !substance_is_english?
-      return " SUB ?? "
+    if !substance_is_english?
+      " #{section_to_file} ?? "
     else
       ret = "^"
-      ret += Rule.section_to_file(section)
+      ret += section_to_file
       ret += ":"
     end
   end
@@ -31,14 +31,14 @@ class Rule < ActiveRecord::Base
   def end_to_file
     ret = ""
     if part == CONTAINS or part == ENDS_WITH
-      if section == SUBJECT && !substance_is_english?
+      if [SUBJECT,TO,FROM].include?(section) && !substance_is_english?
         ret += ""
       else
         ret += ".*"
       end
     end
     if part == IS or part == BEGINS_WITH
-      if section == SUBJECT && !substance_is_english?
+      if [SUBJECT,TO,FROM].include?(section) && !substance_is_english?
         ret += "^"
       else 
         ret += " " 
@@ -80,34 +80,32 @@ class Rule < ActiveRecord::Base
   end
 
   class << self
+    def japanese_sections; [SUBJECT,TO,FROM] end
     def map_section(s)
       return "" if s.nil?
       case s
       when "Subject"; SUBJECT
       when "SUB"; SUBJECT
       when "To"; TO
+      when "REC"; TO
       when "Cc"; CC
       when "From"; FROM
+      when "SEN"; FROM
       when /X-Spam-Flag|X-Barracuda-Spam-Flag/; SPAM_FLAG
       when /To|Cc/i; TO_OR_CC
       else raise KeywordException, "Keyword '#{s}' not found."
       end
     end
 
-    def parts; PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS) end
-    def sections; SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS) end
-
-    def section_to_file(s)
-      case s
-      when "subject"; "Subject"
-      when "from"; "From"
-      when "to"; "To"
-      when "cc"; "Cc"
-      when "to_or_cc"; "(To|Cc)"
-      when "spam_flag"; "(X-Spam-Flag|X-Barracuda-Spam-Flag)"
-      else raise KeywordException, "Keyword placeholder '#{s}' not found."
-      end 
+    def parts
+      PARTS.map{|e| I18n.t("rules.parts.#{e}")}.zip(PARTS)
     end
+    def sections
+      SECTIONS.map{|e| I18n.t("rules.sections.#{e}")}.zip(SECTIONS)
+    end
+
+
+    def is_english?(s); s.match(/^[\x00-\x7F]*$/) end
   end
 
   private
@@ -116,9 +114,28 @@ class Rule < ActiveRecord::Base
       s.gsub(/(\.[^*])/,"APA"+'\1').gsub(/APA/,'\\')
     end
 
-    def substance_is_english?; substance.match(/^[\x00-\x7F]*$/) end
+    def section_to_file
+      if substance_is_english?
+        case section
+          when "subject"; "Subject"
+          when "from"; "From"
+          when "to"; "To"
+          when "cc"; "Cc"
+          when "to_or_cc"; "(To|Cc)"
+          when "spam_flag"; "(X-Spam-Flag|X-Barracuda-Spam-Flag)"
+          else raise KeywordException, "Keyword placeholder '#{section}' not found."
+        end
+      else
+        case section
+          when "subject"; "SUB"
+          when "to";      "REC"
+          when "from";    "SEN"
+          else raise KeywordException, "Keyword placeholder '#{section}' not found."
+        end
+      end
+    end
+    def substance_is_english?; Rule.is_english?(substance) end
 end
-
 
 # == Schema Information
 #

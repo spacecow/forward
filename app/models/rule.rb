@@ -16,6 +16,7 @@ class Rule < ActiveRecord::Base
   SPAM_FLAG = "spam_flag"
 
   SECTIONS = [SUBJECT, FROM, TO, CC, TO_OR_CC, SPAM_FLAG]
+  JAPANESE_SECTIONS = [SUBJECT,FROM,TO,CC, TO_OR_CC]
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def beginning_to_file
@@ -49,6 +50,13 @@ class Rule < ActiveRecord::Base
     ret
   end
   def humanized_part; part.gsub(/_/,' ') end 
+  
+  def japanese_section?(sec)
+    section == sec && !substance_is_english?
+  end
+  def japanese_sender?; japanese_section?(FROM) end
+  def japanese_subject?; japanese_section?(SUBJECT) end
+  def japanese_recipient?; japanese_section?(TO) end
 
   def substance=(s)
     self[:substance] = s.gsub(/\\\./,'.')
@@ -114,24 +122,30 @@ class Rule < ActiveRecord::Base
       s.gsub(/(\.[^*])/,"APA"+'\1').gsub(/APA/,'\\')
     end
 
+    def section_to_file_in_english
+      case section
+        when "subject"; "Subject"
+        when "from"; "From"
+        when "to"; "To"
+        when "cc"; "Cc"
+        when "to_or_cc"; "(To|Cc)"
+        when "spam_flag"; "(X-Spam-Flag|X-Barracuda-Spam-Flag)"
+        else raise KeywordException, "Keyword placeholder '#{section}' not found."
+      end
+    end
+    def section_to_file_in_japanese
+      case section
+        when "subject"; "SUB"
+        when "to";      "REC"
+        when "from";    "SEN"
+        else raise KeywordException, "Keyword placeholder '#{section}' not found."
+      end
+    end
     def section_to_file
       if substance_is_english?
-        case section
-          when "subject"; "Subject"
-          when "from"; "From"
-          when "to"; "To"
-          when "cc"; "Cc"
-          when "to_or_cc"; "(To|Cc)"
-          when "spam_flag"; "(X-Spam-Flag|X-Barracuda-Spam-Flag)"
-          else raise KeywordException, "Keyword placeholder '#{section}' not found."
-        end
+        section_to_file_in_english
       else
-        case section
-          when "subject"; "SUB"
-          when "to";      "REC"
-          when "from";    "SEN"
-          else raise KeywordException, "Keyword placeholder '#{section}' not found."
-        end
+        section_to_file_in_japanese
       end
     end
     def substance_is_english?; Rule.is_english?(substance) end

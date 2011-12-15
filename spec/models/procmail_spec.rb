@@ -80,11 +80,24 @@ describe Procmail do
     end
   end
 
-  context "#save_filters" do
-    it "writes a default prolog" do
-      @bajs.save_filters("test","correct","",[])
-      arr, prolog = @bajs.read_filters("test","correct") 
-      prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh","",":0:conversion_subject","*^Subject:\/.*","SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d","",":0:conversion_recipient","*^To:\/.*","REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d","",":0:conversion_sender","*^From:\/.*","SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d"]
+  describe "#save_filters" do
+    context "writes a", :focus => true do
+      it "a default prolog" do
+        @bajs.save_filters("test","correct","",[])
+        arr, prolog = @bajs.read_filters("test","correct") 
+        prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh"]
+      end
+
+      Rule::JAPANESE_SECTIONS.each do |section|
+        it "#{section} conversation if written in japanese" do
+          filter = Factory(:filter)
+          rule = Factory(:rule,:section => section,:substance => "日本語")
+          filter.rules << rule
+          @bajs.save_filters("test","correct","",[filter])
+          arr, prolog, convs = @bajs.read_filters("test","correct") 
+          convs.should eq [":0:conversion_#{section}","*^#{rule.send("section_to_file_in_english")}:\/.*","#{rule.send("section_to_file_in_japanese")}=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d", ""]
+        end
+      end
     end
   end
 

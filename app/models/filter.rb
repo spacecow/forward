@@ -34,6 +34,14 @@ class Filter < ActiveRecord::Base
 
   def first_rule; rules.first end
   def first_rules_contents; first_rule.contents end
+
+  def section?(section)
+    rules.map(&section).include?(true)
+  end
+  def japanese_sender?; section?(:japanese_sender?) end
+  def japanese_subject?; section?(:japanese_subject?) end
+  def japanese_recipient?; section?(:japanese_recipient?) end
+
   def last_rules_contents; last_rule.contents end
   def last_rule; rules.last end 
   def rule

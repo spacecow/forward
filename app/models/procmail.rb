@@ -14,26 +14,32 @@ module Procmail
     end
   end
 
-  def save_filters(username, password, prolog, arr)
+  def save_filters(username, password, prolog, filters)
     IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'w+') do |pipe|
       pipe.write "#{password}\n"
       if prolog.blank?
         pipe.write "MAILDIR=$HOME/Maildir/\n"
         pipe.write "DEFAULT=$MAILDIR\n"
         pipe.write "SHELL=/bin/sh\n\n"
-        pipe.write ":0:conversion_subject\n"
-        pipe.write "*^Subject:\/.*\n"
-        pipe.write "SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
-        pipe.write ":0:conversion_recipient\n"
-        pipe.write "*^To:\/.*\n"
-        pipe.write "REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
-        pipe.write ":0:conversion_sender\n"
-        pipe.write "*^From:\/.*\n"
-        pipe.write "SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       else
         pipe.write "#{prolog}\n"
       end
-      pipe.write arr.map(&:to_file).join("\n\n")
+      if filters.map(&:japanese_subject?).include?(true)
+        pipe.write ":0:conversion_subject\n"
+        pipe.write "*^Subject:\/.*\n"
+        pipe.write "SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+      end
+      if filters.map(&:japanese_recipient?).include?(true)
+        pipe.write ":0:conversion_to\n"
+        pipe.write "*^To:\/.*\n"
+        pipe.write "REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+      end
+      if filters.map(&:japanese_sender?).include?(true)
+        pipe.write ":0:conversion_from\n"
+        pipe.write "*^From:\/.*\n"
+        pipe.write "SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
+      end
+      pipe.write filters.map(&:to_file).join("\n\n")
       pipe.write "\n"
       pipe.close_write
     end
@@ -43,16 +49,25 @@ module Procmail
     filters = []
     arr = lines.split("\n")
     prolog = []
+    convs = []
     rule_definition = false
+    conv_definition = false
     while line = arr.shift
       if line =~ /^:0:conversion/
+        conv_definition = true
       elsif line =~ /^:0/
         rule_definition = true
         filters << load_filter(line,arr)
       end
-      prolog.push line unless rule_definition 
+      unless rule_definition
+        if conv_definition
+          convs.push line
+        else
+          prolog.push line
+        end
+      end
     end
-    [filters, prolog]
+    [filters, prolog, convs]
   end
 
   def load_filter(recipe,arr)

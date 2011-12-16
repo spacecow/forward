@@ -67,6 +67,36 @@ describe Procmail do
       filter.rules_to_file.should eq "* SUB ?? (^楽しい|^面白い$)"
     end
 
+    it "saves mixed english/japanese subject" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::BEGINS_WITH, :substance => "english")
+      filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::IS, :substance => "日本語")
+      filter.rules_to_file.should eq "* SUB ?? (^english|^日本語$)"
+    end
+
+    context "different sections, at least one jap" do
+      before(:each) do
+        @filter = Factory(:filter)
+        @filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::BEGINS_WITH, :substance => "日本語")
+        @filter.rules << Factory(:rule,:section => Rule::TO, :part => Rule::IS, :substance => "english")
+      end
+      it "glue=or, DeMorgan" do
+        @filter.glue = "or"
+        @filter.rules_to_file.should eq "* ! SUB ?? ^日本語\n* ! ^To: english$" 
+      end
+      it "glue=and" do
+        @filter.glue = "and"
+        @filter.rules_to_file.should eq "* SUB ?? ^日本語\n*^To: english$" 
+      end
+    end
+
+    it "saves mixex japanese/english subject" do
+      filter = Factory(:filter, :glue => "or")
+      filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::IS, :substance => "日本語")
+      filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::BEGINS_WITH, :substance => "english")
+      filter.rules_to_file.should eq "* SUB ?? (^日本語$|^english)"
+    end
+
     it "saves double japanese recipients" do
       filter = Factory(:filter, :glue => "or")
       filter.rules << Factory(:rule,:section => Rule::TO, :part => Rule::BEGINS_WITH, :substance => "鞍馬")
@@ -98,13 +128,13 @@ describe Procmail do
     it "saves single english" do
       rule = Rule.create(:section => "subject", :part => "is", :substance => "fnwo291- 320-[]w@f")
       rule.to_file.should eq "*^Subject: fnwo291- 320-[]w@f$"
-      
     end
   end
 
   describe "#save_filters" do
     context "writes a" do
-      it "a default prolog" do
+        
+      it "default prolog" do
         @bajs.save_filters("test","correct","",[])
         arr, prolog = @bajs.read_filters("test","correct") 
         prolog.should eq ["MAILDIR=$HOME/Maildir/","DEFAULT=$MAILDIR","SHELL=/bin/sh"]
@@ -123,11 +153,52 @@ describe Procmail do
     end
   end
 
+  describe "#to_file" do
+    context "different sections, at least one jap" do
+      before(:each) do
+        @filter = Factory(:filter)
+        @filter.actions.destroy_all
+        @filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::BEGINS_WITH, :substance => "日本語")
+        @filter.rules << Factory(:rule,:section => Rule::TO, :part => Rule::IS, :substance => "english")
+        @filter.actions << Factory(:action,:destination => "japanese")
+      end
+
+      it "glue = and" do
+        @filter.glue = "and"
+        @filter.to_file.should eq ":0\n* SUB ?? ^日本語\n*^To: english$\n.japanese/"
+      end
+
+      context "DeMorgan, glue = or" do
+        before(:each) do
+          @filter.glue = "or"
+        end
+
+        it "move to folder" do
+          @filter.actions.last.operation = Action::MOVE_MESSAGE_TO
+          @filter.to_file.should eq ":0\n* ! SUB ?? ^日本語\n* ! ^To: english$\n{ }\n:0E:\n.japanese/"
+        end
+        it "copy to folder" do
+          @filter.actions.last.operation = Action::COPY_MESSAGE_TO
+          @filter.to_file.should eq ":0\n* ! SUB ?? ^日本語\n* ! ^To: english$\n{ }\n:0Ec:\n.japanese/"
+        end
+        it "forward message" do
+          @filter.actions.last.operation = Action::FORWARD_MESSAGE_TO
+          @filter.to_file.should eq ":0\n* ! SUB ?? ^日本語\n* ! ^To: english$\n{ }\n:0E\n!japanese"
+        end
+        it "forward copy" do
+          @filter.actions.last.operation = Action::FORWARD_COPY_TO
+          @filter.to_file.should eq ":0\n* ! SUB ?? ^日本語\n* ! ^To: english$\n{ }\n:0Ec\n!japanese"
+        end
+      end
+    end
+  end
+
   context "#save_filters", :save_filters => true do
     before(:each) do
       @filter = Filter.create
-      Rule.create(:section => "subject", :part => "contains", :substance => "yeah", :filter_id => @filter.id)
-      Action.create(:operation => "Move Message to", :destination => "temp", :filter_id => @filter.id)
+      @filter.actions.destroy_all
+      @filter.rules << Rule.create(:section => "subject", :part => "contains", :substance => "yeah")
+      @filter.actions << Action.create(:operation => "Move Message to", :destination => "temp")
       @filter.save
     end
 
@@ -135,7 +206,7 @@ describe Procmail do
       @bajs.save_filters("test", "correct", "", [@filter])
       arr, prolog = @bajs.read_filters("test", "correct")
       arr.first.contents.should == 
-        [["subject", "yeah", "contains"], ["move_message_to", "temp"]]
+        [[["subject", "yeah", "contains"]],[["move_message_to", "temp"]]]
     end
 
     context "#rules_to_file", :rules_to_file => true do
@@ -192,8 +263,8 @@ describe Procmail do
       end
 
       it "has 10 lines for 2 rules & 2 actions" do
-        Rule.create(:section => "to", :part => "contains", :substance => "gmail", :filter_id => @filter.id)
-        Action.create(:operation => "forward_copy_to", :destination => "temp@gmail.com", :filter_id => @filter.id)
+        @filter.rules << Rule.create(:section => "to", :part => "contains", :substance => "gmail")
+        @filter.actions << Action.create(:operation => "forward_copy_to", :destination => "temp@gmail.com")
         @filter.to_file.should eq ":0\n*^Subject:.*yeah\n*^To:.*gmail\n{\n\t:0c\n\t!temp@gmail.com\n\n\t:0:\n\t.temp/\n}"
       end
     end
@@ -301,17 +372,55 @@ describe Procmail do
     it "returns 1 filter in an array" do
       arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/")
       arr.size.should == 1
-      arr.last.contents.should == [["to", "admin-ml*^@.*riec", "contains"],
-                                   ["move_message_to", "admin-ml"]]
+      arr.last.contents.should == [[["to", "admin-ml*^@.*riec", "contains"]],[["move_message_to", "admin-ml"]]]
     end
 
     it "returns 2 filters in an array" do
       arr, prolog = @bajs.load_filters(":0 :\n*^To:.*admin-ml*^@.*riec.*\n.admin-ml/\n\n:0 :\n*^Cc:.*fir@.*riec.*\n.fir-cc/")
       arr.size.should == 2
-      arr.first.contents.should == [["to", "admin-ml*^@.*riec", "contains"],
-                                    ["move_message_to", "admin-ml"]]
-      arr.last.contents.should == [["cc", "fir@.*riec", "contains"],
-                                    ["move_message_to", "fir-cc"]]
+      arr.first.contents.should == [[["to", "admin-ml*^@.*riec", "contains"]],[["move_message_to", "admin-ml"]]]
+      arr.last.contents.should == [[["cc", "fir@.*riec", "contains"]],[["move_message_to", "fir-cc"]]]
+    end
+  end
+
+  describe "DeMorgan rule" do
+    it "#load_filters" do
+      filters, prolog = @bajs.load_filters(":0\n* ! SUB ?? 楽しい\n* ! ^Subject: English\n{ }\n:0E:\n.japanese/")
+      filters.first.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]
+    end
+
+    it "just one in the array"
+
+    context "#load_filter" do
+      it "move message to" do
+        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E:",".japanese/"])
+        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]
+      end
+      it "copy message to" do
+        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0Ec:",".japanese/"])
+        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["copy_message_to","japanese"]]]
+      end
+      it "forward message to" do
+        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","!test@example.com"])
+        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["forward_message_to","test@example.com"]]]
+      end
+      it "forward copy to" do
+        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0Ec","!test@example.com"])
+        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["forward_copy_to","test@example.com"]]]
+      end
+    end
+
+    context "#load_rule" do
+      it "japanese" do
+        filter = Factory(:filter)
+        @bajs.load_rule('* ! SUB ?? 楽しい', filter)
+        filter.rules_contents.should == [["subject", '楽しい', "contains"]]
+      end
+      it "english" do
+        filter = Factory(:filter)
+        @bajs.load_rule('* ! ^Subject: English', filter)
+        filter.rules_contents.should == [["subject", 'English', "begins_with"]]
+      end
     end
   end
 

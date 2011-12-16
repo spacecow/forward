@@ -13,6 +13,7 @@ Then a file ".procmailrc" should exist with:
 """
 MAILDIR=$HOME/Maildir/
 DEFAULT=$MAILDIR
+SHELL=/bin/sh
 
 :0:
 *^Subject:.*yeah

@@ -1,0 +1,6 @@
+[user]
+  name = Johan Sveholm
+  email = jsveholm@gmail.com
+[alias]
+  co = checkout
+  br = branch

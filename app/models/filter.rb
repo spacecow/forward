@@ -16,7 +16,7 @@ class Filter < ActiveRecord::Base
   MATCH_ANY = "match_any"
   GLUES = [MATCH_ALL, MATCH_ANY]
 
-  def contents; [rules.first.contents, actions.first.contents] end
+  def contents; [rules.map(&:contents), actions.map(&:contents)] end
 
   def actions_contents; actions.map(&:contents) end
   def actions_to_file
@@ -30,8 +30,13 @@ class Filter < ActiveRecord::Base
       "{\n"+ret.join("\n\n")+"\n}"
     end
   end
+  def action 
+    raise Exception, "Referring to 'the action' but there are many." if first_action != last_action
+    first_action
+  end
   def actions_to_s; actions.map(&:to_s) end
 
+  def first_action; actions.first end
   def first_rule; rules.first end
   def first_rules_contents; first_rule.contents end
 
@@ -42,9 +47,11 @@ class Filter < ActiveRecord::Base
   def japanese_sender?; section?(:japanese_sender?) end
   def japanese_subject?; section?(:japanese_subject?) end
   def japanese_recipient?; section?(:japanese_recipient?) end
+  def japanese_to_or_cc?; section?(:japanese_to_or_cc?) end
 
-  def last_rules_contents; last_rule.contents end
+  def last_action; actions.last end
   def last_rule; rules.last end 
+  def last_rules_contents; last_rule.contents end
   def rule
     raise Exception, "More than one rule." if first_rule != last_rule
     first_rule
@@ -56,7 +63,15 @@ class Filter < ActiveRecord::Base
     if glue == "and"
       rules.map(&:to_file).join("\n") 
     elsif rules_section_is_unique?
-      "*#{first_rule.beginning_to_file}(#{rules.map(&:end_to_file).join('|')})"
+      if rules_include_japanese? 
+        ret = "*#{first_rule.beginning_to_file_in_japanese}"
+        ret + "(#{rules.map(&:end_to_file_in_japanese).join('|')})"
+      else
+        ret = "*#{first_rule.beginning_to_file_in_english}"
+        ret + "(#{rules.map(&:end_to_file_in_english).join('|')})"
+      end
+    elsif rules_include_japanese? #and are more than one
+      rules.map{|e| "* ! #{e.beginning_to_file.lstrip}#{e.end_to_file}"}.join("\n")
     else
       "*#{rules.map(&:to_s).join('|')}"
     end
@@ -65,9 +80,19 @@ class Filter < ActiveRecord::Base
 
   def to_file
     ret = ":0"
-    ret += "c" if one_action? && copy_message?
-    ret += ":" if one_action? && move_message_to_folder?
+    if one_action? and copy_message?
+      ret += "c" unless de_morgan?
+    end
+    if one_action? and move_message_to_folder?
+      ret += ":" unless de_morgan?
+    end
     ret += "\n"+rules_to_file+"\n"
+    if de_morgan? and glue == "or"
+      ret += "{ }\n:0E" 
+      ret += "c" if one_action? and copy_message?
+      ret += ":" if one_action? and move_message_to_folder?
+      ret += "\n"
+    end
     ret += actions_to_file unless actions.empty?
     ret
   end
@@ -86,10 +111,16 @@ class Filter < ActiveRecord::Base
     end
 
     def copy_message?; actions.first.copy_message? end
+    def de_morgan?
+      !rules_section_is_unique? and rules_include_japanese?
+    end
     def forward_message?; actions.first.forward_message? end
-    def move_message_to_folder?; actions.first.move_message_to_folder? end
+    def move_message_to_folder?; first_action.move_message_to_folder? end
     def one_action?; actions.count == 1 end
     def rules_section_is_unique?; rules.map(&:section).uniq.size == 1 end
+    def rules_include_japanese?
+      rules.map(&:substance_is_english?).include?(nil)
+    end
 end
 
 

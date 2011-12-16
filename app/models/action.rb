@@ -61,7 +61,6 @@ class Action < ActiveRecord::Base
 
     def valid_destination_email
       errors.add(:destination, I18n.t("activerecord.errors.messages.invalid_email")) if forward_message? && !destination_resembles_email?
-
     end
 end
 

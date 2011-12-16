@@ -25,26 +25,31 @@ module Procmail
         pipe.write "#{prolog}\n"
       end
       if filters.map(&:japanese_subject?).include?(true)
+        pipe.write "\n"
         pipe.write ":0:conversion_subject\n"
         pipe.write "*^Subject:\/.*\n"
         pipe.write "SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_recipient?).include?(true)
+        pipe.write "\n"
         pipe.write ":0:conversion_to\n"
         pipe.write "*^To:\/.*\n"
         pipe.write "REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_sender?).include?(true)
+        pipe.write "\n"
         pipe.write ":0:conversion_from\n"
         pipe.write "*^From:\/.*\n"
         pipe.write "SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_cc?).include?(true)
+        pipe.write "\n"
         pipe.write ":0:conversion_cc\n"
         pipe.write "*^Cc:\/.*\n"
         pipe.write "CCC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_to_or_cc?).include?(true)
+        pipe.write "\n"
         pipe.write ":0:conversion_to_or_cc\n"
         pipe.write "*^(To|Cc):\/.*\n"
         pipe.write "TOC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
@@ -141,10 +146,11 @@ module Procmail
   end
   
   def load_single_rule(line,filter)
-    data = line.match(
-      /^               #start
+    data = line.match( 
+      /^               #start, ENGLISH EXPRESSION
       \*               #first ch is a star
       \s?              #ev. space
+      !?\s?            #ev. DeMorgan
       \^               #second is the start sign
       ([a-zA-Z(\-|)]+) #alphabeth & (-|) characters
       :?               #ev colon
@@ -152,9 +158,10 @@ module Procmail
       (.+)             #the rest, the substance
       /x)
     data = line.match(
-      /^
+      /^                    #start, JAPANESE EXPRESSION
       \*                    #first ch is a star
       \s?                   #ev. space
+      !?\s?                 #ev. DeMorgan
       (SUB|REC|SEN|CCC|TOC) #subject,recipient or sender
       \s\?\?\s              #space with question marks
       (.+)                  #substance
@@ -189,7 +196,6 @@ module Procmail
         Rule::CONTAINS
       end
     elsif s =~ /^\^/   #beginning top
-      raise Exception,"Regex should not contain ^" if is_english?(s)
       s =~ /\$$/ ? Rule::IS : Rule::BEGINS_WITH  
     elsif s =~ /\.\*$/ #ending star 
       is_english?(s) ? Rule::BEGINS_WITH : Rule::CONTAINS

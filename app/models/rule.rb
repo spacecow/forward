@@ -20,30 +20,47 @@ class Rule < ActiveRecord::Base
   PARTS = [CONTAINS, IS, BEGINS_WITH, ENDS_WITH]
 
   def beginning_to_file
-    if !substance_is_english?
-      " #{section_to_file} ?? "
+    if substance_is_english?
+      beginning_to_file_in_english
     else
-      ret = "^"
-      ret += section_to_file
-      ret += ":"
+      beginning_to_file_in_japanese
     end
   end
+  def beginning_to_file_in_japanese
+    " #{section_to_file_in_japanese} ?? "
+  end
+  def beginning_to_file_in_english
+    "^#{section_to_file_in_english}:"
+  end
+
   def contents; [section, substance, part] end
+
   def end_to_file
+    if substance_is_english?
+      end_to_file_in_english
+    else
+      end_to_file_in_japanese
+    end
+  end
+  def end_to_file_in_english
     ret = ""
     if part == CONTAINS or part == ENDS_WITH
-      if JAPANESE_SECTIONS.include?(section) && !substance_is_english?
-        ret += ""
-      else
-        ret += ".*"
-      end
+      ret += ".*"
     end
     if part == IS or part == BEGINS_WITH
-      if JAPANESE_SECTIONS.include?(section) && !substance_is_english?
-        ret += "^"
-      else 
-        ret += " " 
-      end
+      ret += " " 
+    end
+    ret += substance.nil? ? "" : escape_dots(substance)
+    ret += "$" if part == IS or part == ENDS_WITH
+    ret
+  end
+  def end_to_file_in_japanese
+    ret = ""
+    if part == CONTAINS or part == ENDS_WITH
+      ret += ""
+    end
+    if part == IS or part == BEGINS_WITH
+      ret += "^"
     end
     ret += substance.nil? ? "" : escape_dots(substance)
     ret += "$" if part == IS or part == ENDS_WITH
@@ -55,18 +72,25 @@ class Rule < ActiveRecord::Base
     section == sec && !substance_is_english?
   end
   def japanese_cc?; japanese_section?(CC) end
+  def japanese_recipient?; japanese_section?(TO) end
   def japanese_sender?; japanese_section?(FROM) end
   def japanese_subject?; japanese_section?(SUBJECT) end
-  def japanese_recipient?; japanese_section?(TO) end
+  def japanese_to_or_cc?; japanese_section?(TO_OR_CC) end
 
   def substance=(s)
     self[:substance] = s.gsub(/\\\./,'.')
   end
+  def substance_is_english?; Rule.is_english?(substance) end
 
   def to_file; ret = "*"+to_s end
   def to_s
-    ret = beginning_to_file
-    ret += end_to_file
+    if substance_is_english?
+      ret = beginning_to_file_in_english
+      ret += end_to_file_in_english
+    else
+      ret = beginning_to_file_in_japanese
+      ret += end_to_file_in_japanese
+    end
     ret
   end
 
@@ -150,7 +174,6 @@ class Rule < ActiveRecord::Base
         section_to_file_in_japanese
       end
     end
-    def substance_is_english?; Rule.is_english?(substance) end
 end
 
 # == Schema Information

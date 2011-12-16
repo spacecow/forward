@@ -384,6 +384,8 @@ describe Procmail do
   end
 
   describe "DeMorgan rule" do
+    it "DeMorgan but with and should use lock"
+
     it "#load_filters" do
       filters, prolog = @bajs.load_filters(":0\n* ! SUB ?? 楽しい\n* ! ^Subject: English\n{ }\n:0E:\n.japanese/")
       filters.first.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]

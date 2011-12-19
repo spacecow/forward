@@ -93,6 +93,7 @@ module Procmail
       return filter if line.blank? and !action
       if line =~ /^\*/
         load_rule(line,filter)
+      elsif line =~ /{ }/
       elsif line =~ /{/
         action = true
       elsif line =~ /}/

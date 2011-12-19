@@ -421,11 +421,17 @@ describe Procmail do
       end
     end
 
-    it "DeMorgan but with and should use lock"
+    context "#load_filters" do
+      it "one filter" do 
+        filters, prolog = @bajs.load_filters(":0\n* ! SUB ?? 楽しい\n* ! ^Subject:\\s+English\n{ }\n:0E:\n.japanese/")
+        filters.first.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]
+      end
 
-    it "#load_filters" do
-      filters, prolog = @bajs.load_filters(":0\n* ! SUB ?? 楽しい\n* ! ^Subject:\\s+English\n{ }\n:0E:\n.japanese/")
-      filters.first.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]
+      it "two filters, close brackets" do
+        filters, prolog = @bajs.load_filters(":0\n* ! SUB ?? 楽しい\n* ! ^To:\\s+user\n{ }\n:0E:\n.japanese/\n\n:0:\n*^Subject:\\s+spam$\n.junk/")
+        filters.first.contents.should eq [[["subject","楽しい","contains"],["to","user","begins_with"]],[["move_message_to","japanese"]]]
+        filters.last.contents.should eq [[["subject","spam","is"]],[["move_message_to","junk"]]]
+      end
     end
 
     it "just one in the array" do

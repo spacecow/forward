@@ -55,12 +55,12 @@ describe Rule do
 
       it "is" do
         @rule.part = Rule::IS
-        @rule.end_to_file.should eq " spam$" 
+        @rule.end_to_file.should eq "\\s+spam$" 
       end
 
       it "begins with" do
         @rule.part = Rule::BEGINS_WITH
-        @rule.end_to_file.should eq " spam" 
+        @rule.end_to_file.should eq "\\s+spam" 
       end
 
       it "ends with" do

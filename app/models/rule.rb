@@ -48,7 +48,7 @@ class Rule < ActiveRecord::Base
       ret += ".*"
     end
     if part == IS or part == BEGINS_WITH
-      ret += " " 
+      ret += "\\s+" 
     end
     ret += substance.nil? ? "" : escape_dots(substance)
     ret += "$" if part == IS or part == ENDS_WITH

@@ -154,7 +154,8 @@ module Procmail
       \^               #second is the start sign
       ([a-zA-Z(\-|)]+) #alphabeth & (-|) characters
       :?               #ev colon
-      \s*              #zero or more spaces
+      #\s*              #zero or more spaces
+      (?:\\s\+)?       #ev. \s+ 
       (.+)             #the rest, the substance
       /x)
     data = line.match(

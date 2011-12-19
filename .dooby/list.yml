@@ -151,3 +151,5 @@ e6ad1f: !ruby/object:Dooby::Task
   todo: REC and SEN :done
 ab218c: !ruby/object:Dooby::Task 
   todo: only save SUB etc. if they are used :done
+2a988c: !ruby/object:Dooby::Task 
+  todo: japanese folder in utf7-imap encoding :done

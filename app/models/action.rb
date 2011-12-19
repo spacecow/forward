@@ -1,3 +1,5 @@
+require 'net/imap'
+
 class Action < ActiveRecord::Base
   include Comparable
   include Validation
@@ -29,7 +31,7 @@ class Action < ActiveRecord::Base
   def destination=(s)
     s.gsub!(/^\./,'')
     s.gsub!(/\/$/,'')
-    self[:destination] = s 
+    self[:destination] = Net::IMAP.encode_utf7(s)
   end
   def destination_resembles_email?; Validation.resembles_email?(destination) end
   def destination_to_file

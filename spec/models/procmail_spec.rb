@@ -384,6 +384,43 @@ describe Procmail do
   end
 
   describe "DeMorgan rule" do
+    describe "#to_file" do
+      it "japanese folder in utf7-imap encoding" do
+        filter = Factory(:filter)
+        filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::CONTAINS, :substance => "日本語")
+        filter.actions << Factory(:action,:operation => Action::MOVE_MESSAGE_TO,:destination => "日本語")
+        filter.to_file.should eq ":0:\n* SUB ?? 日本語\n.&ZeVnLIqe-/"
+      end
+
+      context "two actions, copy message to" do
+        before(:each) do
+          @filter = Factory(:filter)
+          @filter.actions.destroy_all
+          @filter.rules << Factory(:rule,:section => Rule::SUBJECT, :part => Rule::CONTAINS, :substance => "日本語")
+          @filter.rules << Factory(:rule,:section => Rule::TO, :part => Rule::BEGINS_WITH, :substance => "english@example.com")
+          @filter.actions << Factory(:action,:operation => Action::COPY_MESSAGE_TO,:destination => "temp")
+          @filter.glue = "or"
+        end
+
+        it "move message to" do
+          @filter.actions << Factory(:action,:operation => Action::MOVE_MESSAGE_TO,:destination => "temporary")
+          @filter.to_file.should eq ":0\n* ! SUB ?? 日本語\n* ! ^To: english@example\\.com\n{ }\n:0E\n{\n\t:0c:\n\t.temp/\n\n\t:0:\n\t.temporary/\n}"
+        end
+        it "copy message to" do
+          @filter.actions << Factory(:action,:operation => Action::COPY_MESSAGE_TO,:destination => "temporary")
+          @filter.to_file.should eq ":0\n* ! SUB ?? 日本語\n* ! ^To: english@example\\.com\n{ }\n:0E\n{\n\t:0c:\n\t.temp/\n\n\t:0c:\n\t.temporary/\n}"
+        end
+        it "forward message to" do
+          @filter.actions << Factory(:action,:operation => Action::FORWARD_MESSAGE_TO,:destination => "temporary@example.com")
+          @filter.to_file.should eq ":0\n* ! SUB ?? 日本語\n* ! ^To: english@example\\.com\n{ }\n:0E\n{\n\t:0c:\n\t.temp/\n\n\t:0\n\t!temporary@example.com\n}"
+        end
+        it "forward copy to" do
+          @filter.actions << Factory(:action,:operation => Action::FORWARD_COPY_TO,:destination => "temporary@example.com")
+          @filter.to_file.should eq ":0\n* ! SUB ?? 日本語\n* ! ^To: english@example\\.com\n{ }\n:0E\n{\n\t:0c:\n\t.temp/\n\n\t:0c\n\t!temporary@example.com\n}"
+        end
+      end
+    end
+
     it "DeMorgan but with and should use lock"
 
     it "#load_filters" do
@@ -391,24 +428,58 @@ describe Procmail do
       filters.first.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]
     end
 
-    it "just one in the array"
+    it "just one in the array" do
+      filters, prolgo = @bajs.load_filters(":0\n* ! SUB ?? 楽しい\n* ! ^Subject: English\n{ }\n:0E:\n.japanese/")
+      filters.size.should be 1
+    end
 
     context "#load_filter" do
-      it "move message to" do
-        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E:",".japanese/"])
-        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["move_message_to","japanese"]]]
+      context "one action" do
+        it "move message to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E:",".japanese/"])
+          @filter.actions_contents.should eq [["move_message_to","japanese"]]
+        end
+        it "copy message to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0Ec:",".japanese/"])
+          @filter.actions_contents.should eq [["copy_message_to","japanese"]]
+        end
+        it "forward message to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","!test@example.com"])
+          @filter.actions_contents.should eq [["forward_message_to","test@example.com"]]
+        end
+        it "forward copy to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0Ec","!test@example.com"])
+          @filter.actions_contents.should eq [["forward_copy_to","test@example.com"]]
+        end
+      
+        after(:each) do
+          @filter.rules_contents.should eq [["subject","楽しい","contains"],["subject","English","begins_with"]]
+          @filter.glue.should eq "or"
+        end
       end
-      it "copy message to" do
-        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0Ec:",".japanese/"])
-        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["copy_message_to","japanese"]]]
-      end
-      it "forward message to" do
-        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","!test@example.com"])
-        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["forward_message_to","test@example.com"]]]
-      end
-      it "forward copy to" do
-        filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0Ec","!test@example.com"])
-        filter.contents.should eq [[["subject","楽しい","contains"],["subject","English","begins_with"]],[["forward_copy_to","test@example.com"]]]
+
+      context "two actions" do
+        it "copy message to, move message to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","{", "\t:0c:", "\t.temp/", "\n", "\t:0:", "\t.temporary/", "\}"])
+          @filter.actions_contents.should eq [["copy_message_to","temp"],["move_message_to","temporary"]]
+        end
+        it "forward copy to, copy message to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","{", "\t:0c", "\t!temp@example.com", "\n", "\t:0c:", "\t.temporary/", "\}"])
+          @filter.actions_contents.should eq [["forward_copy_to","temp@example.com"],["copy_message_to","temporary"]]
+        end
+        it "copy message to, forward copy to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","{", "\t:0c:", "\t.temp/", "\n", "\t:0c", "\t!temporary@example.com", "\}"])
+          @filter.actions_contents.should eq [["copy_message_to","temp"],["forward_copy_to","temporary@example.com"]]
+        end
+        it "forward copy to, forward message to" do
+          @filter = @bajs.load_filter(":0",["* ! SUB ?? 楽しい","* ! ^Subject: English","{ }",":0E","{", "\t:0c", "\t!temp@example.com", "\n", "\t:0", "\t!temporary@example.com", "\}"])
+          @filter.actions_contents.should eq [["forward_copy_to","temp@example.com"],["forward_message_to","temporary@example.com"]]
+        end
+
+        after(:each) do
+          @filter.rules_contents.should eq [["subject","楽しい","contains"],["subject","English","begins_with"]]
+          @filter.glue.should eq "or"
+        end
       end
     end
 

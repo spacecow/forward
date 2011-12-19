@@ -169,6 +169,7 @@ module Procmail
     raise RuleLoadException, "The line: '#{line}' doesn't match pattern" unless data
     substances = split_substance(data[2])
     filter.glue = "or" if substances.size > 1
+    filter.glue = "or" if line.match(/^\*\s?!/)
     substances.each do |substance|
       rule           = Rule.new
       rule.section   = Rule.map_section(data[1])

@@ -240,7 +240,7 @@ module Procmail
     else
       raise FilterLoadException, "Destination folder or rule pattern: \"#{line}\" is not written correctly."
     end
-    action.destination = strip_destination(line) 
+    action.destination = Net::IMAP.decode_utf7(strip_destination(line))
     if action.forward_message? && !action.destination_resembles_email?
       raise InvalidEmailException, "Destination email must be valid." 
     end
@@ -249,15 +249,18 @@ module Procmail
   end
 
   def strip_destination(s)
-    data = s.match(/^!\s*(.*)/)
-    return data[1] if data
-    data = s.match(/^\.(.*)\//)
-    return data[1] if data
-    data = s.match(/(.+)\//)
-    return data[1] if data
-    data = s.match(/\.(.*)/)
-    return data[1] if data
-    s
+    s.gsub!(/\/$/,'')
+    s.gsub!(/^\./,'')
+    s.gsub!(/^!/,'')
+#    data = s.match(/^!\s*(.*)/)
+#    return data[1] if data
+#    data = s.match(/^\.(.*)\//)
+#    return data[1] if data
+#    data = s.match(/(.+)\//)
+#    return data[1] if data
+#    data = s.match(/\.(.*)/)
+#    return data[1] if data
+    s.strip
   end
 
   def prepare_destination(s)

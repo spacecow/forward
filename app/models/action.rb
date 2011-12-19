@@ -31,13 +31,13 @@ class Action < ActiveRecord::Base
   def destination=(s)
     s.gsub!(/^\./,'')
     s.gsub!(/\/$/,'')
-    self[:destination] = Net::IMAP.encode_utf7(s)
+    self[:destination] = s #Net::IMAP.encode_utf7(s)
   end
   def destination_resembles_email?; Validation.resembles_email?(destination) end
   def destination_to_file
     ret = ""
-    ret += "!" + to_s if forward_message?
-    ret += "." + to_s + "/" if move_message_to_folder?
+    ret += "!" + Net::IMAP.encode_utf7(to_s) if forward_message?
+    ret += "." + Net::IMAP.encode_utf7(to_s) + "/" if move_message_to_folder?
     ret
   end
   def forward_message?; operation && operation.include?("forward") end

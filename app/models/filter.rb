@@ -34,6 +34,7 @@ class Filter < ActiveRecord::Base
     raise Exception, "Referring to 'the action' but there are many." if first_action != last_action
     first_action
   end
+  def action_destination; action.destination end
   def actions_to_s; actions.map(&:to_s) end
 
   def first_action; actions.first end

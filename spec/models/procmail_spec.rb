@@ -501,6 +501,7 @@ describe Procmail do
         filter.rules_contents.should == [["subject", 'English', "begins_with"]]
       end
     end
+
   end
 
   describe "#load_filter", :load_filter => true do
@@ -544,6 +545,11 @@ describe Procmail do
     
   context "#load_action", :load_action => true do
     before(:each){ @filter = Filter.new }
+
+    it "decodes utf7-imap destination" do
+      @bajs.load_action(":0:",".&ZeVnLIqe-/",@filter)
+      @filter.action_destination.should eq "日本語"
+    end
 
     it "error gets raised if destination email is not valid" do
       lambda{@bajs.load_action(":0:", "!", @filter)}.should raise_error(InvalidEmailException)
@@ -593,8 +599,8 @@ describe Procmail do
     end
 
     context "Forward Message to, for:" do
-      it "! x" do @bajs.load_action(":0", "! test@example.com", @filter) end
-      it "!x" do @bajs.load_action(":0", "!test@example.com", @filter) end
+      it "! x" do @bajs.load_action(":0", "! test@example\.com", @filter) end
+      it "!x" do @bajs.load_action(":0", "!test@example\.com", @filter) end
       after(:each) do
         @filter.actions.last.contents.should == ["forward_message_to", "test@example.com"]
       end
@@ -609,7 +615,6 @@ describe Procmail do
         @filter.actions.last.contents.should == ["forward_copy_to", "test@example.com"]
       end
     end
-
   end
 
   context "#split_substance", :split_substance => true do

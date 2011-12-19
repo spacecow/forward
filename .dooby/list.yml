@@ -155,7 +155,7 @@ ab218c: !ruby/object:Dooby::Task
   todo: japanese folder in utf7-imap encoding :done
 "130301": !ruby/object:Dooby::Task 
   todo: slash-s-plus :done
-949f3e: !ruby/object:Dooby::Task 
-  todo: decode utf7 to utf8 for japanese directory
 2e194e: !ruby/object:Dooby::Task 
   todo: close action brackets for de morgan rule :done
+"851753": !ruby/object:Dooby::Task 
+  todo: decode utf7 to utf8 for japanese directory :done

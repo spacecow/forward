@@ -1,6 +1,16 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Action do
+  describe "#to_file" do
+    context "japanese destination" do
+      it "encodes in utf7-imap" do
+        action = Factory(:action,:operation => Action::MOVE_MESSAGE_TO,:destination => "日本語")
+        action.to_file.should eq ".&ZeVnLIqe-/"
+      end
+    end
+  end
+
   context "#destination" do
     context "destination validation" do
       context "should be stripped from" do

@@ -12,6 +12,7 @@ gem 'rake' #, '0.8.7'
 gem 'annotate'
 gem 'pry', :group => :development
 
+
 group :development do
   gem 'jquery-rails'
 #  gem "nifty-generators", :path => "~/ruby/rails/nifty-generators"

@@ -147,7 +147,7 @@ describe Procmail do
           filter.rules << rule
           @bajs.save_filters("test","correct","",[filter])
           arr, prolog, convs = @bajs.read_filters("test","correct") 
-          convs.should eq [":0:conversion_#{section}","*^#{rule.send("section_to_file_in_english")}:\/.*","#{rule.send("section_to_file_in_japanese")}=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d", ""]
+          convs.should eq [":0:conversion_#{section}","*^#{rule.send("section_to_file_in_english")}:\\/.*","#{rule.send("section_to_file_in_japanese")}=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d", ""]
         end
       end
     end

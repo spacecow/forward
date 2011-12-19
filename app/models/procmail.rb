@@ -7,7 +7,7 @@ module Procmail
   end
 
   def read_filters(username, password)
-    IO.popen("/usr/local/sbin/chprocmailrc -g #{username}", 'r+') do |pipe|
+    IO.popen("/usr/local/bin/chprocmailrc -g #{username}", 'r+') do |pipe|
       pipe.write(password)
       pipe.close_write
       load_filters(pipe.read)
@@ -15,7 +15,7 @@ module Procmail
   end
 
   def save_filters(username, password, prolog, filters)
-    IO.popen("/usr/local/sbin/chprocmailrc -s #{username}", 'w+') do |pipe|
+    IO.popen("/usr/local/bin/chprocmailrc -s #{username}", 'w+') do |pipe|
       pipe.write "#{password}\n"
       if prolog.blank?
         pipe.write "MAILDIR=$HOME/Maildir/\n"
@@ -27,31 +27,31 @@ module Procmail
       if filters.map(&:japanese_subject?).include?(true)
         pipe.write "\n"
         pipe.write ":0:conversion_subject\n"
-        pipe.write "*^Subject:\/.*\n"
+        pipe.write "*^Subject:\\/.*\n"
         pipe.write "SUB=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_recipient?).include?(true)
         pipe.write "\n"
         pipe.write ":0:conversion_to\n"
-        pipe.write "*^To:\/.*\n"
+        pipe.write "*^To:\\/.*\n"
         pipe.write "REC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_sender?).include?(true)
         pipe.write "\n"
         pipe.write ":0:conversion_from\n"
-        pipe.write "*^From:\/.*\n"
+        pipe.write "*^From:\\/.*\n"
         pipe.write "SEN=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_cc?).include?(true)
         pipe.write "\n"
         pipe.write ":0:conversion_cc\n"
-        pipe.write "*^Cc:\/.*\n"
+        pipe.write "*^Cc:\\/.*\n"
         pipe.write "CCC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       if filters.map(&:japanese_to_or_cc?).include?(true)
         pipe.write "\n"
         pipe.write ":0:conversion_to_or_cc\n"
-        pipe.write "*^(To|Cc):\/.*\n"
+        pipe.write "*^(To|Cc):\\/.*\n"
         pipe.write "TOC=| echo \"$MATCH\" | perl /usr/local/bin/convert_japanese.pl -d\n\n"
       end
       pipe.write filters.map(&:to_file).join("\n\n")

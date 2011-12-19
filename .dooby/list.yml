@@ -159,3 +159,7 @@ ab218c: !ruby/object:Dooby::Task
   todo: close action brackets for de morgan rule :done
 "851753": !ruby/object:Dooby::Task 
   todo: decode utf7 to utf8 for japanese directory :done
+4924ff: !ruby/object:Dooby::Task 
+  todo: /usr/local/bin is not reachable
+4952d0: !ruby/object:Dooby::Task 
+  todo: make  work :done

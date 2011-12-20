@@ -727,11 +727,14 @@ describe Procmail do
       @filter.glue.should == "and"
     end
 
-    context "split up a rule where the splitter is" do
+    context "split up a rule where the splitter is", :focus => true do
       it ":.*" do @bajs.load_rule("*^To:.*admin-ml.*@.*riec.*", @filter) end
       it ".*" do @bajs.load_rule("*^To.*admin-ml.*@.*riec.*", @filter) end
-      it ": " do @bajs.load_rule("*^To:\\s+admin-ml.*@.*riec.*", @filter) end
-      #it ":  " do @bajs.load_rule("*^To:  admin-ml.*@.*riec.*", @filter) end
+      it ":" do @bajs.load_rule("*^To:admin-ml.*@.*riec.*", @filter) end
+      it ":\s" do @bajs.load_rule("*^To:\\sadmin-ml.*@.*riec.*", @filter) end
+      it ":\s+" do @bajs.load_rule("*^To:\\s+admin-ml.*@.*riec.*", @filter) end
+      it ": -" do @bajs.load_rule("*^To: admin-ml.*@.*riec.*", @filter) end
+      it ":  -" do @bajs.load_rule("*^To:  admin-ml.*@.*riec.*", @filter) end
 
       after(:each) do
         @filter.rules.last.section.should == "to"

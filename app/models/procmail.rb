@@ -156,7 +156,7 @@ module Procmail
       ([a-zA-Z(\-|)]+) #alphabeth & (-|) characters
       :?               #ev colon
       #\s*              #zero or more spaces
-      (?:\\s\+)?       #ev. \s+ 
+      (?:\\s|\s*)?(?:\+)?       #ev. \s+ 
       (.+)             #the rest, the substance
       /x)
     data = line.match(

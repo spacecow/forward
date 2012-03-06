@@ -16,25 +16,25 @@ gem 'pry', :group => :development
 group :development do
   gem 'jquery-rails'
 #  gem "nifty-generators", :path => "~/ruby/rails/nifty-generators"
-#  gem "rspec-rails"
+  gem "rspec-rails"
 end
 
 group :test do
-#  gem 'spork', '> 0.9.0.rc'
-#  gem 'rspec-core'
-#  gem 'cucumber-rails'
-#  gem 'cucumber'
-#  gem 'capybara' #, :git => 'https://github.com/jnicklas/capybara.git'
-#  gem 'database_cleaner'
-#  gem 'pickle', :path => '~/ruby/rails/pickle' #"0.4.7", :git => 'https://github.com/spacecow/pickle.git'
-#  gem 'launchy'
-#  gem 'factory_girl_rails'
-#  gem 'gherkin'
-#  gem 'mocha'
-#  gem 'guard'
-#  gem 'guard-rspec'
-#  gem 'guard-spork'
-#  gem 'guard-cucumber'
-#  gem 'libnotify'
+  gem 'spork', '> 0.9.0.rc'
+  gem 'rspec-core'
+  gem 'cucumber-rails'
+  gem 'cucumber'
+  gem 'capybara' #, :git => 'https://github.com/jnicklas/capybara.git'
+  gem 'database_cleaner'
+  gem 'pickle', :path => '~/apps/pickle' #"0.4.7", :git => 'https://github.com/spacecow/pickle.git'
+  gem 'launchy'
+  gem 'factory_girl_rails'
+  gem 'gherkin'
+  gem 'mocha'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'guard-cucumber'
+  gem 'libnotify'
 end
 gem "bcrypt-ruby", :require => "bcrypt"

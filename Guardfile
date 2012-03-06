@@ -16,7 +16,7 @@ end
 #  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
 #end
 
-guard 'rspec', :version => 2, :cli => "--format nested --drb", :all_on_start => true, :all_after_pass => true do
+guard 'rspec', :version => 2, :cli => "--format nested --drb --fail-fast", :all_on_start => true, :all_after_pass => true, :keep_failed => true do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
@@ -33,3 +33,9 @@ guard 'rspec', :version => 2, :cli => "--format nested --drb", :all_on_start => 
   # Capybara request specs
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
 end
+
+#guard 'cucumber' do
+#  watch(%r{^features/.+\.feature$})
+#  watch(%r{^features/support/.+$})          { 'features' }
+#  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+#end

@@ -1,28 +1,30 @@
-Factory.define :action do |f|
-  f.operation "Move Message to"
-  f.destination "temp"
-end
+FactoryGirl.define do
+  factory :action do
+    operation "Move Message to"
+    destination "temp"
+  end
 
-Factory.define :filter do |f|
-end
+  factory :filter do
+  end
 
-Factory.define :locale do |f|
-  f.title "en"
-end
+  factory :locale do
+    title "en"
+  end
 
-Factory.define :rule do |f|
-  f.section "To"
-  f.part "is"
-  f.substance "test@example.com"
-end
+  factory :rule do
+    section "To"
+    part "is"
+    substance "test@example.com"
+  end
 
-Factory.define :translation do |f|
-  f.association :locale
-  f.key "welcome"
-  f.value "Welcome!"
-end
+  factory :translation do
+    association :locale
+    key "welcome"
+    value "Welcome!"
+  end
 
-Factory.define :user do |f|
-  f.sequence(:username){|n| "username#{n}"}
-  f.password "abc123"
+  factory :user do
+    sequence(:username){|n| "username#{n}"}
+    password "abc123"
+  end
 end
